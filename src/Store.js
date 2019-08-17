@@ -3,13 +3,16 @@ import React from 'react'
 export const Store = React.createContext()
 
 const initialState = {
-    restaurants: [],
+    restaurants: null,
+    searchValue: "burgers",
 }
 
 function reducer(state, action) {
     switch(action.type) {
         case "FETCH_RESTARUANTS":
             return { ...state, restaurants: action.payload }
+        case "SEARCH_VALUE":
+            return { ...state, searchValue: action.payload}
         
         default:
             return { ...state }

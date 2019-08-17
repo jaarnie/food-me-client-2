@@ -54,6 +54,7 @@ export default function RestaurantCard({ r }) {
 // debugger
   return (
     <Card className={classes.card}>
+    {console.log('CARD', r.restaurant)}
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>

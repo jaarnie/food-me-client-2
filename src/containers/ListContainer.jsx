@@ -23,11 +23,11 @@ export default function ListContainer({ r, searchValue }) {
     <div className={classes.root}>
       <React.Suspense fallback={Loading}>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            {r.restaurants.map(restaurant => {
-              return <RestaurantCard r={restaurant} />
-            })}
-          </Grid>
+          {r.restaurants.map((restaurant, index) => (
+            <Grid item xs={12} sm={6}>
+              <RestaurantCard r={restaurant} key={index} />
+            </Grid>
+          ))}
         </Grid>
       </React.Suspense>
     </div>

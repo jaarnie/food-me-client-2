@@ -24,8 +24,8 @@ export default function ListContainer({ r, searchValue }) {
       <React.Suspense fallback={Loading}>
         <Grid container spacing={3}>
           {r.restaurants.map((restaurant, index) => (
-            <Grid item xs={12} sm={6}>
-              <RestaurantCard r={restaurant} key={index} />
+            <Grid item xs={12} sm={6} key={index}>
+              <RestaurantCard r={restaurant} />
             </Grid>
           ))}
         </Grid>

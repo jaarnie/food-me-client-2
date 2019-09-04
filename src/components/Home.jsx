@@ -19,6 +19,7 @@ export default function Home() {
 
   return (
     <React.Fragment>
+    {state.userLocation ? state.userLocation.location.title.split(', ')[0] : 'hello'}
       <Search />
       <React.Suspense fallback={Loading}>
         {state.restaurants ? (

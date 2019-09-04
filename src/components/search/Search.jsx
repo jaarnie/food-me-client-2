@@ -53,11 +53,11 @@ export default function OutlinedTextFields() {
     const value = state.searchValue
 
     const data = await fetch(
-      `https://developers.zomato.com/api/v2.1/search?entity_id=61263&entity_type=subzone&q=${value}&count=20&lat=51.5&lon=0.10&radius=1000&apikey={87be592b7c816cd2e00737b271776b7f}`,
+      `https://developers.zomato.com/api/v2.1/search?entity_id=61014&entity_type=subzone&q=${value}&count=50&radius=1000`,
       {
         headers: {
           "Content-Type": "application/json",
-          "user-key": "87be592b7c816cd2e00737b271776b7f"
+          "user-key": "87be592b7c816cd2e00737b271776b7f" // hide me
         }
       }
     )

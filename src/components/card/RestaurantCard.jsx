@@ -16,6 +16,8 @@ import ShareIcon from "@material-ui/icons/Share"
 import PlaceIcon from "@material-ui/icons/Place"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
+import Rating from "@material-ui/lab/Rating"
+import Box from "@material-ui/core/Box"
 
 // import { Link } from "react-router-dom"
 
@@ -50,6 +52,15 @@ export default function RestaurantCard({ r }) {
     setExpanded(!expanded)
   }
 
+  const ShowTimes = () => {
+    // debugger
+    return r.restaurant.timings
+    // let times = r.restaurant.timings.split(', ')
+    // times.map((time, key) => (
+    //   <span key={key}>{time}</span>
+    // ))
+  }
+
   // debugger
   return (
     <Card className={classes.card}>
@@ -57,7 +68,7 @@ export default function RestaurantCard({ r }) {
       <CardHeader
         avatar={
           <Avatar
-            aria-label="recipe"
+            aria-label="avatar"
             className={classes.avatar}
             style={{ backgroundColor: "#235451" }}
           >
@@ -111,11 +122,22 @@ export default function RestaurantCard({ r }) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Opening Times:</Typography>
+
+          <ShowTimes />
+
+          <Box component="fieldset" mb={3} borderColor="transparent">
+            <Typography component="legend">Read only</Typography>
+            <Rating
+              value={r.restaurant.user_rating.aggregate_rating}
+              readOnly
+              precision={0.1}
+              style={{ color: "#235451" }}
+
+            />
+          </Box>
+
           <Typography paragraph>
-            {r.restaurant.timings}
-          </Typography>
-          <Typography paragraph>
-            {r.restaurant.menu_url}
+            }{r.restaurant.menu_url}
             Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet
             over medium-high heat. Add chicken, shrimp and chorizo, and cook,
             stirring occasionally until lightly browned, 6 to 8 minutes.

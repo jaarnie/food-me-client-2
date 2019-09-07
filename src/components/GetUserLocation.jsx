@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react"
 import IconButton from "@material-ui/core/IconButton"
 import { makeStyles } from "@material-ui/core/styles"
-import PersonPinIcon from "@material-ui/icons/PersonPin"
+import NearMe from "@material-ui/icons/NearMe"
 
 import { Store } from "../Store"
 
@@ -78,7 +78,6 @@ export default function GetUserLocation() {
     console.log('state', state)
 
   })
-
   const classes = useStyles()
   return (
     <div>
@@ -89,7 +88,7 @@ export default function GetUserLocation() {
         aria-label="get user location button"
         onClick={getGeoLocation}
       >
-        <PersonPinIcon />
+        <NearMe />
       </IconButton>
     </div>
   )

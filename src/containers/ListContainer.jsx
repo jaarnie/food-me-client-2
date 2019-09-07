@@ -7,12 +7,8 @@ import { Loading } from "../components/Loading"
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary
+    flexGrow: 1,
+
   }
 }))
 
@@ -22,10 +18,10 @@ export default function ListContainer({ r, searchValue }) {
   return (
     <div className={classes.root}>
       <React.Suspense fallback={Loading}>
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           {r.restaurants.map((restaurant, index) => (
             <Grid item xs={12} sm={6} key={index}>
-              <RestaurantCard r={restaurant} />
+              <RestaurantCard r={restaurant}/>
             </Grid>
           ))}
         </Grid>

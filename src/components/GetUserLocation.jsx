@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from "react"
 import IconButton from "@material-ui/core/IconButton"
 import { makeStyles } from "@material-ui/core/styles"
-import NearMe from "@material-ui/icons/NearMe"
+import NearMeIcon from "@material-ui/icons/NearMe"
 
 import { Store } from "../Store"
+import {Loading} from './Loading'
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -38,8 +39,9 @@ export default function GetUserLocation() {
       const userLat = state.userGeoLocation.coords.latitude
       const userLong = state.userGeoLocation.coords.longitude
       findLocationData(userLat, userLong)
-    }
+    } 
   }, [state.userGeoLocation])
+
 
 
   const findLocationData = async (userLat, userLong) => {
@@ -88,7 +90,7 @@ export default function GetUserLocation() {
         aria-label="get user location button"
         onClick={getGeoLocation}
       >
-        <NearMe />
+        <NearMeIcon />
       </IconButton>
     </div>
   )

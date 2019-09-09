@@ -3,17 +3,12 @@ import ReactDOM from "react-dom"
 import "./index.css"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
 
 import { StoreProvider } from "./Store"
 
 ReactDOM.render(
   <StoreProvider>
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/" component={App} />
-      </Switch>
-    </BrowserRouter>
+    <App />
   </StoreProvider>,
   document.getElementById("root")
 )

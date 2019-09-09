@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
@@ -12,8 +12,10 @@ import AccountCircle from "@material-ui/icons/AccountCircle"
 import MailIcon from "@material-ui/icons/Mail"
 import NotificationsIcon from "@material-ui/icons/Notifications"
 import MoreIcon from "@material-ui/icons/MoreVert"
+import { Store } from "../Store.js"
+import { Link } from "react-router-dom"
 
-import GetUserLocation from './GetUserLocation'
+import GetUserLocation from "./GetUserLocation"
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -31,6 +33,9 @@ const useStyles = makeStyles(theme => ({
       display: "block"
     }
   },
+  userName: {
+    display: "block"
+  },
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
@@ -46,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Navigation() {
+  const { state, dispatch } = useContext(Store)
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
@@ -70,6 +76,16 @@ export default function Navigation() {
     setMobileMoreAnchorEl(event.currentTarget)
   }
 
+  function userSignInOrProfile() {
+    if (state.user) {
+      return <Link to="/profile">Profile</Link>
+    } else {
+      return <Link to="/sign-in">Sign In</Link>
+    }
+  }
+
+  function signIn() {}
+
   const menuId = "primary-search-account-menu"
   const renderMenu = (
     <Menu
@@ -81,7 +97,7 @@ export default function Navigation() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>{userSignInOrProfile()}</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   )
@@ -122,7 +138,7 @@ export default function Navigation() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        {userSignInOrProfile()}
       </MenuItem>
     </Menu>
   )
@@ -140,12 +156,12 @@ export default function Navigation() {
             <MenuIcon />
           </IconButton>
           <GetUserLocation />
-          <Typography className={classes.title} variant="h6" noWrap>
-            Food Me
+          <Typography className={classes.userName} variant="h6" noWrap>
+            <Link to="/">Food Me</Link>
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+            {/* <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
@@ -154,7 +170,10 @@ export default function Navigation() {
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
+            <Typography className={classes.title} variant="h6">
+              {state.user ? `Hi, ${state.user.first_name} ` : null}
+            </Typography>
             <IconButton
               edge="end"
               aria-label="account of current user"

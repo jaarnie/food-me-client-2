@@ -15,3 +15,8 @@ code {
 .green-theme {
   background-color: #235451
 }
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}

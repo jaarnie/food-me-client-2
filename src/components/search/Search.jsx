@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Store } from "../../Store"
 import { makeStyles } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
     backgroundColor: "#235451",
-    
   },
   input: {
     display: "none"
@@ -43,7 +42,7 @@ export default function OutlinedTextFields() {
     dispatch(value)
   }
 
-  // useEffect(() => {
+  // React.useEffect(() => {
   //   console.log('useEffect', state)
   // }, [state])
 
@@ -68,7 +67,6 @@ export default function OutlinedTextFields() {
       payload: response
     })
   }
-
   return (
     <div>
       <form className={classes.container} noValidate autoComplete="off">

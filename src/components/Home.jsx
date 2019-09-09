@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 
 export default function Home() {
   const classes = useStyles()
-  const { state, dispatch } = React.useContext(Store)
+  const { state } = React.useContext(Store)
 
   useEffect(() => {
     console.log("Home", state)

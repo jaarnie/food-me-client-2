@@ -25,7 +25,7 @@ function reducer(state, action) {
     case "SEARCH_VALUE":
       return { ...state, searchValue: action.payload }
 
-    case "FETCH_USER":
+    case "SET_USER":
       return { ...state, user: action.payload }
 
     case "GET_GEOLOCATION":

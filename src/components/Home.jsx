@@ -9,7 +9,6 @@ import { Loading } from "./Loading"
 
 const useStyles = makeStyles({
   title: {
-    marginTop: "3vh",
    color: "#235451"
   },
 });

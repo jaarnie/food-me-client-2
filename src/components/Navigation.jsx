@@ -19,7 +19,8 @@ import GetUserLocation from "./GetUserLocation"
 
 const useStyles = makeStyles(theme => ({
   main: {
-    backgroundColor: "#235451"
+    backgroundColor: "#235451",
+    marginBottom: "4.5vh"
   },
   grow: {
     flexGrow: 1

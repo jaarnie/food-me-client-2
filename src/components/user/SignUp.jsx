@@ -74,7 +74,7 @@ export default function SignUp({ history }) {
 
   const handleClick = async event => {
     event.preventDefault()
-    const data = await fetch("http://localhost:3000/api/v1/users", {
+    const data = await fetch("http://localhost:7000/api/v1/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

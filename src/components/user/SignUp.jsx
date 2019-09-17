@@ -88,9 +88,11 @@ export default function SignUp() {
       })
     })
     const resp = await data.json()
-    // if resp.err
-    console.log(resp)
-    setResponse({ err: resp })
+    if (resp.error) {
+      setResponse({ err: resp.error })
+    } else {
+      console.log('yah')
+    }
   }
 
   const handleChange = event => {

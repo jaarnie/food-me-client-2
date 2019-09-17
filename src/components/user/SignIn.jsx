@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -11,11 +11,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
-import { Store } from "../../Store.js"
 import { Link } from "react-router-dom"
+import { useSnackbar } from "notistack"
 
-import Snackbar from '../Snackbar'
-import { useSnackbar } from 'notistack';
+import { Store } from "../../Store.js"
 
 function Copyright() {
   return (
@@ -60,7 +59,7 @@ export default function SignIn({ history }) {
   const { dispatch } = React.useContext(Store)
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     email: "",
     password: ""
   })
@@ -72,7 +71,7 @@ export default function SignIn({ history }) {
 
   const handleClick = async event => {
     event.preventDefault()
-    const data = await fetch(`http://localhost:3000/api/v1/login`, {
+    const data = await fetch('http://localhost:3000/api/v1/login', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -90,12 +89,12 @@ export default function SignIn({ history }) {
         payload: response
       })
       enqueueSnackbar(`Welcome, ${response.first_name}`, {
-        variant: 'success'
+        variant: "success"
       })
       history.push("/")
     } else {
-      enqueueSnackbar('Error', {
-        variant: 'error'
+      enqueueSnackbar("Error", {
+        variant: "error"
       })
     }
   }

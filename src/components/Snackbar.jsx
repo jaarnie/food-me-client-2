@@ -34,8 +34,6 @@ export default function SnackbarMessage({ variant, message }) {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
 
-  // const { vertical, horizontal, open } = state
-
   useEffect(() => {
     setOpen(true)
   }, [message])
@@ -49,20 +47,15 @@ export default function SnackbarMessage({ variant, message }) {
     setOpen(false)
   }
 
-  // debugger
   return (
     <div>
       <Snackbar
         className={classes.variant}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center"
-        }}
-        // anchorOrigin={{ vertical, horizontal }}
-        // key={`${vertical},${horizontal}`}
+        // anchorOrigin={{
+        //   vertical: "bottom",
+        //   horizontal: "left"
+        // }}
         open={open}
-        // onClose={handleClose}
-
         autoHideDuration={2000}
         variant={variant}
         message={<span id="message-id">{message}</span>}

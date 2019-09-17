@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
@@ -12,14 +12,18 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Typography from "@material-ui/core/Typography"
 import Container from "@material-ui/core/Container"
 import { Link } from "react-router-dom"
+import { useSnackbar } from "notistack"
 
-import PasswordStrength from './PasswordStrength'
+import { Store } from "../../Store.js"
+
+
+import PasswordStrength from "./PasswordStrength"
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" to="https://material-ui.com/">
+      <Link color="inherit" to="https://www.github.com/jaarnie">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -54,25 +58,74 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SignUp() {
+export default function SignUp({ history }) {
+  const { dispatch } = React.useContext(Store)
   const classes = useStyles()
-  const [values, setValues] = React.useState({
+  const { enqueueSnackbar } = useSnackbar()
+  const [values, setValues] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    passwordConfirmation: "",
+    marketingCheckbox: false
   })
+  const [response, setResponse] = useState({ err: "" })
 
-  function handleClick(event) {
+  const handleClick = async event => {
     event.preventDefault()
-    console.log('clicked')
+    const data = await fetch("http://localhost:3000/api/v1/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user: {
+          first_name: values.firstName,
+          last_name: values.lastName,
+          email: values.email,
+          password: values.password,
+          password_confirmation: values.passwordConfirmation,
+          marketing_checkbox: values.marketingCheckbox
+        }
+      })
+    })
+    const resp = await data.json()
+    if (resp.err) {
+      console.log(resp)
+      setResponse({ err: resp })
+    } else {
+      dispatch({
+        type: "SET_USER",
+        payload: resp
+      })
+      enqueueSnackbar(`Welcome, ${resp.first_name}`, {
+        variant: "success"
+      })
+      history.push("/")
+    }
   }
 
-  const handleChange = (event) => {
-    setValues({...values, [event.target.name]: event.target.value})
+  const handleChange = event => {
+    const name = event.target.name
+    const value = event.target.value
+    setValues({ ...values, [name]: value })
     console.log(values)
   }
+
+  const handleCheckbox = event => {
+    setValues({ ...values, marketingCheckbox: event })
+    console.log(values)
+  }
+
+  useEffect(() => {
+    if (response.err) {
+      enqueueSnackbar("Error", {
+        variant: "error",
+        autoHideDuration: 3000
+      })
+    }
+  }, [enqueueSnackbar, response])
 
   return (
     <Container component="main" maxWidth="xs">
@@ -91,6 +144,7 @@ export default function SignUp() {
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
+                error={response.err.first_name ? true : false}
                 required
                 fullWidth
                 id="firstName"
@@ -102,6 +156,7 @@ export default function SignUp() {
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
+                error={response.err.last_name ? true : false}
                 required
                 fullWidth
                 id="lastName"
@@ -114,6 +169,7 @@ export default function SignUp() {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
+                error={response.err.email ? true : false}
                 required
                 fullWidth
                 id="email"
@@ -126,6 +182,7 @@ export default function SignUp() {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
+                error={response.err.password ? true : false}
                 required
                 fullWidth
                 name="password"
@@ -136,24 +193,34 @@ export default function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
-              <PasswordStrength password={values.password}/>
+              <PasswordStrength password={values.password} />
             </Grid>
-            {/* <Grid item xs={12}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
+                error={response.err.password_confirmation ? true : false}
                 required
                 fullWidth
-                name="confirmPassword"
+                name="passwordConfirmation"
                 label="Confirm Password"
                 type="password"
-                id="confirm-password"
+                id="password-confirmation"
                 onChange={handleChange}
               />
-            </Grid> */}
+            </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                control={
+                  <Checkbox
+                    name="marketingCheckbox"
+                    color="primary"
+                    onChange={e => {
+                      const { checked } = e.currentTarget
+                      handleCheckbox(checked)
+                    }}
+                  />
+                }
+                label="I want to updates via email."
               />
             </Grid>
           </Grid>

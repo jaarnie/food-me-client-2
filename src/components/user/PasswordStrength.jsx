@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import zxcvbn from "zxcvbn"
 import { makeStyles } from "@material-ui/core/styles"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
+import { yellow, amber, green } from "@material-ui/core/colors"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,37 +22,66 @@ const useStyles = makeStyles(theme => ({
 export default function PasswordStrength({ password }) {
   const classes = useStyles()
   const testedResult = zxcvbn(password)
+  const [ state, setState ] = useState({
+    text: "cunt",
+    color: ""
+  })
 
-  const passwordStrengthText = () => {
-    switch (testedResult.score) {
-      case 1:
-        return "Weak"
+  // const passwordStrengthText = () => {
+  //   switch (testedResult.score) {
+  //     case 1:
+  //       return setState({ ...state, text: 'Weak', color: yellow})
 
-      case 2:
-        return "Meduim"
+  //     case 2:
+  //         return setState({ ...state, text: 'Meduim', color: amber})
 
-      case 3:
-        return "Strong"
+  //     case 3:
+  //         return setState({ ...state, text: 'Strong', color: '#8BC34A'})        
 
-      case 4:
-        return "Perfect"
+  //     case 4:
+  //         return setState({ ...state, text: 'Strong', color: green})        
 
-      default:
-        return null
-    }
+  //     default:
+  //       return null
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   switch (testedResult.score) {
+  //     case 1:
+  //       return setState({ ...state, text: 'Weak', color: yellow})
+
+  //     case 2:
+  //         return setState({ ...state, text: 'Meduim', color: amber})
+
+  //     case 3:
+  //         return setState({ ...state, text: 'Strong', color: '#8BC34A'})        
+
+  //     case 4:
+  //         return setState({ ...state, text: 'Strong', color: green})        
+
+  //     default:
+  //       return null
+  //   }
+  // }, [null])
+
+  
+
+  function handleColor() {
+
   }
 
   return (
     <div>
+    {/* {console.log(state)} */}
       <Paper className={classes.root}>
         <LinearProgress
           className={classes.progressBar}
-          color="primary"
+          // color={'8BC34A'}
           variant="determinate"
           value={testedResult.score * 25}
         />
         <Typography className={classes.textBox} variant="subtitle2">
-          {passwordStrengthText()}
         </Typography>
       </Paper>
     </div>

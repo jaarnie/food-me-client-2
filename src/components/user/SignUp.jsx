@@ -14,9 +14,6 @@ import Container from "@material-ui/core/Container"
 import { Link } from "react-router-dom"
 import { useSnackbar } from "notistack"
 
-import { Store } from "../../Store.js"
-
-
 import PasswordStrength from "./PasswordStrength"
 
 function Copyright() {
@@ -58,8 +55,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SignUp({ history }) {
-  const { dispatch } = React.useContext(Store)
+export default function SignUp() {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const [values, setValues] = useState({
@@ -81,6 +77,7 @@ export default function SignUp({ history }) {
       },
       body: JSON.stringify({
         user: {
+
           first_name: values.firstName,
           last_name: values.lastName,
           email: values.email,
@@ -91,19 +88,9 @@ export default function SignUp({ history }) {
       })
     })
     const resp = await data.json()
-    if (resp.err) {
-      console.log(resp)
-      setResponse({ err: resp })
-    } else {
-      dispatch({
-        type: "SET_USER",
-        payload: resp
-      })
-      enqueueSnackbar(`Welcome, ${resp.first_name}`, {
-        variant: "success"
-      })
-      history.push("/")
-    }
+    // if resp.err
+    console.log(resp)
+    setResponse({ err: resp })
   }
 
   const handleChange = event => {
@@ -118,11 +105,13 @@ export default function SignUp({ history }) {
     console.log(values)
   }
 
+
   useEffect(() => {
     if (response.err) {
-      enqueueSnackbar("Error", {
-        variant: "error",
-        autoHideDuration: 3000
+      enqueueSnackbar(
+        "Error", {
+          variant: "error",
+          autoHideDuration: 3000,
       })
     }
   }, [enqueueSnackbar, response])
@@ -144,7 +133,7 @@ export default function SignUp({ history }) {
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
-                error={response.err.first_name ? true : false}
+                error={!!response.err.first_name}
                 required
                 fullWidth
                 id="firstName"
@@ -156,7 +145,7 @@ export default function SignUp({ history }) {
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                error={response.err.last_name ? true : false}
+                error={!!response.err.last_name}
                 required
                 fullWidth
                 id="lastName"
@@ -169,7 +158,7 @@ export default function SignUp({ history }) {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                error={response.err.email ? true : false}
+                error={!!response.err.email}
                 required
                 fullWidth
                 id="email"
@@ -182,7 +171,7 @@ export default function SignUp({ history }) {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                error={response.err.password ? true : false}
+                error={!!response.err.password}
                 required
                 fullWidth
                 name="password"

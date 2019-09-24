@@ -3,17 +3,40 @@ import React from 'react'
 export const Store = React.createContext()
 
 const initialState = {
-    restaurants: [],
+  user: null,
+  restaurants: null,
+  favorites: [],
+  searchValue: "",
+  userGeoLocation: null,
+  userLocation: null,
 }
 
 function reducer(state, action) {
-    switch(action.type) {
-        case "FETCH_RESTARUANTS":
-            return { ...state, restaurants: action.payload }
-        
-        default:
-            return { ...state }
-    }
+  switch (action.type) {
+    case "FETCH_RESTARUANTS":
+      return { ...state, restaurants: action.payload }
+
+    case "ADD_FAVORITE":
+      return { ...state, favorites: [...state.favorites, action.payload] }
+
+    case "REMOVE_FAVORITE":
+      return { ...state, favorites: action.payload }
+
+    case "SEARCH_VALUE":
+      return { ...state, searchValue: action.payload }
+
+    case "SET_USER":
+      return { ...state, user: action.payload }
+
+    case "GET_GEOLOCATION":
+      return { ...state, userGeoLocation: action.payload }
+
+    case "SET_LOCATION":
+      return {...state, userLocation: action.payload }
+
+    default:
+      return { ...state, user: action.payload }
+  }
 }
 
 export function StoreProvider(props) {

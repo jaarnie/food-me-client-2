@@ -15,6 +15,7 @@ import { Link } from "react-router-dom"
 import { useSnackbar } from "notistack"
 
 import PasswordStrength from "./PasswordStrength"
+import { Store } from "../../Store.js"
 
 function Copyright() {
   return (
@@ -55,7 +56,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SignUp() {
+export default function SignUp({ history }) {
+  const { dispatch } = React.useContext(Store)
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const [values, setValues] = useState({
@@ -88,10 +90,15 @@ export default function SignUp() {
       })
     })
     const resp = await data.json()
+    // debugger
     if (resp.error) {
       setResponse({ err: resp.error })
     } else {
-      console.log('yah')
+      dispatch({
+        type: "SET_USER",
+        payload: resp
+      })
+      history.push("/")
     }
   }
 

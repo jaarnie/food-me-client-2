@@ -3,13 +3,14 @@ import { Store } from "../../Store"
 import { makeStyles } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
+import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: 'center',
-    marginBottom: '2vh'
+    justifyContent: "center",
+    marginBottom: "2vh"
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     margin: theme.spacing(1),
-    backgroundColor: "#235451",
+    backgroundColor: "#235451"
   },
   input: {
     display: "none"
@@ -33,6 +34,7 @@ const useStyles = makeStyles(theme => ({
 export default function OutlinedTextFields() {
   const { state, dispatch } = React.useContext(Store)
   const classes = useStyles()
+  const { enqueueSnackbar } = useSnackbar()
 
   function handleChange(event) {
     let value = {
@@ -42,31 +44,58 @@ export default function OutlinedTextFields() {
     dispatch(value)
   }
 
-  // React.useEffect(() => {
-  //   console.log('useEffect', state)
-  // }, [state])
+  function clearData(event) {
+    event.preventDefault()
+    return dispatch({
+      type: "SET_RESTARUANTS",
+      payload: null
+    })
+  }
 
   const fetchData = async event => {
     event.preventDefault()
+    let searchValue = ""
+    if (state.searchValue) {
+      const value = state.searchValue
+      searchValue = `https://developers.zomato.com/api/v2.1/search?entity_id=61014&entity_type=subzone&q=${value}&count=50&radius=1000`
+    } else {
+      searchValue =
+        "https://developers.zomato.com/api/v2.1/search?entity_id=61&entity_type=city"
+    }
 
-    const value = state.searchValue
-
-    const data = await fetch(
-      `https://developers.zomato.com/api/v2.1/search?entity_id=61014&entity_type=subzone&q=${value}&count=50&radius=1000`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "user-key": "87be592b7c816cd2e00737b271776b7f" // hide me
-        }
+    const data = await fetch(searchValue, {
+      headers: {
+        "Content-Type": "application/json",
+        "user-key": "87be592b7c816cd2e00737b271776b7f" // hide me
       }
-    )
+    })
     const response = await data.json()
+    console.log(response)
+    handleError(response)
 
     return dispatch({
-      type: "FETCH_RESTARUANTS",
-      payload: response
+      type: "SET_RESTARUANTS",
+      //payload: response
+      payload: response.restaurants
     })
   }
+
+  function handleError(response) {
+    if (response.results_found === 0) {
+      enqueueSnackbar("No results found", {
+        variant: "warning"
+      })
+      dispatch({
+        type: "SET_TITLE",
+        payload: "no results found :("
+      })
+    }
+  }
+
+  React.useEffect(() => {
+    console.log(state)
+  }, [state])
+
   return (
     <div>
       <form className={classes.container} noValidate autoComplete="off">
@@ -82,7 +111,7 @@ export default function OutlinedTextFields() {
           onChange={handleChange}
         />
         <Button
-        style={{justifyContent: 'center'}}
+          style={{ justifyContent: "center" }}
           variant="contained"
           color="primary"
           className={classes.button}
@@ -91,6 +120,18 @@ export default function OutlinedTextFields() {
         >
           Search
         </Button>
+        {state.restaurants ? (
+          <Button
+            style={{ justifyContent: "center" }}
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            type="submit"
+            onClick={clearData}
+          >
+            Clear
+          </Button>
+        ) : null}
       </form>
     </div>
   )

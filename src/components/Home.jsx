@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import Typography from "@material-ui/core/Typography"
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles"
 import { Store } from "../Store"
 
 import Search from "./search/Search"
@@ -9,9 +9,9 @@ import { Loading } from "./Loading"
 
 const useStyles = makeStyles({
   title: {
-   color: "#235451"
-  },
-});
+    color: "#235451"
+  }
+})
 
 export default function Home() {
   const classes = useStyles()
@@ -21,23 +21,16 @@ export default function Home() {
     console.log("Home", state)
   }, [state])
 
-  const props = {
-    restaurants: state.restaurants,
-    searchValue: state.searchValue
-  }
-
   return (
     <React.Fragment>
       <Typography className={classes.title} variant="h3">
         {state.userLocation
           ? state.userLocation.location.title.split(", ")[0]
-          : "hello"}
+          : state.title}
       </Typography>
       <Search />
       <React.Suspense fallback={Loading}>
-        {state.restaurants ? (
-          <ListContainer r={state.restaurants} {...props} />
-        ) : null}
+        {state.restaurants ? <ListContainer /> : null}
       </React.Suspense>
     </React.Fragment>
   )

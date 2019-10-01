@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 export const Store = React.createContext()
 
@@ -9,11 +9,12 @@ const initialState = {
   searchValue: "",
   userGeoLocation: null,
   userLocation: null,
+  title: "hello"
 }
 
 function reducer(state, action) {
   switch (action.type) {
-    case "FETCH_RESTARUANTS":
+    case "SET_RESTARUANTS":
       return { ...state, restaurants: action.payload }
 
     case "ADD_FAVORITE":
@@ -32,15 +33,18 @@ function reducer(state, action) {
       return { ...state, userGeoLocation: action.payload }
 
     case "SET_LOCATION":
-      return {...state, userLocation: action.payload }
+      return { ...state, userLocation: action.payload }
+
+    case "SET_TITLE":
+      return { ...state, title: action.payload }
 
     default:
-      return { ...state, user: action.payload }
+      return { ...state }
   }
 }
 
 export function StoreProvider(props) {
-    const [state, dispatch] = React.useReducer(reducer, initialState)
-    const value = { state, dispatch }
-    return <Store.Provider value={value}>{props.children}</Store.Provider>
+  const [state, dispatch] = React.useReducer(reducer, initialState)
+  const value = { state, dispatch }
+  return <Store.Provider value={value}>{props.children}</Store.Provider>
 }

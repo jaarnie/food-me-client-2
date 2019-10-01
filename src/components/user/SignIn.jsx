@@ -71,7 +71,7 @@ export default function SignIn({ history }) {
 
   const handleClick = async event => {
     event.preventDefault()
-    const data = await fetch('http://localhost:7000/api/v1/login', {
+    const data = await fetch("http://localhost:7000/api/v1/login", {
       method: "POST",
       // credentials: 'include',
       headers: {

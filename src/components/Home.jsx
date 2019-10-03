@@ -30,7 +30,7 @@ export default function Home() {
       </Typography>
       <Search />
       <React.Suspense fallback={Loading}>
-        {state.restaurants ? <ListContainer /> : null}
+        {state.restaurants && <ListContainer /> }
       </React.Suspense>
     </React.Fragment>
   )

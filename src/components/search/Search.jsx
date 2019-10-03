@@ -57,7 +57,7 @@ export default function OutlinedTextFields() {
     let searchValue = ""
     if (state.searchValue) {
       const value = state.searchValue
-      searchValue = `https://developers.zomato.com/api/v2.1/search?entity_id=61014&entity_type=subzone&q=${value}&count=50&radius=1000`
+      searchValue = `https://developers.zomato.com/api/v2.1/search?entity_id=${state.userLocation ? state.userLocation.location.entity_id : null}&entity_type=subzone&q=${value}&count=50&radius=1000`
     } else {
       searchValue =
         "https://developers.zomato.com/api/v2.1/search?entity_id=61&entity_type=city"
@@ -120,7 +120,7 @@ export default function OutlinedTextFields() {
         >
           Search
         </Button>
-        {state.restaurants ? (
+        {state.restaurants && (
           <Button
             style={{ justifyContent: "center" }}
             variant="contained"
@@ -131,7 +131,7 @@ export default function OutlinedTextFields() {
           >
             Clear
           </Button>
-        ) : null}
+        )}
       </form>
     </div>
   )

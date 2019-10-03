@@ -136,7 +136,9 @@ export default function Navigation() {
         >
           <AccountCircle />
         </IconButton>
+
         {userSignInOrProfile()}
+
       </MenuItem>
     </Menu>
   )
@@ -162,7 +164,7 @@ export default function Navigation() {
               </Badge>
             </IconButton> */}
             <Typography className={classes.title} variant="h6">
-              {state.user ? `Hi, ${state.user.first_name} ` : null}
+              {state.user && `Hi, ${state.user.first_name} `}
             </Typography>
             <IconButton
               edge="end"

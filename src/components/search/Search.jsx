@@ -1,8 +1,7 @@
 import React from "react"
 import { Store } from "../../Store"
 import { makeStyles } from "@material-ui/core/styles"
-import TextField from "@material-ui/core/TextField"
-import Button from "@material-ui/core/Button"
+import { TextField, Button } from "@material-ui/core"
 import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
@@ -57,7 +56,9 @@ export default function OutlinedTextFields() {
     let searchValue = ""
     if (state.searchValue) {
       const value = state.searchValue
-      searchValue = `https://developers.zomato.com/api/v2.1/search?entity_id=${state.userLocation ? state.userLocation.location.entity_id : null}&entity_type=subzone&q=${value}&count=50&radius=1000`
+      searchValue = `https://developers.zomato.com/api/v2.1/search?entity_id=${
+        state.userLocation ? state.userLocation.location.entity_id : null
+      }&entity_type=subzone&q=${value}&count=50&radius=1000`
     } else {
       searchValue =
         "https://developers.zomato.com/api/v2.1/search?entity_id=61&entity_type=city"

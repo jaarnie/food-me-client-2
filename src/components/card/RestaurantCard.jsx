@@ -1,21 +1,25 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import clsx from "clsx"
-import Card from "@material-ui/core/Card"
-import CardHeader from "@material-ui/core/CardHeader"
-import CardMedia from "@material-ui/core/CardMedia"
-import CardContent from "@material-ui/core/CardContent"
-import CardActions from "@material-ui/core/CardActions"
-import Collapse from "@material-ui/core/Collapse"
-import Avatar from "@material-ui/core/Avatar"
-import IconButton from "@material-ui/core/IconButton"
-import Typography from "@material-ui/core/Typography"
+import {
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Collapse,
+  Avatar,
+  IconButton,
+  Typography
+} from "@material-ui/core"
+import {
+  Favorite as FavoriteIcon,
+  Share as ShareIcon,
+  Place as PlaceIcon,
+  ExpandMore as ExpandMoreIcon,
+  MoreVert as MoreVertIcon
+} from "@material-ui/icons"
 import { red } from "@material-ui/core/colors"
-import FavoriteIcon from "@material-ui/icons/Favorite"
-import ShareIcon from "@material-ui/icons/Share"
-import PlaceIcon from "@material-ui/icons/Place"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
 
 import RatingStars from "../../components/RatingStars"
 // import { Link } from "react-router-dom"

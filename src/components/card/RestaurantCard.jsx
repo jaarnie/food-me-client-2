@@ -21,7 +21,7 @@ import {
 } from "@material-ui/icons"
 import { red } from "@material-ui/core/colors"
 
-import { Store } from '../../Store'
+import { Store } from "../../Store"
 
 import RatingStars from "../../components/RatingStars"
 // import { Link } from "react-router-dom"
@@ -69,14 +69,34 @@ export default function RestaurantCard({ r }) {
 
   const handleClickFav = async restaurant => {
     console.log(restaurant)
-    const data = await fetch(`http://localhost:7000/api/v1/users/${state.user.id}`)
+    // debugger
+    // const data = await fetch(`http://localhost:7000/api/v1/restaurants`, {
+    const data = await fetch(
+      // `http://localhost:7000/api/v1/users/${state.user.id}`,
+      `http://localhost:7000/api/v1/users/1`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user: {
+            // restaurants: restaurant.R.res_id
+            restaurants: {
+              favourited_restaurant: restaurant
+            }
+          }
+        })
+      }
+    )
+    const resp = await data.json()
+    console.log(resp)
     // dispatch({
     //   type: 'ADD_FAVORITE',
     //   payload: restaurant
     // })
   }
 
-  debugger
   return (
     <Card className={classes.card}>
       {console.log("CARD", r.restaurant)}
@@ -110,7 +130,7 @@ export default function RestaurantCard({ r }) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon onClick={() => handleClickFav(r.restaurant)}/>
+          <FavoriteIcon onClick={() => handleClickFav(r.restaurant)} />
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />

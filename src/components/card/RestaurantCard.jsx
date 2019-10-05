@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import clsx from "clsx"
 import {
@@ -20,6 +20,8 @@ import {
   MoreVert as MoreVertIcon
 } from "@material-ui/icons"
 import { red } from "@material-ui/core/colors"
+
+import { Store } from '../../Store'
 
 import RatingStars from "../../components/RatingStars"
 // import { Link } from "react-router-dom"
@@ -49,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function RestaurantCard({ r }) {
   const classes = useStyles()
+  const { state, dispatch } = useContext(Store)
   const [expanded, setExpanded] = React.useState(false)
 
   function handleExpandClick() {
@@ -64,7 +67,16 @@ export default function RestaurantCard({ r }) {
     // ))
   }
 
-  // debugger
+  const handleClickFav = async restaurant => {
+    console.log(restaurant)
+    const data = await fetch(`http://localhost:7000/api/v1/users/${state.user.id}`)
+    // dispatch({
+    //   type: 'ADD_FAVORITE',
+    //   payload: restaurant
+    // })
+  }
+
+  debugger
   return (
     <Card className={classes.card}>
       {console.log("CARD", r.restaurant)}
@@ -98,7 +110,7 @@ export default function RestaurantCard({ r }) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <FavoriteIcon onClick={() => handleClickFav(r.restaurant)}/>
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />

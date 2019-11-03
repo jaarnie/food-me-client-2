@@ -5,7 +5,10 @@ import { Store } from "../Store"
 
 import Search from "./search/Search"
 import ListContainer from "../containers/ListContainer"
-import { Loading } from "./Loading"
+// import { Loading } from "./Loading"
+
+// const ListContainer = React.lazy(() => import('../containers/ListContainer'))
+
 
 const useStyles = makeStyles({
   title: {
@@ -22,16 +25,16 @@ export default function Home() {
   }, [state])
 
   return (
-    <React.Fragment>
+    <>
       <Typography className={classes.title} variant="h3">
         {state.userLocation
           ? state.userLocation.location.title.split(", ")[0]
           : state.title}
       </Typography>
       <Search />
-      <React.Suspense fallback={Loading}>
+      {/* <React.Suspense fallback={Loading()}> */}
         {state.restaurants && <ListContainer /> }
-      </React.Suspense>
-    </React.Fragment>
+      {/* </React.Suspense> */}
+    </>
   )
 }

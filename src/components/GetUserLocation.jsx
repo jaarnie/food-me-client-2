@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react"
-import IconButton from "@material-ui/core/IconButton"
 import { makeStyles } from "@material-ui/core/styles"
 import NearMeIcon from "@material-ui/icons/NearMe"
+import { IconButton } from "@material-ui/core"
 
 import { Store } from "../Store"
 import { Loading } from "./Loading"
@@ -81,15 +81,15 @@ export default function GetUserLocation() {
   const classes = useStyles()
   return (
     <div>
-      <IconButton
-        edge="start"
-        className={classes.icon}
-        color="inherit"
-        aria-label="get user location button"
-        onClick={getGeoLocation}
-      >
-        <NearMeIcon />
-      </IconButton>
+        <IconButton
+          edge="start"
+          className={classes.icon}
+          color="inherit"
+          aria-label="get user location button"
+          onClick={getGeoLocation}
+        >
+          <NearMeIcon />
+        </IconButton>
     </div>
   )
 }

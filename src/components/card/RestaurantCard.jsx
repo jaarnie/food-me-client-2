@@ -22,6 +22,7 @@ import {
 import { red } from "@material-ui/core/colors"
 
 import RatingStars from "../../components/RatingStars"
+import PhotoGallery from './PhotoGallery'
 // import { Link } from "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
@@ -65,9 +66,10 @@ export default function RestaurantCard({ r }) {
   }
 
   // debugger
+  const restaurant = r.restaurant
   return (
     <Card className={classes.card}>
-      {console.log("CARD", r.restaurant)}
+      {console.log("CARD", restaurant)}
       <CardHeader
         avatar={
           <Avatar
@@ -75,7 +77,7 @@ export default function RestaurantCard({ r }) {
             className={classes.avatar}
             style={{ backgroundColor: "#235451" }}
           >
-            {r.restaurant.name[0]}
+            {restaurant.name[0]}
           </Avatar>
         }
         action={
@@ -83,17 +85,17 @@ export default function RestaurantCard({ r }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={r.restaurant.name}
-        subheader="sub heading"
+        title={restaurant.name}
+        subheader={restaurant.establishment[0]}
       />
       <CardMedia
         className={classes.media}
-        image={r.restaurant.featured_image}
-        title="Paella dish"
+        image={restaurant.featured_image}
+        title="featured image"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {r.restaurant.location.address}
+          {restaurant.location.address}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -107,7 +109,7 @@ export default function RestaurantCard({ r }) {
         <IconButton
           aria-label="place"
           target="_blank"
-          href={`https://www.google.com/maps/search/?api=1&query=${r.restaurant.location.address}`}
+          href={`https://www.google.com/maps/search/?api=1&query=${restaurant.location.address}`}
         >
           <PlaceIcon />
         </IconButton>
@@ -126,14 +128,15 @@ export default function RestaurantCard({ r }) {
         <CardContent>
           <Typography paragraph>Opening Times:</Typography>
           <ShowTimes />
-          <RatingStars value={r.restaurant.user_rating.aggregate_rating} />
+          <RatingStars value={restaurant.user_rating.aggregate_rating} votes={restaurant.user_rating.votes} />
           <Typography paragraph>
-            {r.restaurant.menu_url}
-            add shit here
+            {/* {restaurant.menu_url} */}
+            Average cost for two: {restaurant.average_cost_for_two}
           </Typography>
           <Typography paragraph></Typography>
           and here
           <Typography>here too</Typography>
+          <PhotoGallery photos={restaurant.photos} />
         </CardContent>
       </Collapse>
     </Card>

@@ -138,7 +138,6 @@ export default function Navigation() {
         </IconButton>
 
         {userSignInOrProfile()}
-
       </MenuItem>
     </Menu>
   )

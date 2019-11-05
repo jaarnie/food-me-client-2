@@ -55,7 +55,7 @@ export default function OutlinedTextFields() {
     dispatch(value)
   }
 
-  function clearData(event) {
+  function clearData(event) { // clear search bar
     event.preventDefault()
     return dispatch({
       type: "SET_RESTARUANTS",

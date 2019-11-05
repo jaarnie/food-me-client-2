@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -7,6 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
+import Axios from "axios";
+
+import { Store } from '../Store'
+import { searchRoot, headersRoot } from '../config/apiConfig'
+
 import GetUserLocation from './GetUserLocation';
 
 const useStyles = makeStyles(theme => ({
@@ -29,13 +34,36 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function CustomizedInputBase() {
-	const classes = useStyles();
+export default function SearchUserLocation() {
+  const { state, dispatch } = useContext(Store)
+  const [localState, setLocalState] = useState({
+    locationSearchTerm: ''
+  })
+  const classes = useStyles()
+  const axios = Axios.create({
+    baseURL: searchRoot,
+    headers: headersRoot
+  })
 
-	const handleClick = event => {
+	const handleFetchClick = async (event) => {
 		event.preventDefault()
-		console.log(event.target)
-	}
+    console.log(event.target)
+    const response = await axios.get(`locations?query=${localState.locationSearchTerm}`)
+
+    dispatch({
+      type: 'SET_LOCATION',
+      payload: response.data.location_suggestions[0].entity_id
+    })
+    // debugger
+    console.log('loc >', state);
+  }
+  
+  const handleChange = event => {
+    setLocalState({
+      locationSearchTerm: event.target.value
+    })
+    console.log('LOC >', state)
+  }
 
   return (
     <Paper className={classes.root}>
@@ -43,9 +71,10 @@ export default function CustomizedInputBase() {
         className={classes.input}
         placeholder="Postcode"
         inputProps={{ 'aria-label': 'postcode' }}
+        onChange={handleChange}
       />
       <IconButton className={classes.iconButton} aria-label="search">
-        <SearchIcon onClick={handleClick}/>
+        <SearchIcon onClick={handleFetchClick}/>
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
         <GetUserLocation />

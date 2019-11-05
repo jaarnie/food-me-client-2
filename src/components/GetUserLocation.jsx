@@ -65,6 +65,7 @@ export default function GetUserLocation() {
       }
     )
     const locationData = await data.json()
+    debugger
     dispatch({
       type: "SET_LOCATION",
       payload: locationData

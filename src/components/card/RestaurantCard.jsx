@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import clsx from "clsx"
 import {
@@ -22,7 +22,8 @@ import {
 import { red } from "@material-ui/core/colors"
 
 import RatingStars from "../../components/RatingStars"
-import PhotoGallery from './PhotoGallery'
+import PhotoGallery from "./PhotoGallery"
+import { Store } from "../../Store"
 // import { Link } from "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
@@ -50,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function RestaurantCard({ r }) {
   const classes = useStyles()
+  const { state, dispatch } = useContext(Store)
   const [expanded, setExpanded] = React.useState(false)
 
   function handleExpandClick() {
@@ -65,11 +67,29 @@ export default function RestaurantCard({ r }) {
     // ))
   }
 
+  const toggleFavoriteClick = restaurant => {
+    const restaurantInFavorites = state.favorites.includes(restaurant)
+    let dispatchObject = {
+      type: "ADD_FAVORITE",
+      payload: restaurant
+    }
+    if (restaurantInFavorites) {
+      const favoritesWithoutRestaurant = state.favorites.filter(
+        fav => fav.R.res_id !== restaurant.R.res_id
+      )
+      dispatchObject = {
+        type: "REMOVE_FAVORITE",
+        payload: favoritesWithoutRestaurant
+      }
+    }
+    return dispatch(dispatchObject)
+  }
+
   // debugger
   const restaurant = r.restaurant
   return (
     <Card className={classes.card}>
-      {console.log("CARD", restaurant)}
+      {/* {console.log("CARD", restaurant)} */}
       <CardHeader
         avatar={
           <Avatar
@@ -100,7 +120,11 @@ export default function RestaurantCard({ r }) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <FavoriteIcon
+            value={restaurant.id}
+            onClick={() => toggleFavoriteClick(restaurant)}
+            color='red'
+          />
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
@@ -128,7 +152,10 @@ export default function RestaurantCard({ r }) {
         <CardContent>
           <Typography paragraph>Opening Times:</Typography>
           <ShowTimes />
-          <RatingStars value={restaurant.user_rating.aggregate_rating} votes={restaurant.user_rating.votes} />
+          <RatingStars
+            value={restaurant.user_rating.aggregate_rating}
+            votes={restaurant.user_rating.votes}
+          />
           <Typography paragraph>
             {/* {restaurant.menu_url} */}
             Average cost for two: {restaurant.average_cost_for_two}
@@ -136,7 +163,7 @@ export default function RestaurantCard({ r }) {
           <Typography paragraph></Typography>
           and here
           <Typography>here too</Typography>
-          <PhotoGallery photos={restaurant.photos} />
+          {restaurant.photos && <PhotoGallery photos={restaurant.photos} />}
         </CardContent>
       </Collapse>
     </Card>

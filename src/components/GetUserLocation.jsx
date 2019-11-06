@@ -38,6 +38,9 @@ export default function GetUserLocation() {
       const userLong = state.userGeoLocation.coords.longitude
       findLocationData(userLat, userLong)
     }
+    if (state.searchedLocation) {
+      getLocationData(state.searchedLocation)
+    }
   }, [state.userGeoLocation])
 
   const findLocationData = async (userLat, userLong) => {
@@ -55,8 +58,21 @@ export default function GetUserLocation() {
   }
 
   const getLocationData = async dataJSON => {
+    let entityId = ''
+    let entityType = ''
+    if (dataJSON.location) {
+      entityId = dataJSON.location.entity_id
+      entityType = dataJSON.location.entity_type
+    }
+    if (dataJSON.searchedLocation) {
+      entityId = dataJSON.searchedLocation.entity_id
+      entityType = dataJSON.searchedLocation.entity_type
+    }
+
+    debugger
+
     const data = await fetch(
-      `https://developers.zomato.com/api/v2.1/location_details?entity_id=${dataJSON.location.entity_id}&entity_type=${dataJSON.location.entity_type}`,
+      `https://developers.zomato.com/api/v2.1/location_details?entity_id=${entityId}&entity_type=${entityType}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +81,7 @@ export default function GetUserLocation() {
       }
     )
     const locationData = await data.json()
-    debugger
+    // debugger
     dispatch({
       type: "SET_LOCATION",
       payload: locationData

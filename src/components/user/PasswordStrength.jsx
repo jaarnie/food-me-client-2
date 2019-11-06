@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import zxcvbn from "zxcvbn"
 import { makeStyles } from "@material-ui/core/styles"
 import { LinearProgress, Paper, Typography } from "@material-ui/core"
-import { yellow, amber, green } from "@material-ui/core/colors"
+// import { yellow, amber, green } from "@material-ui/core/colors"
 
 const useStyles = makeStyles(theme => ({
   root: {

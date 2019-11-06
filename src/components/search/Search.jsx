@@ -69,7 +69,7 @@ export default function OutlinedTextFields() {
     const value = state.searchValue
     if (value) {
       searchValue = `/search?entity_id=${
-        state.userLocation ? state.userLocation.location.entity_id : null
+        state.userLocation && state.userLocation.location.entity_id
       }&entity_type=subzone&q=${value}&count=50&radius=1000`
     } else {
       searchValue =

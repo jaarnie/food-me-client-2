@@ -49,10 +49,10 @@ export default function SearchUserLocation() {
 		event.preventDefault()
     console.log(event.target)
     const response = await axios.get(`locations?query=${localState.locationSearchTerm}`)
-
+// debugger
     dispatch({
-      type: 'SET_LOCATION',
-      payload: response.data.location_suggestions[0].entity_id
+      type: 'SEARCHED_LOCATION',
+      payload: response.data.location_suggestions[0]
     })
     // debugger
     console.log('loc >', state);

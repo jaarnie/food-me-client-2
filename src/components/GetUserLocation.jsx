@@ -6,7 +6,7 @@ import Axios from "axios"
 
 import { searchRoot, headersRoot } from "../config/apiConfig"
 import { Store } from "../Store"
-import { Loading } from "./Loading"
+// import { Loading } from "./Loading"
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -26,7 +26,7 @@ export default function GetUserLocation() {
   })
 
   const getGeoLocation = async () => {
-    await window.navigator.geolocation.getCurrentPosition(position => {
+    await window.navigator.geolocation.getCurrentPosition(position => { // try catch
       console.log(position)
       dispatch({
         type: "GET_GEOLOCATION",

@@ -3,7 +3,15 @@ import React from "react"
 export const Store = React.createContext()
 
 const initialState = {
-  user: null,
+  user: {
+    email: "2@2",
+    first_name: "Adam",
+    id: 1,
+    last_name: "Arnold",
+    restaurants: null,
+    user_favourites: null
+  },
+  // user: null,
   restaurants: null,
   favorites: [],
   searchValue: "",
@@ -36,8 +44,8 @@ function reducer(state, action) {
     case "SET_LOCATION":
       return { ...state, userLocation: action.payload }
 
-      case "SEARCHED_LOCATION":
-        return { ...state, searchedLocation: action.payload }
+    case "SEARCHED_LOCATION":
+      return { ...state, searchedLocation: action.payload }
 
     case "SET_TITLE":
       return { ...state, title: action.payload }

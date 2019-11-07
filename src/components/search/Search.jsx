@@ -1,4 +1,4 @@
-import React, {useContext, useState } from "react"
+import React, {useContext } from "react"
 import { Store } from "../../Store"
 import { makeStyles } from "@material-ui/core/styles"
 import { TextField, Button } from "@material-ui/core"
@@ -6,8 +6,8 @@ import { useSnackbar } from "notistack"
 import Axios from "axios";
 
 import { searchRoot, headersRoot } from '../../config/apiConfig.js'
-import { Loading } from "../Loading"
-import SearchTest from './SearchTest'
+// import { Loading } from "../Loading"
+// import SearchTest from './SearchTest'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -41,7 +41,7 @@ export default function OutlinedTextFields() {
   const { state, dispatch } = useContext(Store)
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
-  
+
   const axios = Axios.create({
     baseURL: searchRoot,
     headers: headersRoot
@@ -90,7 +90,7 @@ export default function OutlinedTextFields() {
   //   return <SearchTest />
   // }
 
- 
+
 
   //   const value = state.searchValue
   //   const [{ data, loading, error }, fetchData] = useAxios(

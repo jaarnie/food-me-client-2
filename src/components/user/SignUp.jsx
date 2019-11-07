@@ -13,8 +13,10 @@ import Typography from "@material-ui/core/Typography"
 import Container from "@material-ui/core/Container"
 import { Link } from "react-router-dom"
 import { useSnackbar } from "notistack"
+import Axios from "axios"
 
 import PasswordStrength from "./PasswordStrength"
+import { serverRoot, serverHeaders } from "../../config/apiConfig"
 import { Store } from "../../Store.js"
 
 function Copyright() {
@@ -58,8 +60,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUp({ history }) {
   const { dispatch } = React.useContext(Store)
+
   const classes = useStyles()
+
   const { enqueueSnackbar } = useSnackbar()
+
   const [values, setValues] = useState({
     firstName: "",
     lastName: "",
@@ -68,18 +73,19 @@ export default function SignUp({ history }) {
     passwordConfirmation: "",
     marketingCheckbox: false
   })
+
   const [response, setResponse] = useState({ err: "" })
+
+  const axios = Axios.create({
+    baseURL: serverRoot,
+    headers: serverHeaders
+  })
 
   const handleClick = async event => {
     event.preventDefault()
-    const data = await fetch("http://localhost:7000/api/v1/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+    try {
+      const response = await axios.post("/users", {
         user: {
-
           first_name: values.firstName,
           last_name: values.lastName,
           email: values.email,
@@ -88,17 +94,19 @@ export default function SignUp({ history }) {
           marketing_checkbox: values.marketingCheckbox
         }
       })
-    })
-    const resp = await data.json()
-    // debugger
-    if (resp.error) {
-      setResponse({ err: resp.error })
-    } else {
-      dispatch({
-        type: "SET_USER",
-        payload: resp
-      })
-      history.push("/")
+      if (response.status === 201) {
+        dispatch({
+          type: "SET_USER",
+          payload: response.data
+        })
+        enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
+          variant: "success"
+        })
+        history.push("/")
+      }
+    } catch (err) {
+      console.log(err)
+      setResponse({ err: err })
     }
   }
 
@@ -114,13 +122,11 @@ export default function SignUp({ history }) {
     console.log(values)
   }
 
-
   useEffect(() => {
     if (response.err) {
-      enqueueSnackbar(
-        "Error", {
-          variant: "error",
-          autoHideDuration: 3000,
+      enqueueSnackbar("Error", {
+        variant: "error",
+        autoHideDuration: 3000
       })
     }
   }, [enqueueSnackbar, response])

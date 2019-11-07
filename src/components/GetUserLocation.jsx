@@ -2,7 +2,9 @@ import React, { useContext, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import NearMeIcon from "@material-ui/icons/NearMe"
 import { IconButton } from "@material-ui/core"
+import Axios from "axios"
 
+import { searchRoot, headersRoot } from "../config/apiConfig"
 import { Store } from "../Store"
 import { Loading } from "./Loading"
 
@@ -17,6 +19,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function GetUserLocation() {
   const { state, dispatch } = useContext(Store)
+
+  const axios = Axios.create({
+    baseURL: searchRoot,
+    headers: headersRoot
+  })
 
   const getGeoLocation = async () => {
     await window.navigator.geolocation.getCurrentPosition(position => {
@@ -44,51 +51,33 @@ export default function GetUserLocation() {
   }, [state.userGeoLocation])
 
   const findLocationData = async (userLat, userLong) => {
-    const data = await fetch(
-      `https://developers.zomato.com/api/v2.1/geocode?lat=${userLat}&lon=${userLong}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "user-key": "87be592b7c816cd2e00737b271776b7f"
-        }
-      }
-    )
-    const dataJSON = await data.json()
-    getLocationData(dataJSON)
+    const response = await axios.get(`geocode?lat=${userLat}&lon=${userLong}`)
+
+    getLocationData(response.data)
   }
 
-  const getLocationData = async dataJSON => {
-    let entityId = ''
-    let entityType = ''
-    if (dataJSON.location) {
-      entityId = dataJSON.location.entity_id
-      entityType = dataJSON.location.entity_type
+  const getLocationData = async data => {
+    let entityId = ""
+    let entityType = ""
+    if (data.location) {
+      entityId = data.location.entity_id
+      entityType = data.location.entity_type
     }
-    if (dataJSON.searchedLocation) {
-      entityId = dataJSON.searchedLocation.entity_id
-      entityType = dataJSON.searchedLocation.entity_type
+    if (data.searchedLocation) {
+      entityId = data.searchedLocation.entity_id
+      entityType = data.searchedLocation.entity_type
     }
 
-    debugger
-
-    const data = await fetch(
-      `https://developers.zomato.com/api/v2.1/location_details?entity_id=${entityId}&entity_type=${entityType}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "user-key": "87be592b7c816cd2e00737b271776b7f"
-        }
-      }
+    const locationData = await axios.get(
+      `location_details?entity_id=${entityId}&entity_type=${entityType}`
     )
-    const locationData = await data.json()
-    // debugger
     dispatch({
       type: "SET_LOCATION",
-      payload: locationData
+      payload: locationData.data
     })
     dispatch({
       type: "SET_RESTARUANTS",
-      payload: locationData.best_rated_restaurant
+      payload: locationData.data.best_rated_restaurant
     })
   }
 
@@ -98,15 +87,15 @@ export default function GetUserLocation() {
   const classes = useStyles()
   return (
     <div>
-        <IconButton
-          edge="start"
-          className={classes.icon}
-          color="inherit"
-          aria-label="get user location button"
-          onClick={getGeoLocation}
-        >
-          <NearMeIcon />
-        </IconButton>
+      <IconButton
+        edge="start"
+        className={classes.icon}
+        color="inherit"
+        aria-label="get user location button"
+        onClick={getGeoLocation}
+      >
+        <NearMeIcon />
+      </IconButton>
     </div>
   )
 }

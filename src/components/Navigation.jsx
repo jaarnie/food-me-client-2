@@ -7,15 +7,12 @@ import Typography from "@material-ui/core/Typography"
 import Badge from "@material-ui/core/Badge"
 import MenuItem from "@material-ui/core/MenuItem"
 import Menu from "@material-ui/core/Menu"
-import MenuIcon from "@material-ui/icons/Menu"
 import AccountCircle from "@material-ui/icons/AccountCircle"
 import MailIcon from "@material-ui/icons/Mail"
 import NotificationsIcon from "@material-ui/icons/Notifications"
 import MoreIcon from "@material-ui/icons/MoreVert"
 import { Store } from "../Store.js"
 import { Link } from "react-router-dom"
-
-import GetUserLocation from "./GetUserLocation"
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -52,7 +49,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Navigation() {
-  const { state, dispatch } = useContext(Store)
+  const { state } = useContext(Store)
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
@@ -84,8 +81,6 @@ export default function Navigation() {
       return <Link to="/sign-in">Sign In</Link>
     }
   }
-
-  function signIn() {}
 
   const menuId = "primary-search-account-menu"
   const renderMenu = (
@@ -139,6 +134,7 @@ export default function Navigation() {
         >
           <AccountCircle />
         </IconButton>
+
         {userSignInOrProfile()}
       </MenuItem>
     </Menu>
@@ -148,15 +144,6 @@ export default function Navigation() {
     <div className={classes.grow}>
       <AppBar className={classes.main} position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
-          <GetUserLocation />
           <Typography className={classes.userName} variant="h6" noWrap>
             <Link to="/">Food Me</Link>
           </Typography>
@@ -173,7 +160,7 @@ export default function Navigation() {
               </Badge>
             </IconButton> */}
             <Typography className={classes.title} variant="h6">
-              {state.user ? `Hi, ${state.user.first_name} ` : null}
+              {state.user && `Hi, ${state.user.first_name} `}
             </Typography>
             <IconButton
               edge="end"

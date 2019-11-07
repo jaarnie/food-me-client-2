@@ -1,8 +1,7 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Rating from "@material-ui/lab/Rating"
-import Box from "@material-ui/core/Box"
-import Typography from "@material-ui/core/Typography"
+import { Box, Typography } from "@material-ui/core"
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -11,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function RatingStars({ value, title }) {
+export default function RatingStars({ value, title, votes }) {
   const classes = useStyles()
 
   return (
@@ -29,6 +28,7 @@ export default function RatingStars({ value, title }) {
           readOnly
           precision={0.1}
         />
+        <Typography>Votes: {votes} </Typography>
       </Box>
     </div>
   )

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react"
 import zxcvbn from "zxcvbn"
 import { makeStyles } from "@material-ui/core/styles"
-import LinearProgress from "@material-ui/core/LinearProgress"
-import Paper from "@material-ui/core/Paper"
-import Typography from "@material-ui/core/Typography"
-import { yellow, amber, green } from "@material-ui/core/colors"
+import { LinearProgress, Paper, Typography } from "@material-ui/core"
+// import { yellow, amber, green } from "@material-ui/core/colors"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 export default function PasswordStrength({ password }) {
   const classes = useStyles()
   const testedResult = zxcvbn(password)
-  const [ state, setState ] = useState({
+  const [state, setState] = useState({
     text: "cunt",
     color: ""
   })
@@ -36,10 +34,10 @@ export default function PasswordStrength({ password }) {
   //         return setState({ ...state, text: 'Meduim', color: amber})
 
   //     case 3:
-  //         return setState({ ...state, text: 'Strong', color: '#8BC34A'})        
+  //         return setState({ ...state, text: 'Strong', color: '#8BC34A'})
 
   //     case 4:
-  //         return setState({ ...state, text: 'Strong', color: green})        
+  //         return setState({ ...state, text: 'Strong', color: green})
 
   //     default:
   //       return null
@@ -55,25 +53,21 @@ export default function PasswordStrength({ password }) {
   //         return setState({ ...state, text: 'Meduim', color: amber})
 
   //     case 3:
-  //         return setState({ ...state, text: 'Strong', color: '#8BC34A'})        
+  //         return setState({ ...state, text: 'Strong', color: '#8BC34A'})
 
   //     case 4:
-  //         return setState({ ...state, text: 'Strong', color: green})        
+  //         return setState({ ...state, text: 'Strong', color: green})
 
   //     default:
   //       return null
   //   }
   // }, [null])
 
-  
-
-  function handleColor() {
-
-  }
+  function handleColor() {}
 
   return (
     <div>
-    {/* {console.log(state)} */}
+      {/* {console.log(state)} */}
       <Paper className={classes.root}>
         <LinearProgress
           className={classes.progressBar}
@@ -81,8 +75,10 @@ export default function PasswordStrength({ password }) {
           variant="determinate"
           value={testedResult.score * 25}
         />
-        <Typography className={classes.textBox} variant="subtitle2">
-        </Typography>
+        <Typography
+          className={classes.textBox}
+          variant="subtitle2"
+        ></Typography>
       </Paper>
     </div>
   )

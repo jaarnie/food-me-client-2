@@ -1,23 +1,29 @@
-import React from "react"
+import React, { useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import clsx from "clsx"
-import Card from "@material-ui/core/Card"
-import CardHeader from "@material-ui/core/CardHeader"
-import CardMedia from "@material-ui/core/CardMedia"
-import CardContent from "@material-ui/core/CardContent"
-import CardActions from "@material-ui/core/CardActions"
-import Collapse from "@material-ui/core/Collapse"
-import Avatar from "@material-ui/core/Avatar"
-import IconButton from "@material-ui/core/IconButton"
-import Typography from "@material-ui/core/Typography"
+import {
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Collapse,
+  Avatar,
+  IconButton,
+  Typography
+} from "@material-ui/core"
+import {
+  Favorite as FavoriteIcon,
+  Share as ShareIcon,
+  Place as PlaceIcon,
+  ExpandMore as ExpandMoreIcon,
+  MoreVert as MoreVertIcon
+} from "@material-ui/icons"
 import { red } from "@material-ui/core/colors"
-import FavoriteIcon from "@material-ui/icons/Favorite"
-import ShareIcon from "@material-ui/icons/Share"
-import PlaceIcon from "@material-ui/icons/Place"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
 
 import RatingStars from "../../components/RatingStars"
+import PhotoGallery from "./PhotoGallery"
+import { Store } from "../../Store"
 // import { Link } from "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function RestaurantCard({ r }) {
   const classes = useStyles()
+  const { state, dispatch } = useContext(Store)
   const [expanded, setExpanded] = React.useState(false)
 
   function handleExpandClick() {
@@ -60,10 +67,29 @@ export default function RestaurantCard({ r }) {
     // ))
   }
 
+  const toggleFavoriteClick = restaurant => {
+    const restaurantInFavorites = state.favorites.includes(restaurant)
+    let dispatchObject = {
+      type: "ADD_FAVORITE",
+      payload: restaurant
+    }
+    if (restaurantInFavorites) {
+      const favoritesWithoutRestaurant = state.favorites.filter(
+        fav => fav.R.res_id !== restaurant.R.res_id
+      )
+      dispatchObject = {
+        type: "REMOVE_FAVORITE",
+        payload: favoritesWithoutRestaurant
+      }
+    }
+    return dispatch(dispatchObject)
+  }
+
   // debugger
+  const restaurant = r.restaurant
   return (
     <Card className={classes.card}>
-      {console.log("CARD", r.restaurant)}
+      {/* {console.log("CARD", restaurant)} */}
       <CardHeader
         avatar={
           <Avatar
@@ -71,7 +97,7 @@ export default function RestaurantCard({ r }) {
             className={classes.avatar}
             style={{ backgroundColor: "#235451" }}
           >
-            {r.restaurant.name[0]}
+            {restaurant.name[0]}
           </Avatar>
         }
         action={
@@ -79,22 +105,26 @@ export default function RestaurantCard({ r }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={r.restaurant.name}
-        subheader="sub heading"
+        title={restaurant.name}
+        subheader={restaurant.establishment[0]}
       />
       <CardMedia
         className={classes.media}
-        image={r.restaurant.featured_image}
-        title="Paella dish"
+        image={restaurant.featured_image}
+        title="featured image"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {r.restaurant.location.address}
+          {restaurant.location.address}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <FavoriteIcon
+            value={restaurant.id}
+            onClick={() => toggleFavoriteClick(restaurant)}
+            color='red'
+          />
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
@@ -103,7 +133,7 @@ export default function RestaurantCard({ r }) {
         <IconButton
           aria-label="place"
           target="_blank"
-          href={`https://www.google.com/maps/search/?api=1&query=${r.restaurant.location.address}`}
+          href={`https://www.google.com/maps/search/?api=1&query=${restaurant.location.address}`}
         >
           <PlaceIcon />
         </IconButton>
@@ -122,14 +152,18 @@ export default function RestaurantCard({ r }) {
         <CardContent>
           <Typography paragraph>Opening Times:</Typography>
           <ShowTimes />
-          <RatingStars value={r.restaurant.user_rating.aggregate_rating} />
+          <RatingStars
+            value={restaurant.user_rating.aggregate_rating}
+            votes={restaurant.user_rating.votes}
+          />
           <Typography paragraph>
-            {r.restaurant.menu_url}
-            add shit here
+            {/* {restaurant.menu_url} */}
+            Average cost for two: {restaurant.average_cost_for_two}
           </Typography>
           <Typography paragraph></Typography>
           and here
           <Typography>here too</Typography>
+          {restaurant.photos && <PhotoGallery photos={restaurant.photos} />}
         </CardContent>
       </Collapse>
     </Card>

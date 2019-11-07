@@ -21,9 +21,9 @@ import {
 } from "@material-ui/icons"
 import { red } from "@material-ui/core/colors"
 
-import { Store } from "../../Store"
-
 import RatingStars from "../../components/RatingStars"
+import PhotoGallery from "./PhotoGallery"
+import { Store } from "../../Store"
 // import { Link } from "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
@@ -67,39 +67,29 @@ export default function RestaurantCard({ r }) {
     // ))
   }
 
-  const handleClickFav = async restaurant => {
-    console.log(restaurant)
-    // debugger
-    // const data = await fetch(`http://localhost:7000/api/v1/restaurants`, {
-    const data = await fetch(
-      // `http://localhost:7000/api/v1/users/${state.user.id}`,
-      `http://localhost:7000/api/v1/users/1`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          user: {
-            // restaurants: restaurant.R.res_id
-            restaurants: {
-              favourited_restaurant: restaurant
-            }
-          }
-        })
+  const toggleFavoriteClick = restaurant => {
+    const restaurantInFavorites = state.favorites.includes(restaurant)
+    let dispatchObject = {
+      type: "ADD_FAVORITE",
+      payload: restaurant
+    }
+    if (restaurantInFavorites) {
+      const favoritesWithoutRestaurant = state.favorites.filter(
+        fav => fav.R.res_id !== restaurant.R.res_id
+      )
+      dispatchObject = {
+        type: "REMOVE_FAVORITE",
+        payload: favoritesWithoutRestaurant
       }
-    )
-    const resp = await data.json()
-    console.log(resp)
-    // dispatch({
-    //   type: 'ADD_FAVORITE',
-    //   payload: restaurant
-    // })
+    }
+    return dispatch(dispatchObject)
   }
+
+  const restaurant = r.restaurant || r
 
   return (
     <Card className={classes.card}>
-      {console.log("CARD", r.restaurant)}
+      {/* {console.log("CARD", restaurant)} */}
       <CardHeader
         avatar={
           <Avatar
@@ -107,7 +97,7 @@ export default function RestaurantCard({ r }) {
             className={classes.avatar}
             style={{ backgroundColor: "#235451" }}
           >
-            {r.restaurant.name[0]}
+            {restaurant.name[0]}
           </Avatar>
         }
         action={
@@ -115,22 +105,25 @@ export default function RestaurantCard({ r }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={r.restaurant.name}
-        subheader="sub heading"
+        title={restaurant.name}
+        subheader={restaurant.establishment[0]}
       />
       <CardMedia
         className={classes.media}
-        image={r.restaurant.featured_image}
-        title="Paella dish"
+        image={restaurant.featured_image}
+        title="featured image"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {r.restaurant.location.address}
+          {restaurant.location.address}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon onClick={() => handleClickFav(r.restaurant)} />
+        <IconButton aria-label="add to favorites" onClick={() => toggleFavoriteClick(restaurant)}>
+          <FavoriteIcon
+            value={restaurant.id}
+            // color='red'
+          />
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
@@ -139,7 +132,7 @@ export default function RestaurantCard({ r }) {
         <IconButton
           aria-label="place"
           target="_blank"
-          href={`https://www.google.com/maps/search/?api=1&query=${r.restaurant.location.address}`}
+          href={`https://www.google.com/maps/search/?api=1&query=${restaurant.location.address}`}
         >
           <PlaceIcon />
         </IconButton>
@@ -158,14 +151,18 @@ export default function RestaurantCard({ r }) {
         <CardContent>
           <Typography paragraph>Opening Times:</Typography>
           <ShowTimes />
-          <RatingStars value={r.restaurant.user_rating.aggregate_rating} />
+          <RatingStars
+            value={restaurant.user_rating.aggregate_rating}
+            votes={restaurant.user_rating.votes}
+          />
           <Typography paragraph>
-            {r.restaurant.menu_url}
-            add shit here
+            {/* {restaurant.menu_url} */}
+            Average cost for two: {restaurant.average_cost_for_two}
           </Typography>
           <Typography paragraph></Typography>
           and here
           <Typography>here too</Typography>
+          {restaurant.photos && <PhotoGallery photos={restaurant.photos} />}
         </CardContent>
       </Collapse>
     </Card>

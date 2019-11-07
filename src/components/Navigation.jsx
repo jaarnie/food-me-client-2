@@ -14,7 +14,7 @@ import MoreIcon from "@material-ui/icons/MoreVert"
 import { Store } from "../Store.js"
 import { Link } from "react-router-dom"
 
-import GetUserLocation from "./GetUserLocation"
+import SearchUserLocation from "./SearchUserLocation"
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -138,7 +138,6 @@ export default function Navigation() {
         </IconButton>
 
         {userSignInOrProfile()}
-
       </MenuItem>
     </Menu>
   )
@@ -147,7 +146,8 @@ export default function Navigation() {
     <div className={classes.grow}>
       <AppBar className={classes.main} position="static">
         <Toolbar>
-          <GetUserLocation />
+          <SearchUserLocation />
+
           <Typography className={classes.userName} variant="h6" noWrap>
             <Link to="/">Food Me</Link>
           </Typography>

@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function RatingStars({ value, title }) {
+export default function RatingStars({ value, title, votes }) {
   const classes = useStyles()
 
   return (
@@ -28,6 +28,7 @@ export default function RatingStars({ value, title }) {
           readOnly
           precision={0.1}
         />
+        <Typography>Votes: {votes} </Typography>
       </Box>
     </div>
   )

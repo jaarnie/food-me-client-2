@@ -13,15 +13,16 @@ import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import { Link } from "react-router-dom"
 import { useSnackbar } from "notistack"
+import Axios from "axios"
 
+import { serverRoot, serverHeaders } from "../../config/apiConfig"
 import { Store } from "../../Store.js"
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" to="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" to="https://github.com/jaarnie/">
+        github |
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -57,8 +58,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn({ history }) {
   const { dispatch } = React.useContext(Store)
-  const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
+  const classes = useStyles()
+
+  const axios = Axios.create({
+    baseURL: serverRoot,
+    headers: serverHeaders
+  })
+
   const [values, setValues] = useState({
     email: "",
     password: ""
@@ -71,29 +78,24 @@ export default function SignIn({ history }) {
 
   const handleClick = async event => {
     event.preventDefault()
-    const data = await fetch("http://localhost:7000/api/v1/login", {
-      method: "POST",
-      // credentials: 'include',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+    try {
+      const response = await axios.post("/login", {
         email: values.email,
         password: values.password
       })
-    })
-    const response = await data.json()
-    console.log(response)
-    if (!response.error) {
-      dispatch({
-        type: "SET_USER",
-        payload: response
-      })
-      enqueueSnackbar(`Welcome, ${response.first_name}`, {
-        variant: "success"
-      })
-      history.push("/")
-    } else {
+      if (response.status === 200) {
+        console.log("yes")
+        dispatch({
+          type: "SET_USER",
+          payload: response.data
+        })
+        enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
+          variant: "success"
+        })
+        history.push("/")
+      }
+    } catch (err) {
+      console.log(err)
       enqueueSnackbar("Error", {
         variant: "error"
       })

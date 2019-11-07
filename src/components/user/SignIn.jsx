@@ -58,15 +58,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn({ history }) {
   const { dispatch } = React.useContext(Store)
-
+  const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
 
   const axios = Axios.create({
     baseURL: serverRoot,
     headers: serverHeaders
   })
-
-  const { enqueueSnackbar } = useSnackbar()
 
   const [values, setValues] = useState({
     email: "",

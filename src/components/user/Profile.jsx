@@ -2,7 +2,8 @@ import React, { useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { Paper, Grid, Typography } from "@material-ui/core"
 
-import { Store } from '../../Store'
+import FavoritesList from '../../containers/FavoritesList'
+import { Store } from "../../Store"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,9 +25,10 @@ export default function FullWidthGrid() {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-          <Typography variant="h3">
-  {state.user && state.user.first_name }
-</Typography></Paper>
+            <Typography variant="h3">
+              {state.user && state.user.first_name}
+            </Typography>
+          </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>xs=12 sm=6</Paper>
@@ -49,6 +51,7 @@ export default function FullWidthGrid() {
           <Paper className={classes.paper}>xs=6 sm=3</Paper>
         </Grid>
       </Grid>
+      <FavoritesList />
     </div>
   )
 }

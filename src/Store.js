@@ -17,7 +17,6 @@ const initialState = {
   searchValue: "",
   userGeoLocation: null,
   userLocation: null,
-  searchedLocation: null,
   title: "hello"
 }
 
@@ -43,9 +42,6 @@ function reducer(state, action) {
 
     case "SET_LOCATION":
       return { ...state, userLocation: action.payload }
-
-    case "SEARCHED_LOCATION":
-      return { ...state, searchedLocation: action.payload }
 
     case "SET_TITLE":
       return { ...state, title: action.payload }

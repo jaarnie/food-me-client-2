@@ -14,8 +14,6 @@ import MoreIcon from "@material-ui/icons/MoreVert"
 import { Store } from "../Store.js"
 import { Link } from "react-router-dom"
 
-import GetUserLocation from "./GetUserLocation"
-
 const useStyles = makeStyles(theme => ({
   main: {
     backgroundColor: "#235451",
@@ -146,7 +144,6 @@ export default function Navigation() {
     <div className={classes.grow}>
       <AppBar className={classes.main} position="static">
         <Toolbar>
-          <GetUserLocation />
           <Typography className={classes.userName} variant="h6" noWrap>
             <Link to="/">Food Me</Link>
           </Typography>

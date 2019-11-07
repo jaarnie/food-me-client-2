@@ -7,16 +7,17 @@ import IconButton from "@material-ui/core/IconButton"
 import SearchIcon from "@material-ui/icons/Search"
 import NearMeIcon from "@material-ui/icons/NearMe"
 import Axios from "axios"
+import { useSnackbar } from "notistack"
 
 import { Store } from "../Store"
 import { searchRoot, headersRoot } from "../config/apiConfig"
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: "2px 4px",
+    margin: "6px 18px",
     display: "flex",
     alignItems: "center",
-    width: 400
+		width: 400,
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -32,10 +33,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function SearchUserLocation() {
-  const classes = useStyles()
-
+	const classes = useStyles()
+  const { enqueueSnackbar } = useSnackbar()
   const { state, dispatch } = useContext(Store)
-
   const [localState, setLocalState] = useState({
     locationSearchTerm: ""
   })
@@ -52,18 +52,32 @@ export default function SearchUserLocation() {
   }
 
   const handleFetchClick = async event => {
-    event.preventDefault()
-    console.log(event.target)
-    const response = await axios.get(
-      `locations?query=${localState.locationSearchTerm}`
-    )
-    const lat = response.data.location_suggestions[0].latitude
-    const lon = response.data.location_suggestions[0].longitude
-    findLocationData(lat, lon)
+		event.preventDefault()
+		enqueueSnackbar("thinking...", {
+			variant: "info"
+		})
+		try {
+			const response = await axios.get(
+				`locations?query=${localState.locationSearchTerm}`
+			)
+			if (response.status === 200) {
+				const lat = response.data.location_suggestions[0].latitude
+				const lon = response.data.location_suggestions[0].longitude
+				findLocationData(lat, lon)
+			}
+		}
+		catch(err) {
+			enqueueSnackbar("Error", {
+        variant: "error"
+      })
+		}
   }
 
   const getGeoLocation = () => {
-    window.navigator.geolocation.getCurrentPosition(position => { // try catch
+    window.navigator.geolocation.getCurrentPosition(position => {
+			enqueueSnackbar("thinking...", {
+				variant: "info"
+			}) // try catch
       console.log(position)
       dispatch({
         type: "GET_GEOLOCATION",
@@ -129,7 +143,6 @@ export default function SearchUserLocation() {
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      {/* <GetUserLocation /> */}
       <IconButton className={classes.iconButton} aria-label="search" onClick={getGeoLocation} >
         <NearMeIcon />
       </IconButton>

@@ -85,8 +85,8 @@ export default function RestaurantCard({ r }) {
     return dispatch(dispatchObject)
   }
 
-  // debugger
-  const restaurant = r.restaurant
+  const restaurant = r.restaurant || r
+
   return (
     <Card className={classes.card}>
       {/* {console.log("CARD", restaurant)} */}
@@ -119,11 +119,10 @@ export default function RestaurantCard({ r }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={() => toggleFavoriteClick(restaurant)}>
           <FavoriteIcon
             value={restaurant.id}
-            onClick={() => toggleFavoriteClick(restaurant)}
-            color='red'
+            // color='red'
           />
         </IconButton>
         <IconButton aria-label="share">

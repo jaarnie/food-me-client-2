@@ -119,7 +119,7 @@ export default function SignUp({ history }) {
 
   const handleCheckbox = event => {
     setValues({ ...values, marketingCheckbox: event })
-    console.log(values)
+    // console.log(values)
   }
 
   useEffect(() => {

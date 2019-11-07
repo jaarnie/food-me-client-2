@@ -1,13 +1,11 @@
-import React, {useContext } from "react"
+import React, { useContext } from "react"
 import { Store } from "../../Store"
 import { makeStyles } from "@material-ui/core/styles"
 import { TextField, Button } from "@material-ui/core"
 import { useSnackbar } from "notistack"
-import Axios from "axios";
+import Axios from "axios"
 
-import { searchRoot, headersRoot } from '../../config/apiConfig.js'
-// import { Loading } from "../Loading"
-// import SearchTest from './SearchTest'
+import { searchRoot, headersRoot } from "../../config/apiConfig.js"
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -35,8 +33,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-
-
 export default function OutlinedTextFields() {
   const { state, dispatch } = useContext(Store)
   const classes = useStyles()
@@ -55,7 +51,8 @@ export default function OutlinedTextFields() {
     dispatch(value)
   }
 
-  function clearData(event) { // clear search bar
+  function clearData(event) {
+    // clear search bar
     event.preventDefault()
     return dispatch({
       type: "SET_RESTARUANTS",
@@ -63,52 +60,30 @@ export default function OutlinedTextFields() {
     })
   }
 
-  const fetchData = async (event) => {
+  const fetchData = async event => {
     event.preventDefault()
+    enqueueSnackbar("thinking...", {
+      variant: "info"
+    })
     let searchValue = ""
     const value = state.searchValue
     if (value) {
-      searchValue = `/search?entity_id=${
-        state.userLocation && state.userLocation.location.entity_id
-      }&entity_type=subzone&q=${value}&count=50&radius=1000`
+      searchValue = `/search?entity_id=${state.userLocation &&
+        state.userLocation.location
+          .entity_id}&entity_type=subzone&q=${value}&count=50&radius=1000`
     } else {
       searchValue =
-      "https://developers.zomato.com/api/v2.1/search?entity_id=61&entity_type=city"
+        "https://developers.zomato.com/api/v2.1/search?entity_id=61&entity_type=city"
     }
 
     const response = await axios.get(searchValue)
     handleError(response.data)
-    console.log('RESPONSE>', response)
+    console.log("RESPONSE>", response)
     return dispatch({
       type: "SET_RESTARUANTS",
       payload: response.data.restaurants
     })
   }
-
-  // const fetchData = (e) => {
-  //   e.preventDefault()
-  //   return <SearchTest />
-  // }
-
-
-
-  //   const value = state.searchValue
-  //   const [{ data, loading, error }, fetchData] = useAxios(
-  //     `/search?entity_id=${
-  //       state.userLocation ? state.userLocation.location.entity_id : null
-  //     }&entity_type=subzone&q=${value}&count=50&radius=1000`,
-  //     )
-  //     console.log(fetchData)
-
-  // if (loading) {
-  //   return (
-  //     <div className={classes.centeredContent}>
-  //       <Loading />
-  //     </div>
-  //   )
-  // }
-
-  // debugger
 
   function handleError(response) {
     if (response.results_found === 0) {
@@ -143,7 +118,6 @@ export default function OutlinedTextFields() {
           className={classes.button}
           type="submit"
           onClick={e => fetchData(e)}
-          // onClick={fetchData}
         >
           Search
         </Button>
@@ -159,7 +133,6 @@ export default function OutlinedTextFields() {
             Clear
           </Button>
         )}
-        {/* <Loading /> */}
       </form>
     </div>
   )

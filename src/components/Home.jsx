@@ -5,7 +5,6 @@ import { Store } from "../Store"
 
 import Search from "./search/Search"
 import ListContainer from "../containers/ListContainer"
-import SearchUserLocation from "./SearchUserLocation"
 // import { Loading } from "./Loading"
 
 // const ListContainer = React.lazy(() => import('../containers/ListContainer'))
@@ -45,7 +44,6 @@ export default function Home() {
 
   return (
     <>
-      <SearchUserLocation />
       <Typography className={classes.title} variant="h3">
         {/* {getTitle()} */}
         {/* {state.userLocation

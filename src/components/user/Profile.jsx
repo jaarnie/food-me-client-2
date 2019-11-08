@@ -2,7 +2,8 @@ import React, { useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { Paper, Grid, Typography } from "@material-ui/core"
 
-import FavoritesList from '../../containers/FavoritesList'
+import FavoritesList from "../../containers/FavoritesList"
+import SignIn from "./SignIn"
 import { Store } from "../../Store"
 
 const useStyles = makeStyles(theme => ({
@@ -16,42 +17,36 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function FullWidthGrid() {
+export default function Profile() {
   const { state } = useContext(Store)
   const classes = useStyles()
 
-  return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Typography variant="h3">
-              {state.user && state.user.first_name}
-            </Typography>
-          </Paper>
+  const ProfilePage = () => {
+    return state.user ? (
+      <div className={classes.root}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <Typography variant="h3">
+                {state.user && state.user.first_name}
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Paper className={classes.paper}>xs=12 sm=6</Paper>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Paper className={classes.paper}>
+              <Typography></Typography>
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>xs=12 sm=6</Paper>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>
-            <Typography></Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-      </Grid>
-      <FavoritesList />
-    </div>
-  )
+        <FavoritesList />
+      </div>
+    ) : (
+      <SignIn />
+    )
+  }
+
+  return <ProfilePage />
 }

@@ -54,17 +54,15 @@ export default function RestaurantCard({ r }) {
   const { state, dispatch } = useContext(Store)
   const [expanded, setExpanded] = React.useState(false)
 
+  const restaurant = r.restaurant || r
+
+
   function handleExpandClick() {
     setExpanded(!expanded)
   }
 
   const ShowTimes = () => {
-    // debugger
-    return r.restaurant.timings
-    // let times = r.restaurant.timings.split(', ')
-    // times.map((time, key) => (
-    //   <span key={key}>{time}</span>
-    // ))
+    return restaurant.timings
   }
 
   const toggleFavoriteClick = restaurant => {
@@ -85,7 +83,6 @@ export default function RestaurantCard({ r }) {
     return dispatch(dispatchObject)
   }
 
-  const restaurant = r.restaurant || r
 
   return (
     <Card className={classes.card}>

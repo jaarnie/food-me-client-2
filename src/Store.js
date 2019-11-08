@@ -3,15 +3,15 @@ import React from "react"
 export const Store = React.createContext()
 
 const initialState = {
-  user: {
-    email: "2@2",
-    first_name: "Adam",
-    id: 1,
-    last_name: "Arnold",
-    restaurants: null,
-    user_favourites: null
-  },
-  // user: null,
+  // user: {
+  //   email: "2@2",
+  //   first_name: "Adam",
+  //   id: 1,
+  //   last_name: "Arnold",
+  //   restaurants: null,
+  //   user_favourites: null
+  // },
+  user: null,
   restaurants: null,
   favorites: [],
   searchValue: "",

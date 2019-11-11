@@ -14,6 +14,7 @@ import SignIn from "./components/user/SignIn.jsx"
 import SignUp from "./components/user/SignUp.jsx"
 import Profile from "./components/user/Profile.jsx"
 import NotFound from "./components/NotFound"
+import RestaurantProfile from "./components/RestaurantProfile"
 
 const axios = Axios.create({
   baseURL: searchRoot,
@@ -44,6 +45,8 @@ function App() {
               <Route path="/sign-in" component={SignIn} />
               <Route path="/sign-up" component={SignUp} />
               <Route path="/profile" component={Profile} />
+              {/* <Route path="/restaurant/:id" render={(props) => <RestaurantProfile {...props}/>}/> */}
+              <Route path="/restaurant/:id" component={RestaurantProfile}/>
               <Route component={NotFound} />
             </Switch>
           </Container>

@@ -15,6 +15,7 @@ import { Store } from "../Store.js"
 import { Link } from "react-router-dom"
 
 import SearchUserLocation from "./SearchUserLocation"
+import NavigationPopover from "./NavigationPopover"
 
 const useStyles = makeStyles(theme => ({
   main: {
@@ -86,18 +87,20 @@ export default function Navigation() {
 
   const menuId = "primary-search-account-menu"
   const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>{userSignInOrProfile()}</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
+    <>
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        id={menuId}
+        keepMounted
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        open={isMenuOpen}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={handleMenuClose}>{userSignInOrProfile()}</MenuItem>
+        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      </Menu>
+    </>
   )
 
   const mobileMenuId = "primary-search-account-menu-mobile"
@@ -153,6 +156,8 @@ export default function Navigation() {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <NavigationPopover />
+
             {/* <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />

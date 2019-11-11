@@ -10,7 +10,8 @@ import {
   Collapse,
   Avatar,
   IconButton,
-  Typography
+  Typography,
+  Button
 } from "@material-ui/core"
 import {
   Favorite as FavoriteIcon,
@@ -20,11 +21,11 @@ import {
   MoreVert as MoreVertIcon
 } from "@material-ui/icons"
 import { red } from "@material-ui/core/colors"
+import { Link } from "react-router-dom"
 
 import RatingStars from "../../components/RatingStars"
 import PhotoGallery from "./PhotoGallery"
 import { Store } from "../../Store"
-// import { Link } from "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -46,6 +47,9 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     backgroundColor: red[500]
+  },
+  button: {
+    backgroundColor: "#235451"
   }
 }))
 
@@ -55,7 +59,6 @@ export default function RestaurantCard({ r }) {
   const [expanded, setExpanded] = React.useState(false)
 
   const restaurant = r.restaurant || r
-
 
   function handleExpandClick() {
     setExpanded(!expanded)
@@ -83,10 +86,9 @@ export default function RestaurantCard({ r }) {
     return dispatch(dispatchObject)
   }
 
-
   return (
     <Card className={classes.card}>
-      {/* {console.log("CARD", restaurant)} */}
+      {console.log("CARD", restaurant)}
       <CardHeader
         avatar={
           <Avatar
@@ -116,7 +118,10 @@ export default function RestaurantCard({ r }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={() => toggleFavoriteClick(restaurant)}>
+        <IconButton
+          aria-label="add to favorites"
+          onClick={() => toggleFavoriteClick(restaurant)}
+        >
           <FavoriteIcon
             value={restaurant.id}
             // color='red'
@@ -156,9 +161,21 @@ export default function RestaurantCard({ r }) {
             {/* {restaurant.menu_url} */}
             Average cost for two: {restaurant.average_cost_for_two}
           </Typography>
-          <Typography paragraph></Typography>
-          and here
-          <Typography>here too</Typography>
+          <Link
+            to={{
+              pathname: `/restaurant/${restaurant.id}`,
+              state: { restaurant }
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              more info
+            </Button>
+          </Link>
+
           {restaurant.photos && <PhotoGallery photos={restaurant.photos} />}
         </CardContent>
       </Collapse>

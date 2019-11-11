@@ -23,10 +23,10 @@ export default function Home() {
     console.log("Home", state)
   }, [state])
 
-  // const getTitle = () =>
-  //   state.userLocation
-  //     ? state.userLocation.location.title.split(", ")[0]
-  //     : state.title
+  const getTitle = () =>
+    state.userLocation
+      ? state.userLocation.location.title.split(", ")[0]
+      : state.title
 
   // const getTitle = () => {
   //   const userLocation = state.userLocation
@@ -45,7 +45,7 @@ export default function Home() {
   return (
     <>
       <Typography className={classes.title} variant="h3">
-        {/* {getTitle()} */}
+        {getTitle()}
         {/* {state.userLocation
           ? state.userLocation.location.title.split(", ")[0]
           : state.title} */}

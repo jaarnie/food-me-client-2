@@ -28,7 +28,7 @@ export default function RatingStars({ value, title, votes }) {
           readOnly
           precision={0.1}
         />
-        <Typography>Votes: {votes} </Typography>
+        {votes && <Typography>Votes: {votes} </Typography>}
       </Box>
     </div>
   )

@@ -72,27 +72,30 @@ export default function OutlinedTextFields() {
         state.userLocation.location
           .entity_id}&entity_type=subzone&q=${value}&count=50&radius=1000`
     } else {
-      searchValue =
-        "https://developers.zomato.com/api/v2.1/search?entity_id=61&entity_type=city"
+      searchValue = "search?entity_id=61&entity_type=city"
     }
 
-    const response = await axios.get(searchValue)
-    handleError(response.data)
-    console.log("RESPONSE>", response)
-    return dispatch({
-      type: "SET_RESTARUANTS",
-      payload: response.data.restaurants
-    })
-  }
-
-  function handleError(response) {
-    if (response.results_found === 0) {
-      enqueueSnackbar("No results found", {
-        variant: "warning"
-      })
-      dispatch({
-        type: "SET_TITLE",
-        payload: "no results found :("
+    try {
+      const response = await axios.get(searchValue)
+      if (response.data.results_found !== 0 && response.status === 200) {
+        console.log("RESPONSE>", response)
+        dispatch({
+          type: "SET_RESTARUANTS",
+          payload: response.data.restaurants
+        })
+      } else if (response.data.results_found === 0) {
+        enqueueSnackbar("No results found", {
+          variant: "warning"
+        })
+        dispatch({
+          type: "SET_TITLE",
+          payload: "no results found :("
+        })
+      }
+    } catch (err) {
+      console.log("SEARCH ERROR >", err)
+      enqueueSnackbar(err, {
+        variant: "error"
       })
     }
   }

@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 export default function RestaurantReviews({ reviews }) {
   const classes = useStyles()
 
-  console.log(reviews)
+  // console.log(reviews)
   return (
     <List className={classes.root}>
       <ListItem alignItems="flex-start">

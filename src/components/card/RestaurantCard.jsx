@@ -22,10 +22,11 @@ import {
 } from "@material-ui/icons"
 import { red } from "@material-ui/core/colors"
 import { Link } from "react-router-dom"
-
 import RatingStars from "../../components/RatingStars"
 import PhotoGallery from "./PhotoGallery"
 import { Store } from "../../Store"
+import { toggleFavoriteClick } from '../constants/onClicks'
+import { googleMapDeeplink } from "../constants/index"
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -68,24 +69,6 @@ export default function RestaurantCard({ r }) {
     return restaurant.timings
   }
 
-  const toggleFavoriteClick = restaurant => {
-    const restaurantInFavorites = state.favorites.includes(restaurant)
-    let dispatchObject = {
-      type: "ADD_FAVORITE",
-      payload: restaurant
-    }
-    if (restaurantInFavorites) {
-      const favoritesWithoutRestaurant = state.favorites.filter(
-        fav => fav.R.res_id !== restaurant.R.res_id
-      )
-      dispatchObject = {
-        type: "REMOVE_FAVORITE",
-        payload: favoritesWithoutRestaurant
-      }
-    }
-    return dispatch(dispatchObject)
-  }
-
   return (
     <Card className={classes.card}>
       {console.log("CARD", restaurant)}
@@ -120,7 +103,7 @@ export default function RestaurantCard({ r }) {
       <CardActions disableSpacing>
         <IconButton
           aria-label="add to favorites"
-          onClick={() => toggleFavoriteClick(restaurant)}
+          onClick={() => toggleFavoriteClick(restaurant, state, dispatch)}
         >
           <FavoriteIcon
             value={restaurant.id}
@@ -134,7 +117,7 @@ export default function RestaurantCard({ r }) {
         <IconButton
           aria-label="place"
           target="_blank"
-          href={`https://www.google.com/maps/search/?api=1&query=${restaurant.location.address}`}
+          href={googleMapDeeplink(restaurant)}
         >
           <PlaceIcon />
         </IconButton>

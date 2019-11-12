@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { Paper, Typography, Grid, IconButton } from "@material-ui/core"
-import { Place as PlaceIcon } from "@material-ui/icons"
+import { Place as PlaceIcon, Favorite as FavoriteIcon, } from "@material-ui/icons"
 
+import { Store } from "../Store"
+import { toggleFavoriteClick } from "./constants/onClicks"
+import { googleMapDeeplink } from "./constants/index"
 import RestaurantReview from "./RestaurantReviews"
 
 const useStyles = makeStyles(theme => ({
@@ -17,9 +20,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function RestaurantProfile(props) {
+  const { state, dispatch } = useContext(Store)
   const classes = useStyles()
   const restaurant = props.location.state.restaurant
-  console.log("PROFILE >", restaurant)
+  // console.log("PROFILE >", restaurant)
+  // console.log("PROFILE >", state.favorties.includes(props.location.state.restaurant))
 
   const getReviews = () => {
     return restaurant.all_reviews.reviews.map(r => (
@@ -27,6 +32,11 @@ export default function RestaurantProfile(props) {
     ))
   }
 
+  const toggleLikeColor = () => state.favorites.includes(restaurant) ? `{color: 'red'}` : null
+
+  console.log(toggleLikeColor())
+
+  // debugger
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -35,9 +45,21 @@ export default function RestaurantProfile(props) {
             <Typography variant="h3">{restaurant.name}</Typography>
             <Typography variant="h6">{restaurant.location.address}</Typography>
             <IconButton
+              aria-label="add to favorites"
+              onClick={() => toggleFavoriteClick(restaurant, state, dispatch)}
+            >
+              <FavoriteIcon
+                value={restaurant.id}
+                // color="red"
+                // onClick={console.log('clicked')}
+                // style={{color: 'red'}}
+                style={toggleLikeColor()}
+              />
+            </IconButton>
+            <IconButton
               aria-label="place"
               target="_blank"
-              href={`https://www.google.com/maps/search/?api=1&query=${restaurant.location.address}`}
+              href={googleMapDeeplink(restaurant)}
             >
               <PlaceIcon />
             </IconButton>

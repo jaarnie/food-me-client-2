@@ -23,7 +23,7 @@ import {
 import { red } from "@material-ui/core/colors"
 import { Link } from "react-router-dom"
 import RatingStars from "../../components/RatingStars"
-import PhotoGallery from "./PhotoGallery"
+import PhotoGallery from "../PhotoGallery"
 import { Store } from "../../Store"
 import { toggleFavoriteClick } from '../constants/onClicks'
 import { googleMapDeeplink } from "../constants/index"

@@ -24,31 +24,36 @@ const useStyles = makeStyles(theme => ({
 export default function RestaurantReviews({ reviews }) {
   const classes = useStyles()
 
-  // console.log(reviews)
   return (
     <List className={classes.root}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
           <Avatar alt="avatar" src={reviews.user.profile_image} />
         </ListItemAvatar>
+
         <ListItemText
-          primary={<RatingStars value={reviews.rating} />}
+          primary={
+            <>
+              <Typography variant="subtitle1">{reviews.user.name}</Typography>
+              <Typography variant="subtitle2">
+                {reviews.review_time_friendly}
+              </Typography>
+              <RatingStars value={reviews.rating} />
+            </>
+          }
           secondary={
-            <React.Fragment>
-					<Typography variant="subtitle2">{reviews.user.name}</Typography>
-					<Typography variant="subtitle2">{reviews.review_time_friendly}</Typography>
-
-
+            <>
               <Typography
                 component="span"
-                variant="body"
+                variant="body1"
                 className={classes.inline}
                 color="textPrimary"
               >
                 {reviews.review_text}
               </Typography>
-            </React.Fragment>
+            </>
           }
+          
         />
       </ListItem>
       <Divider variant="inset" component="li" />

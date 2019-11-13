@@ -8,6 +8,7 @@ import { toggleFavoriteClick } from "./constants/onClicks"
 import { googleMapDeeplink } from "./constants/index"
 import { toggleLikeColor } from './constants/onClicks'
 import RestaurantReview from "./RestaurantReviews"
+import PhotoGallery from './PhotoGallery'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,13 +17,15 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    // list: {
+    //   marginbottom: '200px'
+    // }
   }
 }))
 
 export default function RestaurantProfile(props) {
   const { state, dispatch } = useContext(Store)
-  // const [ ]
   const classes = useStyles()
   const restaurant = props.location.state.restaurant
   // console.log("PROFILE >", restaurant)
@@ -36,8 +39,9 @@ export default function RestaurantProfile(props) {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      <Grid container spacing={3} >
+        <Grid item xs={12} >
+          <Paper className={classes.paper} style={{backgroundImage: `url(${restaurant.featured_image})`}} >
           <Paper className={classes.paper}>
             <Typography variant="h3">{restaurant.name}</Typography>
             <Typography variant="h6">{restaurant.location.address}</Typography>
@@ -47,9 +51,6 @@ export default function RestaurantProfile(props) {
             >
               <FavoriteIcon
                 value={restaurant.id}
-                // color="red"
-                // onClick={console.log('clicked')}
-                // style={{color: 'red'}}
                 style={{color: toggleLikeColor(state,restaurant)}}
               />
             </IconButton>
@@ -60,6 +61,7 @@ export default function RestaurantProfile(props) {
             >
               <PlaceIcon />
             </IconButton>
+            </Paper>
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -74,6 +76,9 @@ export default function RestaurantProfile(props) {
             >
               {restaurant.user_rating.aggregate_rating}
             </Typography>
+          </Paper>
+          <Paper className={classes.paper}>
+            <PhotoGallery photos={restaurant.photos} />
           </Paper>
         </Grid>
         <Grid item xs={6} sm={3}>

@@ -16,3 +16,4 @@ export const toggleFavoriteClick = (restaurant, state, dispatch) => {
   return dispatch(dispatchObject)
 }
 
+export const toggleLikeColor = (state, restaurant) => state.favorites.includes(restaurant) ? 'red' : null

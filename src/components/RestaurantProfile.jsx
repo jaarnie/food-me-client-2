@@ -6,6 +6,7 @@ import { Place as PlaceIcon, Favorite as FavoriteIcon, } from "@material-ui/icon
 import { Store } from "../Store"
 import { toggleFavoriteClick } from "./constants/onClicks"
 import { googleMapDeeplink } from "./constants/index"
+import { toggleLikeColor } from './constants/onClicks'
 import RestaurantReview from "./RestaurantReviews"
 
 const useStyles = makeStyles(theme => ({
@@ -21,6 +22,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function RestaurantProfile(props) {
   const { state, dispatch } = useContext(Store)
+  // const [ ]
   const classes = useStyles()
   const restaurant = props.location.state.restaurant
   // console.log("PROFILE >", restaurant)
@@ -32,11 +34,6 @@ export default function RestaurantProfile(props) {
     ))
   }
 
-  const toggleLikeColor = () => state.favorites.includes(restaurant) ? `{color: 'red'}` : null
-
-  console.log(toggleLikeColor())
-
-  // debugger
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -53,7 +50,7 @@ export default function RestaurantProfile(props) {
                 // color="red"
                 // onClick={console.log('clicked')}
                 // style={{color: 'red'}}
-                style={toggleLikeColor()}
+                style={{color: toggleLikeColor(state,restaurant)}}
               />
             </IconButton>
             <IconButton

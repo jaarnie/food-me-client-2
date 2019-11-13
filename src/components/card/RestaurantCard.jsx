@@ -27,6 +27,7 @@ import PhotoGallery from "./PhotoGallery"
 import { Store } from "../../Store"
 import { toggleFavoriteClick } from '../constants/onClicks'
 import { googleMapDeeplink } from "../constants/index"
+import { toggleLikeColor } from '../constants/onClicks'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -107,7 +108,7 @@ export default function RestaurantCard({ r }) {
         >
           <FavoriteIcon
             value={restaurant.id}
-            // color='red'
+            style={{color: toggleLikeColor(state,restaurant)}}
           />
         </IconButton>
         <IconButton aria-label="share">

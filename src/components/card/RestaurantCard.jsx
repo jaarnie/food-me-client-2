@@ -22,12 +22,19 @@ import {
 } from "@material-ui/icons"
 import { red } from "@material-ui/core/colors"
 import { Link } from "react-router-dom"
+import Axios from "axios"
+import { useSnackbar } from "notistack"
+
+
+
 import RatingStars from "../../components/RatingStars"
 import PhotoGallery from "../PhotoGallery"
 import { Store } from "../../Store"
 import { toggleFavoriteClick } from '../constants/onClicks'
 import { googleMapDeeplink } from "../constants/index"
 import { toggleLikeColor } from '../constants/onClicks'
+import { serverRoot, serverHeaders } from '../../config/apiConfig'
+
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -59,8 +66,15 @@ export default function RestaurantCard({ r }) {
   const classes = useStyles()
   const { state, dispatch } = useContext(Store)
   const [expanded, setExpanded] = React.useState(false)
+  const { enqueueSnackbar } = useSnackbar()
+
 
   const restaurant = r.restaurant || r
+
+  const axios = Axios.create({
+    baseURL: serverRoot,
+    headers: serverHeaders
+  })
 
   function handleExpandClick() {
     setExpanded(!expanded)
@@ -68,6 +82,41 @@ export default function RestaurantCard({ r }) {
 
   const ShowTimes = () => {
     return restaurant.timings
+  }
+
+  // debugger
+
+  const handleLikeClick = async () => {
+    toggleFavoriteClick(restaurant, state, dispatch)
+    try {
+      // const response = await axios.put(`/users/${state.user.id}`, {
+      // const response = await axios.put("user_favourites", {
+        // user: {
+        //   restaurants: {
+        //     favourited_restaurant: 'restaurant'
+        //   }
+        // }
+      const response = await axios.post('/restaurants', {
+          // id: 10001,
+          // favourited_restaurant: restaurant,
+          // users: {
+          //   id: state.user.id
+          // }
+          restaurant: {
+
+            id: 1234
+          }
+      })
+
+      if (response.status === 200 || 204) {
+        enqueueSnackbar(`Saved`, {
+          variant: "success"
+        })
+      }
+    }
+    catch(err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -104,7 +153,7 @@ export default function RestaurantCard({ r }) {
       <CardActions disableSpacing>
         <IconButton
           aria-label="add to favorites"
-          onClick={() => toggleFavoriteClick(restaurant, state, dispatch)}
+          onClick={handleLikeClick}
         >
           <FavoriteIcon
             value={restaurant.id}

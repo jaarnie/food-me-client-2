@@ -14,8 +14,10 @@ import Container from "@material-ui/core/Container"
 import { Link } from "react-router-dom"
 import { useSnackbar } from "notistack"
 import Axios from "axios"
+import { Query } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import { serverRoot, serverHeaders } from "../../config/apiConfig"
+import { serverRoot, serverHeaders, apiRoot } from "../../config/apiConfig"
 import { Store } from "../../Store.js"
 
 function Copyright() {
@@ -56,6 +58,17 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+// const USER_QUERY = gql`
+//   query {
+//     query($id: String!) {
+//       user(id: $id) {
+//         email
+//         password
+//       }
+//     }
+//   }
+// `
+
 export default function SignIn({ history }) {
   const { dispatch } = React.useContext(Store)
   const { enqueueSnackbar } = useSnackbar()
@@ -75,6 +88,8 @@ export default function SignIn({ history }) {
     setValues({ ...values, [event.target.name]: event.target.value })
     console.log(values)
   }
+
+  // debugger
 
   const handleClick = async event => {
     event.preventDefault()

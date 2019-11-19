@@ -38,8 +38,6 @@ export default function PhotoGallery({ photos }) {
 		console.log(event.target.src)
 	}
 
-	// debugger
-
   return (
     <div className={classes.root}>
       <GridList cellHeight={200} spacing={1} className={classes.gridList} onClick={handleClick}>

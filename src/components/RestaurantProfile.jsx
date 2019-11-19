@@ -34,11 +34,15 @@ export default function RestaurantProfile(props) {
   const getReviews = () => {
     return restaurant.all_reviews.reviews.map(r => (
       <RestaurantReview key={r.review.id} reviews={r.review} />
-    ))
+      ))
+    // return restaurant.all_reviews.reviews[0].review !== [] ? restaurant.all_reviews.reviews.map(r => (
+    //   <RestaurantReview key={r.review.id} reviews={r.review} />
+    //   )) : 'nope'
   }
 
   return (
     <div className={classes.root}>
+    {console.log(restaurant)}
       <Grid container spacing={3} >
         <Grid item xs={12} >
           <Paper className={classes.paper} style={{backgroundImage: `url(${restaurant.featured_image})`}} >
@@ -76,6 +80,7 @@ export default function RestaurantProfile(props) {
             >
               {restaurant.user_rating.aggregate_rating}
             </Typography>
+              {restaurant.user_rating.rating_text}
           </Paper>
           <Paper className={classes.paper}>
             <PhotoGallery photos={restaurant.photos} />

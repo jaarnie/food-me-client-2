@@ -1,5 +1,5 @@
 import Axios from "axios"
-import { serverRoot, serverHeaders } from "../../config/apiConfig"
+import { serverRoot, serverHeaders } from '../config/apiConfig'
 // import { useSnackbar } from "notistack"
 
 export const toggleFavoriteClick = async (restaurant, state, dispatch) => {

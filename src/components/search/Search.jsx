@@ -6,6 +6,7 @@ import { useSnackbar } from "notistack"
 import Axios from "axios"
 
 import { searchRoot, headersRoot } from "../../config/apiConfig.js"
+import { MAIN_COLOUR } from "../../constants"
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -26,14 +27,14 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     margin: theme.spacing(1),
-    backgroundColor: "#235451"
+    backgroundColor: MAIN_COLOUR
   },
   input: {
     display: "none"
   }
 }))
 
-export default function OutlinedTextFields() {
+export default function Search() {
   const { state, dispatch } = useContext(Store)
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()

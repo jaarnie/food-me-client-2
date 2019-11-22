@@ -26,8 +26,8 @@ import { Link } from "react-router-dom"
 import RatingStars from "../../components/RatingStars"
 import PhotoGallery from "../PhotoGallery"
 import { Store } from "../../Store"
-import { toggleFavoriteClick, toggleLikeColor } from "../constants/onClicks"
-import { googleMapDeeplink } from "../constants/index"
+import { toggleFavoriteClick, toggleLikeColor } from "../../constants/onClicks"
+import { googleMapDeeplink, MAIN_COLOUR } from "../../constants/index"
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: red[500]
   },
   button: {
-    backgroundColor: "#235451"
+    backgroundColor: MAIN_COLOUR
   }
 }))
 
@@ -73,7 +73,6 @@ export default function RestaurantCard({ r }) {
   const handleLikeClick = () => {
     toggleFavoriteClick(restaurant, state, dispatch)
   }
-
   return (
     <Card className={classes.card}>
       {console.log("CARD", restaurant)}
@@ -82,7 +81,7 @@ export default function RestaurantCard({ r }) {
           <Avatar
             aria-label="avatar"
             className={classes.avatar}
-            style={{ backgroundColor: "#235451" }}
+            style={{ backgroundColor: MAIN_COLOUR }}
           >
             {restaurant.name[0]}
           </Avatar>
@@ -97,7 +96,8 @@ export default function RestaurantCard({ r }) {
       />
       <CardMedia
         className={classes.media}
-        image={restaurant.featured_image}
+        image={restaurant.featured_image || <FavoriteIcon />}
+        // image={restaurant.featured_image || 'https://dummyimage.com/300x200/ffffff/000.png&text=No+image'}
         title="featured image"
       />
       <CardContent>

@@ -7,8 +7,8 @@ import {
 } from "@material-ui/icons"
 
 import { Store } from "../Store"
-import { googleMapDeeplink } from "./constants/index"
-import { toggleLikeColor, toggleFavoriteClick } from "./constants/onClicks"
+import { googleMapDeeplink, MAIN_COLOUR } from "../constants/index"
+import { toggleLikeColor, toggleFavoriteClick } from "../constants/onClicks"
 import RestaurantReview from "./RestaurantReviews"
 import PhotoGallery from "./PhotoGallery"
 
@@ -46,7 +46,8 @@ export default function RestaurantProfile(props) {
       {console.log(restaurant)}
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Paper className={classes.paper} style={{backgroundImage: `url(${restaurant.featured_image})`}} >
+          {/* <Paper className={classes.paper} style={{backgroundImage: `url(${restaurant.featured_image})`}} > */}
+          {/* <Paper className={classes.paper} style={{background: MAIN_COLOUR}} > */}
           <Paper className={classes.paper}>
             <Typography variant="h3">{restaurant.name}</Typography>
             <Typography variant="h6">{restaurant.location.address}</Typography>
@@ -67,7 +68,7 @@ export default function RestaurantProfile(props) {
               <PlaceIcon />
             </IconButton>
           </Paper>
-          </Paper>
+          {/* </Paper> */}
         </Grid>
         <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>{getReviews()}</Paper>

@@ -1,24 +1,33 @@
-import React, { useState } from "react"
-import Avatar from "@material-ui/core/Avatar"
-import Button from "@material-ui/core/Button"
-import CssBaseline from "@material-ui/core/CssBaseline"
-import TextField from "@material-ui/core/TextField"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Checkbox from "@material-ui/core/Checkbox"
-import Grid from "@material-ui/core/Grid"
-import Box from "@material-ui/core/Box"
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
-import Typography from "@material-ui/core/Typography"
+import React, { useState, useContext } from "react"
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Grid,
+  Box,
+  Typography,
+  Container
+} from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import Container from "@material-ui/core/Container"
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import { Link } from "react-router-dom"
 import { useSnackbar } from "notistack"
 import Axios from "axios"
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
+// import { Query } from 'react-apollo'
+// import gql from 'graphql-tag'
 
-import { serverRoot, serverHeaders, apiRoot } from "../../config/apiConfig"
+import {
+  serverRoot,
+  serverHeaders,
+  searchRoot,
+  headersRoot
+} from "../../config/apiConfig"
 import { Store } from "../../Store.js"
+import { MAIN_COLOUR } from "../../constants"
+import {fetchFavorites} from '../FetchFavorites'
 
 function Copyright() {
   return (
@@ -46,7 +55,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: "#235451"
+    backgroundColor: MAIN_COLOUR
   },
   form: {
     width: "100%",
@@ -54,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#235451"
+    backgroundColor: MAIN_COLOUR
   }
 }))
 
@@ -70,13 +79,18 @@ const useStyles = makeStyles(theme => ({
 // `
 
 export default function SignIn({ history }) {
-  const { dispatch } = React.useContext(Store)
+  const { dispatch } = useContext(Store)
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
 
-  const axios = Axios.create({
+  const axiosServer = Axios.create({
     baseURL: serverRoot,
     headers: serverHeaders
+  })
+
+  const axiosAPI = Axios.create({
+    baseURL: searchRoot,
+    headers: headersRoot
   })
 
   const [values, setValues] = useState({
@@ -91,24 +105,48 @@ export default function SignIn({ history }) {
 
   // debugger
 
+  // const fetchFavorites = async userData => {
+  //   const resIDs = []
+  //   userData.favorites.map(r => resIDs.push(r.res_id))
+  //   try {
+  //     await Promise.all(
+  //       resIDs.map(async resID => {
+  //         const response = await axiosAPI.get(`/restaurant?res_id=${resID}`)
+  //         if (response.status === 200) {
+  //           console.log(response.data)
+  //           dispatch({
+  //             type: "ADD_FAVORITE",
+  //             payload: response.data
+  //           })
+  //         }
+  //       })
+  //     )
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
+
   const handleClick = async event => {
     event.preventDefault()
     try {
-      const response = await axios.post("/login", {
+      const response = await axiosServer.post("/login", {
         email: values.email,
         password: values.password
       })
       if (response.status === 200) {
-        console.log("yes")
+        fetchFavorites(response.data, dispatch)
+
         dispatch({
           type: "SET_USER",
           payload: response.data
         })
+        history.push("/")
         enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
           variant: "success"
         })
-        history.push("/")
       }
+// return <FetchFavorites  props={response.data} />
+
     } catch (err) {
       console.log(err)
       enqueueSnackbar("Error", {

@@ -19,12 +19,13 @@ import {
 import { Store } from "../Store.js"
 import { Link } from "react-router-dom"
 
+import { MAIN_COLOUR } from '../constants/index'
 import SearchUserLocation from "./SearchUserLocation"
 import NavigationPopover from "./NavigationPopover"
 
 const useStyles = makeStyles(theme => ({
   main: {
-    backgroundColor: "#235451",
+    backgroundColor: MAIN_COLOUR,
     marginBottom: "4.5vh"
   },
   grow: {

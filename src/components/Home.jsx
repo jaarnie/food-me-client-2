@@ -1,8 +1,9 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useContext } from "react"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
-import { Store } from "../Store"
 
+import { Store } from "../Store"
+import { MAIN_COLOUR } from '../constants/index'
 import Search from "./search/Search"
 import ListContainer from "../containers/ListContainer"
 // import { Loading } from "./Loading"
@@ -11,13 +12,13 @@ import ListContainer from "../containers/ListContainer"
 
 const useStyles = makeStyles({
   title: {
-    color: "#235451"
+    color: MAIN_COLOUR
   }
 })
 
 export default function Home() {
   const classes = useStyles()
-  const { state } = React.useContext(Store)
+  const { state } = useContext(Store)
 
   useEffect(() => {
     console.log("Home", state)
@@ -46,9 +47,6 @@ export default function Home() {
     <>
       <Typography className={classes.title} variant="h3">
         {getTitle()}
-        {/* {state.userLocation
-          ? state.userLocation.location.title.split(", ")[0]
-          : state.title} */}
       </Typography>
       <Search />
       {/* <React.Suspense fallback={Loading()}> */}

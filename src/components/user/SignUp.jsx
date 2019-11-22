@@ -18,6 +18,7 @@ import Axios from "axios"
 import PasswordStrength from "./PasswordStrength"
 import { serverRoot, serverHeaders } from "../../config/apiConfig"
 import { Store } from "../../Store.js"
+import { MAIN_COLOUR } from "../../constants"
 
 function Copyright() {
   return (
@@ -54,7 +55,7 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#235451"
+    backgroundColor: MAIN_COLOUR
   }
 }))
 

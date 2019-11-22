@@ -10,7 +10,8 @@ import {
   Collapse,
   Avatar,
   IconButton,
-  Typography
+  Typography,
+  Button
 } from "@material-ui/core"
 import {
   Favorite as FavoriteIcon,
@@ -20,11 +21,13 @@ import {
   MoreVert as MoreVertIcon
 } from "@material-ui/icons"
 import { red } from "@material-ui/core/colors"
+import { Link } from "react-router-dom"
 
 import RatingStars from "../../components/RatingStars"
-import PhotoGallery from "./PhotoGallery"
+import PhotoGallery from "../PhotoGallery"
 import { Store } from "../../Store"
-// import { Link } from "react-router-dom"
+import { toggleFavoriteClick, toggleLikeColor } from "../../constants/onClicks"
+import { googleMapDeeplink, MAIN_COLOUR } from "../../constants/index"
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -46,6 +49,9 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     backgroundColor: red[500]
+  },
+  button: {
+    backgroundColor: MAIN_COLOUR
   }
 }))
 
@@ -54,48 +60,28 @@ export default function RestaurantCard({ r }) {
   const { state, dispatch } = useContext(Store)
   const [expanded, setExpanded] = React.useState(false)
 
+  const restaurant = r.restaurant || r
+
   function handleExpandClick() {
     setExpanded(!expanded)
   }
 
   const ShowTimes = () => {
-    // debugger
-    return r.restaurant.timings
-    // let times = r.restaurant.timings.split(', ')
-    // times.map((time, key) => (
-    //   <span key={key}>{time}</span>
-    // ))
+    return restaurant.timings
   }
 
-  const toggleFavoriteClick = restaurant => {
-    const restaurantInFavorites = state.favorites.includes(restaurant)
-    let dispatchObject = {
-      type: "ADD_FAVORITE",
-      payload: restaurant
-    }
-    if (restaurantInFavorites) {
-      const favoritesWithoutRestaurant = state.favorites.filter(
-        fav => fav.R.res_id !== restaurant.R.res_id
-      )
-      dispatchObject = {
-        type: "REMOVE_FAVORITE",
-        payload: favoritesWithoutRestaurant
-      }
-    }
-    return dispatch(dispatchObject)
+  const handleLikeClick = () => {
+    toggleFavoriteClick(restaurant, state, dispatch)
   }
-
-  const restaurant = r.restaurant || r
-
   return (
     <Card className={classes.card}>
-      {/* {console.log("CARD", restaurant)} */}
+      {console.log("CARD", restaurant)}
       <CardHeader
         avatar={
           <Avatar
             aria-label="avatar"
             className={classes.avatar}
-            style={{ backgroundColor: "#235451" }}
+            style={{ backgroundColor: MAIN_COLOUR }}
           >
             {restaurant.name[0]}
           </Avatar>
@@ -110,7 +96,8 @@ export default function RestaurantCard({ r }) {
       />
       <CardMedia
         className={classes.media}
-        image={restaurant.featured_image}
+        image={restaurant.featured_image || <FavoriteIcon />}
+        // image={restaurant.featured_image || 'https://dummyimage.com/300x200/ffffff/000.png&text=No+image'}
         title="featured image"
       />
       <CardContent>
@@ -119,10 +106,10 @@ export default function RestaurantCard({ r }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={() => toggleFavoriteClick(restaurant)}>
+        <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
           <FavoriteIcon
             value={restaurant.id}
-            // color='red'
+            style={{ color: toggleLikeColor(state, restaurant) }}
           />
         </IconButton>
         <IconButton aria-label="share">
@@ -132,7 +119,7 @@ export default function RestaurantCard({ r }) {
         <IconButton
           aria-label="place"
           target="_blank"
-          href={`https://www.google.com/maps/search/?api=1&query=${restaurant.location.address}`}
+          href={googleMapDeeplink(restaurant)}
         >
           <PlaceIcon />
         </IconButton>
@@ -159,9 +146,21 @@ export default function RestaurantCard({ r }) {
             {/* {restaurant.menu_url} */}
             Average cost for two: {restaurant.average_cost_for_two}
           </Typography>
-          <Typography paragraph></Typography>
-          and here
-          <Typography>here too</Typography>
+          <Link
+            to={{
+              pathname: `/restaurant/${restaurant.id}`,
+              state: { restaurant }
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              more info
+            </Button>
+          </Link>
+
           {restaurant.photos && <PhotoGallery photos={restaurant.photos} />}
         </CardContent>
       </Collapse>

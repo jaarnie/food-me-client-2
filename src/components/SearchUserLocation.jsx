@@ -90,7 +90,6 @@ export default function SearchUserLocation() {
   }
 
   useEffect(() => {
-    console.log("useEffect", state.userGeoLocation)
     if (state.userGeoLocation) {
       const userLat = state.userGeoLocation.coords.latitude
       const userLong = state.userGeoLocation.coords.longitude

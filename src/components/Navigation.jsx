@@ -1,24 +1,31 @@
 import React, { useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import IconButton from "@material-ui/core/IconButton"
-import Typography from "@material-ui/core/Typography"
-import Badge from "@material-ui/core/Badge"
-import MenuItem from "@material-ui/core/MenuItem"
-import Menu from "@material-ui/core/Menu"
-import AccountCircle from "@material-ui/icons/AccountCircle"
-import MailIcon from "@material-ui/icons/Mail"
-import NotificationsIcon from "@material-ui/icons/Notifications"
-import MoreIcon from "@material-ui/icons/MoreVert"
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Badge,
+  MenuItem,
+  Menu
+} from "@material-ui/core"
+import {
+  AccountCircle,
+  Favorite as FavoriteIcon,
+  Notifications as NotificationsIcon,
+  MoreVert as MoreIcon
+} from "@material-ui/icons"
+
 import { Store } from "../Store.js"
 import { Link } from "react-router-dom"
 
+import { MAIN_COLOUR } from '../constants/index'
 import SearchUserLocation from "./SearchUserLocation"
+import NavigationPopover from "./NavigationPopover"
 
 const useStyles = makeStyles(theme => ({
   main: {
-    backgroundColor: "#235451",
+    backgroundColor: MAIN_COLOUR,
     marginBottom: "4.5vh"
   },
   grow: {
@@ -86,18 +93,20 @@ export default function Navigation() {
 
   const menuId = "primary-search-account-menu"
   const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>{userSignInOrProfile()}</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
+    <>
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        id={menuId}
+        keepMounted
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        open={isMenuOpen}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={handleMenuClose}>{userSignInOrProfile()}</MenuItem>
+        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      </Menu>
+    </>
   )
 
   const mobileMenuId = "primary-search-account-menu-mobile"
@@ -114,7 +123,7 @@ export default function Navigation() {
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
-            <MailIcon />
+            <FavoriteIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
@@ -153,17 +162,18 @@ export default function Navigation() {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {/* <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
+            <NavigationPopover />
+
+            <IconButton aria-label="user favorite count" color="inherit">
+              <Badge badgeContent={state.favorites.length} color="secondary">
+                <FavoriteIcon />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
-            <Typography className={classes.title} variant="h6">
+            <Typography
+              className={classes.title}
+              variant="h6"
+              style={{ margin: "1vh" }}
+            >
               {state.user && `Hi, ${state.user.first_name} `}
             </Typography>
             <IconButton

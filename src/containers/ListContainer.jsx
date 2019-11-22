@@ -23,6 +23,8 @@ export default function ListContainer({ r, searchValue }) {
   return ( // remove suspense?
     <div className={classes.root}>
       <React.Suspense fallback={Loading()}>
+    <p>ADD ORDER BY FILTERS</p>
+
         <Grid container spacing={2}>
           {state.restaurants.map((restaurant, index) => (
             <Grid item xs={12} sm={6} key={index}>

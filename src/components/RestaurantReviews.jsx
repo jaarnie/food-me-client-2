@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 export default function RestaurantReviews({ reviews }) {
   const classes = useStyles()
 
-  return reviews === [] ? (
+  return (
     <List className={classes.root}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
@@ -57,7 +57,5 @@ export default function RestaurantReviews({ reviews }) {
       </ListItem>
       <Divider variant="inset" component="li" />
     </List>
-  ) : (
-    <Typography variant="subtitle1">reviews offline :/</Typography>
   )
 }

@@ -51,7 +51,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: red[500]
   },
   button: {
-    backgroundColor: MAIN_COLOUR
+    backgroundColor: MAIN_COLOUR,
+    marginBottom: '2.5vh'
   }
 }))
 
@@ -96,7 +97,7 @@ export default function RestaurantCard({ r }) {
       />
       <CardMedia
         className={classes.media}
-        image={restaurant.featured_image || <FavoriteIcon />}
+        image={restaurant.featured_image}
         // image={restaurant.featured_image || 'https://dummyimage.com/300x200/ffffff/000.png&text=No+image'}
         title="featured image"
       />
@@ -144,7 +145,7 @@ export default function RestaurantCard({ r }) {
           />
           <Typography paragraph>
             {/* {restaurant.menu_url} */}
-            Average cost for two: {restaurant.average_cost_for_two}
+            Average cost for two: {restaurant.currency + restaurant.average_cost_for_two}
           </Typography>
           <Link
             to={{

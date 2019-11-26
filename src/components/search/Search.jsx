@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 export default function Search() {
   const { state, dispatch } = useContext(Store)
   const classes = useStyles()
-  const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
   const axios = Axios.create({
     baseURL: searchRoot,
@@ -64,16 +64,30 @@ export default function Search() {
   const fetchData = async event => {
     event.preventDefault()
     enqueueSnackbar("thinking...", {
-      variant: "info"
+      variant: "info",
+      persist: true
     })
     let searchValue = ""
     const value = state.searchValue
+    const locationID =
+      state.userLocation && state.userLocation.location.entity_id
+
     if (value) {
-      searchValue = `/search?entity_id=${state.userLocation &&
-        state.userLocation.location
-          .entity_id}&entity_type=subzone&q=${value}&count=50&radius=1000`
-    } else {
-      searchValue = "search?entity_id=61&entity_type=city"
+      searchValue = `/search?entity_id=61&entity_type=city&q=${value}&count=50&radius=1000`
+    }
+
+    if (locationID) {
+      searchValue = `/search?entity_id=${locationID &&
+        locationID}&entity_type=subzone&count=50&radius=1000`
+    }
+
+    if (value && locationID) {
+      searchValue = `/search?entity_id=${locationID &&
+        locationID}&entity_type=subzone&q=${value}&count=50&radius=1000`
+    }
+
+    if (!locationID && !value) {
+      searchValue = "/search?entity_id=61&entity_type=city"
     }
 
     try {
@@ -84,6 +98,7 @@ export default function Search() {
           type: "SET_RESTARUANTS",
           payload: response.data.restaurants
         })
+        closeSnackbar()
       } else if (response.data.results_found === 0) {
         enqueueSnackbar("No results found", {
           variant: "warning"
@@ -121,7 +136,7 @@ export default function Search() {
           color="primary"
           className={classes.button}
           type="submit"
-          onClick={e => fetchData(e)}
+          onClick={fetchData}
         >
           Search
         </Button>

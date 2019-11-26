@@ -27,7 +27,7 @@ import {
 } from "../../config/apiConfig"
 import { Store } from "../../Store.js"
 import { MAIN_COLOUR } from "../../constants"
-import {fetchFavorites} from '../FetchFavorites'
+import { fetchFavorites } from "../FetchFavorites"
 
 function Copyright() {
   return (
@@ -88,10 +88,10 @@ export default function SignIn({ history }) {
     headers: serverHeaders
   })
 
-  const axiosAPI = Axios.create({
-    baseURL: searchRoot,
-    headers: headersRoot
-  })
+  // const axiosAPI = Axios.create({
+  //   baseURL: searchRoot,
+  //   headers: headersRoot
+  // })
 
   const [values, setValues] = useState({
     email: "",
@@ -134,6 +134,7 @@ export default function SignIn({ history }) {
         password: values.password
       })
       if (response.status === 200) {
+        debugger
         fetchFavorites(response.data, dispatch)
 
         dispatch({
@@ -145,8 +146,7 @@ export default function SignIn({ history }) {
           variant: "success"
         })
       }
-// return <FetchFavorites  props={response.data} />
-
+      // return <FetchFavorites  props={response.data} />
     } catch (err) {
       console.log(err)
       enqueueSnackbar("Error", {

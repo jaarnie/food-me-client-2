@@ -19,7 +19,7 @@ import {
 import { Store } from "../Store.js"
 import { Link } from "react-router-dom"
 
-import { MAIN_COLOUR } from '../constants/index'
+import { MAIN_COLOUR } from "../constants/index"
 import SearchUserLocation from "./SearchUserLocation"
 import NavigationPopover from "./NavigationPopover"
 
@@ -83,12 +83,31 @@ export default function Navigation() {
     setMobileMoreAnchorEl(event.currentTarget)
   }
 
-  function userSignInOrProfile() {
+  const userSignInOrProfile = () => {
+    let MenuItems = null
     if (state.user) {
-      return <Link to="/profile">Profile</Link>
+      MenuItems = (
+        <Link to="/profile">
+          <MenuItem component="p" onClick={handleMenuClose}>Profile</MenuItem>
+        </Link>
+      )
     } else {
-      return <Link to="/sign-in">Sign In</Link>
+      MenuItems = (
+        <div>
+          <Link to="/sign-in">
+            <MenuItem component="p" onClick={handleMenuClose}>
+              Sign In
+            </MenuItem>
+          </Link>
+          <Link to="/sign-up">
+            <MenuItem component="p" onClick={handleMenuClose}>
+              Sign Up
+            </MenuItem>
+          </Link>
+        </div>
+      )
     }
+    return MenuItems
   }
 
   const menuId = "primary-search-account-menu"
@@ -103,8 +122,7 @@ export default function Navigation() {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose}>{userSignInOrProfile()}</MenuItem>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        {userSignInOrProfile()}
       </Menu>
     </>
   )
@@ -164,11 +182,13 @@ export default function Navigation() {
           <div className={classes.sectionDesktop}>
             <NavigationPopover />
 
+            <Link to='/profile'>
             <IconButton aria-label="user favorite count" color="inherit">
               <Badge badgeContent={state.favorites.length} color="secondary">
                 <FavoriteIcon />
               </Badge>
             </IconButton>
+              </Link>
             <Typography
               className={classes.title}
               variant="h6"

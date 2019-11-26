@@ -10,10 +10,11 @@ const roots = {
   server: `http://localhost:7000/api/${serverApiVersion}`,
   serverHeaders: {
     "Content-Type": "application/json"
-  }
+  },
+  postcode: `https://api.postcodes.io/postcodes`
 }
 
-
+export const postcodeAPI = roots.postcode
 export const searchRoot = roots.search
 export const headersRoot = roots.headers
 export const serverRoot = roots.server

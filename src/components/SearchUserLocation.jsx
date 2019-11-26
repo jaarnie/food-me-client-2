@@ -1,23 +1,19 @@
 import React, { useState, useContext, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import Paper from "@material-ui/core/Paper"
-import InputBase from "@material-ui/core/InputBase"
-import Divider from "@material-ui/core/Divider"
-import IconButton from "@material-ui/core/IconButton"
-import SearchIcon from "@material-ui/icons/Search"
-import NearMeIcon from "@material-ui/icons/NearMe"
+import { Paper, InputBase, Divider, IconButton } from "@material-ui/core/"
+import { Search as SearchIcon, NearMe as NearMeIcon } from "@material-ui/icons"
 import Axios from "axios"
 import { useSnackbar } from "notistack"
 
 import { Store } from "../Store"
-import { searchRoot, headersRoot } from "../config/apiConfig"
+import { searchRoot, headersRoot, postcodeAPI } from "../config/apiConfig"
 
 const useStyles = makeStyles(theme => ({
   root: {
     margin: "6px 18px",
     display: "flex",
     alignItems: "center",
-		width: 400,
+    width: 400
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -33,9 +29,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function SearchUserLocation() {
-	const classes = useStyles()
-  const { enqueueSnackbar } = useSnackbar()
+  const classes = useStyles()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { state, dispatch } = useContext(Store)
+
   const [localState, setLocalState] = useState({
     locationSearchTerm: ""
   })
@@ -45,6 +42,10 @@ export default function SearchUserLocation() {
     headers: headersRoot
   })
 
+  const axiosPostcode = Axios.create({
+    baseURL: postcodeAPI
+  })
+
   const handleChange = event => {
     setLocalState({
       locationSearchTerm: event.target.value
@@ -52,41 +53,69 @@ export default function SearchUserLocation() {
   }
 
   const handleFetchClick = async event => {
-		event.preventDefault()
-		enqueueSnackbar("thinking...", {
-			variant: "info"
-		})
-		try {
-			const response = await axios.get(
-				`locations?query=${localState.locationSearchTerm}`
-			)
-			if (response.status === 200) {
-				const lat = response.data.location_suggestions[0].latitude
-				const lon = response.data.location_suggestions[0].longitude
-				findLocationData(lat, lon)
-			}
-		}
-		catch(err) {
-			enqueueSnackbar("Error", {
+    enqueueSnackbar("thinking...", {
+      variant: "info",
+      persist: true
+    })
+    event.preventDefault()
+    if (/\d/.test(localState.locationSearchTerm)) {
+      getPostcode()
+    } else {
+      getLocation()
+    }
+  }
+
+  const getLocation = async () => {
+    try {
+      const response = await axios.get(
+        `locations?query=${localState.locationSearchTerm}`
+      )
+      if (response.status === 200) {
+        const lat = response.data.location_suggestions[0].latitude
+        const lon = response.data.location_suggestions[0].longitude
+        findLocationData(lat, lon)
+      }
+    } catch (err) {
+      enqueueSnackbar("Error", {
         variant: "error"
       })
-		}
+    }
+  }
+
+  const getPostcode = async () => {
+    try {
+      const response = await axiosPostcode.get(
+        `/${localState.locationSearchTerm}`
+      )
+      if (response.status === 200) {
+        const lat = response.data.result.latitude
+        const lon = response.data.result.longitude
+        findLocationData(lat, lon)
+      }
+    } catch (err) {
+      enqueueSnackbar("Error", {
+        variant: "error"
+      })
+    }
   }
 
   const getGeoLocation = () => {
-    window.navigator.geolocation.getCurrentPosition(position => {
-			enqueueSnackbar("thinking...", {
-				variant: "info"
-			}) // try catch
-      console.log(position)
-      dispatch({
-        type: "GET_GEOLOCATION",
-        payload: position
-      })
+    enqueueSnackbar("thinking...", {
+      variant: "info",
+      persist: true
     })
-    // if (state.userGeoLocation === null) {
-    //   console.log('no user loc data')
-    // }
+    window.navigator.geolocation.getCurrentPosition(position => {
+      if (position) {
+        dispatch({
+          type: "GET_GEOLOCATION",
+          payload: position
+        })
+      } else {
+        enqueueSnackbar("Error", {
+          variant: "error"
+        })
+      }
+    })
   }
 
   useEffect(() => {
@@ -116,7 +145,6 @@ export default function SearchUserLocation() {
       entityId = data.searchedLocation.entity_id
       entityType = data.searchedLocation.entity_type
     }
-
     const locationData = await axios.get(
       `location_details?entity_id=${entityId}&entity_type=${entityType}`
     )
@@ -128,6 +156,7 @@ export default function SearchUserLocation() {
       type: "SET_RESTARUANTS",
       payload: locationData.data.best_rated_restaurant
     })
+    closeSnackbar()
   }
 
   return (
@@ -138,11 +167,19 @@ export default function SearchUserLocation() {
         inputProps={{ "aria-label": "postcode" }}
         onChange={handleChange}
       />
-      <IconButton className={classes.iconButton} aria-label="search" onClick={handleFetchClick}>
+      <IconButton
+        className={classes.iconButton}
+        aria-label="search"
+        onClick={handleFetchClick}
+      >
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton className={classes.iconButton} aria-label="search" onClick={getGeoLocation} >
+      <IconButton
+        className={classes.iconButton}
+        aria-label="search"
+        onClick={getGeoLocation}
+      >
         <NearMeIcon />
       </IconButton>
     </Paper>

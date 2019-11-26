@@ -6,6 +6,7 @@ import { Store } from "../Store"
 import { MAIN_COLOUR } from '../constants/index'
 import Search from "./search/Search"
 import ListContainer from "../containers/ListContainer"
+// import { fetchFavorites } from "./FetchFavorites"
 // import { Loading } from "./Loading"
 
 // const ListContainer = React.lazy(() => import('../containers/ListContainer'))
@@ -18,30 +19,18 @@ const useStyles = makeStyles({
 
 export default function Home() {
   const classes = useStyles()
-  const { state } = useContext(Store)
+  const { state, dispatch } = useContext(Store)
 
   useEffect(() => {
     console.log("Home", state)
-  }, [state])
+    // debugger
+    // state.user && fetchFavorites(state.user, dispatch)
+  }, [])
 
   const getTitle = () =>
     state.userLocation
       ? state.userLocation.location.title.split(", ")[0]
       : state.title
-
-  // const getTitle = () => {
-  //   const userLocation = state.userLocation
-  //   let title = ""
-  //   if (userLocation.location) {
-  //     title = userLocation.location.title.split(", ")[0]
-  //   } else if (userLocation.title) {
-  //     title = userLocation.title.split(", ")[0]
-  //   } else {
-  //     title = state.title
-  //   }
-  //   debugger
-  //   return title
-  // }
 
   return (
     <>

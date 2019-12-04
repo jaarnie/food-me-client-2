@@ -1,13 +1,11 @@
 import Axios from "axios"
-import { serverRoot, serverHeaders } from '../config/apiConfig'
-// import { useSnackbar } from "notistack"
+import { serverRoot, serverHeaders } from "../config/apiConfig"
 
 export const toggleFavoriteClick = async (restaurant, state, dispatch) => {
   const axios = Axios.create({
     baseURL: serverRoot,
     headers: serverHeaders
   })
-  // const { enqueueSnackbar } = useSnackbar()
   const restaurantInFavorites = state.favorites.includes(restaurant)
 
   let dispatchObject = {
@@ -20,9 +18,6 @@ export const toggleFavoriteClick = async (restaurant, state, dispatch) => {
       res_id: restaurant.R.res_id
     })
     if (response.status === 200 || 204) {
-      //   enqueueSnackbar(`Saved`, {
-      //     variant: "success"
-      //   })
     }
   } catch (err) {
     console.log(err)
@@ -44,15 +39,16 @@ export const toggleFavoriteClick = async (restaurant, state, dispatch) => {
         }
       )
       if (response.status === 200 || 204) {
-        // enqueueSnackbar(`Deleted`, {
-        //   variant: "success"
-        // })
       }
     } catch (err) {
       console.log(err)
     }
   }
   return dispatch(dispatchObject)
+}
+
+export const addFavoritesToList = () => {
+  console.log('FAAAV >>>>')
 }
 
 export const toggleLikeColor = (state, restaurant) =>

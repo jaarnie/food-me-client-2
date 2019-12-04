@@ -1,6 +1,8 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import CircularProgress from "@material-ui/core/CircularProgress"
+import {
+  CircularProgress
+} from "@material-ui/core/"
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -9,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   progress: {
     margin: theme.spacing(2),
     alignItems: "center"
-  }
+  },
 }))
 
 export const Loading = () => {
@@ -17,9 +19,22 @@ export const Loading = () => {
 
   return (
     <div className={classes.content}>
-      <CircularProgress className={classes.progress} />
+      <CircularProgress
+        className={classes.progress}
+      />
     </div>
   )
 }
 
-//  position me center
+export const SnackbarLoading = () => {
+  const classes = useStyles()
+
+  return (
+    <div className={classes.content}>
+       <CircularProgress
+       size={30}
+       style={{color: 'white'}}
+      />
+    </div>
+  )
+}

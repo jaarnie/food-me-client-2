@@ -8,7 +8,7 @@ const axiosAPI = Axios.create({
 })
 
 export const fetchFavorites = async (userData, dispatch) => {
-  debugger
+  // debugger
   const resIDs = []
   userData.favorites.map(r => resIDs.push(r.res_id))
   try {

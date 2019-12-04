@@ -22,8 +22,8 @@ import Axios from "axios"
 import {
   serverRoot,
   serverHeaders,
-  searchRoot,
-  headersRoot
+  // searchRoot,
+  // headersRoot
 } from "../../config/apiConfig"
 import { Store } from "../../Store.js"
 import { MAIN_COLOUR } from "../../constants"
@@ -80,6 +80,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn({ history }) {
   const { dispatch } = useContext(Store)
+
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
 
@@ -126,6 +127,14 @@ export default function SignIn({ history }) {
   //   }
   // }
 
+  // debugger
+
+
+
+  // save state restaurants to user when signed in
+
+
+
   const handleClick = async event => {
     event.preventDefault()
     try {
@@ -134,24 +143,24 @@ export default function SignIn({ history }) {
         password: values.password
       })
       if (response.status === 200) {
-        debugger
+        enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
+          variant: "success"
+        })
         fetchFavorites(response.data, dispatch)
-
         dispatch({
           type: "SET_USER",
           payload: response.data
         })
+
         history.push("/")
-        enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
-          variant: "success"
-        })
+
       }
-      // return <FetchFavorites  props={response.data} />
+
     } catch (err) {
       console.log(err)
-      enqueueSnackbar("Error", {
-        variant: "error"
-      })
+      // enqueueSnackbar(`Error`, {
+      //   variant: "error"
+      // })
     }
   }
 

@@ -5,9 +5,10 @@ import {
   Place as PlaceIcon,
   Favorite as FavoriteIcon
 } from "@material-ui/icons"
+import GoogleMapReact from "google-map-react"
 
 import { Store } from "../Store"
-import { googleMapDeeplink, MAIN_COLOUR } from "../constants/index"
+import { googleMapDeeplink } from "../constants/index"
 import { toggleLikeColor, toggleFavoriteClick } from "../constants/onClicks"
 import RestaurantReview from "./RestaurantReviews"
 import PhotoGallery from "./PhotoGallery"
@@ -31,13 +32,46 @@ export default function RestaurantProfile(props) {
   const classes = useStyles()
   const restaurant = props.location.state.restaurant
 
-  const getReviews = () => { //sort me out
-    return restaurant.all_reviews.reviews[0].review.length !== 0 ? (
+  const getReviews = () => {
+    //sort me out
+    return !!restaurant.all_reviews.reviews[0] &&
+      restaurant.all_reviews.reviews[0].review.length !== 0 ? (
       restaurant.all_reviews.reviews.map(r => (
         <RestaurantReview key={r.review.id} reviews={r.review} />
       ))
     ) : (
       <Typography variant="subtitle1">reviews offline :/</Typography>
+    )
+  }
+
+  const renderMarkers = (map, maps) => {
+    let marker = new maps.Marker({
+      position: {
+        lat: parseFloat(restaurant.location.latitude),
+        lng: parseFloat(restaurant.location.longitude)
+      },
+      map,
+      title: "Hello World!"
+    })
+    return marker
+  }
+
+  const getMap = () => {
+    return (
+      <div style={{ height: "50vh", width: "100%" }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyBStIe0h0kWHmY-GvIsdMXA-JuJ34SnmXU" }}
+          defaultCenter={[
+            parseFloat(restaurant.location.latitude),
+            parseFloat(restaurant.location.longitude)
+          ]}
+          defaultZoom={16}
+          yesIWantToUseGoogleMapApiInternals
+          onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
+        >
+          {/* <PlaceIcon /> */}
+        </GoogleMapReact>
+      </div>
     )
   }
 
@@ -70,6 +104,9 @@ export default function RestaurantProfile(props) {
           </Paper>
           {/* </Paper> */}
         </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>{getMap()}</Paper>
+        </Grid>
         <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>{getReviews()}</Paper>
         </Grid>
@@ -84,9 +121,11 @@ export default function RestaurantProfile(props) {
             </Typography>
             {restaurant.user_rating.rating_text}
           </Paper>
-          <Paper className={classes.paper}>
-            <PhotoGallery photos={restaurant.photos} />
-          </Paper>
+          {restaurant.photos && (
+            <Paper className={classes.paper}>
+              <PhotoGallery photos={restaurant.photos} />
+            </Paper>
+          )}
         </Grid>
         <Grid item xs={6} sm={3}>
           <Paper className={classes.paper}>xs=6 sm=3</Paper>

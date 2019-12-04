@@ -1,7 +1,6 @@
 import React from "react"
-import "./App.css"
 import { createBrowserHistory } from "history"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
+import { Router, Route, Switch } from "react-router-dom"
 import { SnackbarProvider } from "notistack"
 import { CssBaseline, Container } from "@material-ui/core"
 // import Axios from "axios"
@@ -21,11 +20,16 @@ import RestaurantProfile from "./components/RestaurantProfile"
 //   headers: headersRoot
 // })
 // configure({ axios })
+const browserHistory = createBrowserHistory()
+
+browserHistory.listen((location, action) => {
+  window.scrollTo(0, 0)
+})
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter history={createBrowserHistory()}>
+      <Router history={browserHistory}>
         <SnackbarProvider
           maxSnack={1}
           anchorOrigin={{
@@ -43,12 +47,12 @@ function App() {
               <Route path="/sign-up" component={SignUp} />
               <Route path="/profile" component={Profile} />
               {/* <Route path="/restaurant/:id" render={(props) => <RestaurantProfile {...props}/>}/> */}
-              <Route path="/restaurant/:id" component={RestaurantProfile}/>
+              <Route path="/restaurant/:id" component={RestaurantProfile} />
               <Route component={NotFound} />
             </Switch>
           </Container>
         </SnackbarProvider>
-      </BrowserRouter>
+      </Router>
     </div>
   )
 }

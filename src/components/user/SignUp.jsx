@@ -108,6 +108,11 @@ export default function SignUp({ history }) {
     } catch (err) {
       console.log(err)
       setResponse({ err: err })
+
+      enqueueSnackbar("Error", {
+        variant: "error",
+        autoHideDuration: 3000
+      })
     }
   }
 
@@ -123,15 +128,15 @@ export default function SignUp({ history }) {
     // console.log(values)
   }
 
-  useEffect(() => {
-    if (response.err) {
-      enqueueSnackbar("Error", {
-        variant: "error",
-        autoHideDuration: 3000
-      })
-    }
-  }, [enqueueSnackbar, response])
-
+  // useEffect(() => {
+  // if (response.err) {
+  //   enqueueSnackbar("Error", {
+  //     variant: "error",
+  //     autoHideDuration: 3000
+  //   })
+  // }
+  // }, [enqueueSnackbar, response])
+  // debugger
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

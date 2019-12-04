@@ -1,32 +1,35 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import React, { useEffect, useContext } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import { Popover, Typography, Button } from "@material-ui/core"
 
-
-import SignIn from './user/SignIn'
+import { Store } from "../Store"
+import SignIn from "./user/SignIn"
 
 const useStyles = makeStyles(theme => ({
   typography: {
-    padding: theme.spacing(2),
-  },
-}));
+    padding: theme.spacing(2)
+  }
+}))
 
 export default function NavigationPopover() {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const classes = useStyles()
+  const { state } = useContext(Store)
+  const [anchorEl, setAnchorEl] = React.useState(null)
 
   const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? "simple-popover" : undefined
+
+  useEffect(() => {
+    state.user && handleClose()
+  })
 
   return (
     <div>
@@ -39,17 +42,17 @@ export default function NavigationPopover() {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
+          vertical: "bottom",
+          horizontal: "center"
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: "top",
+          horizontal: "center"
         }}
       >
-			<SignIn />
+        <SignIn />
         <Typography className={classes.typography}>TEST</Typography>
       </Popover>
     </div>
-  );
+  )
 }

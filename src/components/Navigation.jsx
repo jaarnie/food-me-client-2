@@ -138,6 +138,8 @@ export default function Navigation() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+            <NavigationPopover />
+
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">

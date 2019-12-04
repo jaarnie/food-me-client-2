@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react"
+import React, { useContext } from "react"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 
@@ -6,7 +6,6 @@ import { Store } from "../Store"
 import { MAIN_COLOUR } from '../constants/index'
 import Search from "./search/Search"
 import ListContainer from "../containers/ListContainer"
-// import { fetchFavorites } from "./FetchFavorites"
 // import { Loading } from "./Loading"
 
 // const ListContainer = React.lazy(() => import('../containers/ListContainer'))
@@ -19,13 +18,7 @@ const useStyles = makeStyles({
 
 export default function Home() {
   const classes = useStyles()
-  const { state, dispatch } = useContext(Store)
-
-  useEffect(() => {
-    console.log("Home", state)
-    // debugger
-    // state.user && fetchFavorites(state.user, dispatch)
-  }, [])
+  const { state } = useContext(Store)
 
   const getTitle = () =>
     state.userLocation

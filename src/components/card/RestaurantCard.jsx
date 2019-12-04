@@ -93,7 +93,7 @@ export default function RestaurantCard({ r }) {
           </IconButton>
         }
         title={restaurant.name}
-        subheader={restaurant.establishment[0]}
+        subheader={`${restaurant.establishment[0]}: ${restaurant.cuisines}`}
       />
       <CardMedia
         className={classes.media}

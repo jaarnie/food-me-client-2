@@ -53,14 +53,18 @@ export default function SearchUserLocation() {
   }
 
   const handleFetchClick = async event => {
-    enqueueSnackbar("thinking...", {
-      variant: "info",
-      persist: true
-    })
     event.preventDefault()
     if (/\d/.test(localState.locationSearchTerm)) {
+      enqueueSnackbar("thinking...", {
+        variant: "info",
+        persist: true
+      })
       getPostcode()
-    } else {
+    } else if (localState.locationSearchTerm !== "") {
+      enqueueSnackbar("thinking...", {
+        variant: "info",
+        persist: true
+      })
       getLocation()
     }
   }

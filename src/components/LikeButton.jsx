@@ -14,8 +14,6 @@ export default function LikeButton({ restaurant }) {
     headers: serverHeaders
   })
 
-  // const toggleLikeColor = state.favorites.includes(restaurant) ? "secondary" : "default"
-
   const handleLikeClick = async () => {
     const restaurantInFavorites = state.favorites.includes(restaurant)
 
@@ -58,17 +56,15 @@ export default function LikeButton({ restaurant }) {
     return dispatch(dispatchObject)
   }
 
-  const toggleLikeColor = () => state.favorites.includes(restaurant) ? "red" : null
-
+  const toggleLikeColor = () =>
+    state.favorites.includes(restaurant) ? "red" : null
 
   return (
     <div>
-      <IconButton aria-label="add to favorites"
-          style={{ color: toggleLikeColor() }}
-        >
+      <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
         <FavoriteIcon
+          style={{ color: toggleLikeColor() }}
           value={restaurant.id}
-          onClick={handleLikeClick}
         />
       </IconButton>
     </div>

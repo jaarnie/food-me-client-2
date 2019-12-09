@@ -124,6 +124,7 @@ export default function SearchUserLocation() {
 
   useEffect(() => {
     if (state.userGeoLocation) {
+      debugger
       const userLat = state.userGeoLocation.coords.latitude
       const userLong = state.userGeoLocation.coords.longitude
       findLocationData(userLat, userLong)
@@ -135,6 +136,7 @@ export default function SearchUserLocation() {
 
   const findLocationData = async (userLat, userLong) => {
     const response = await axios.get(`geocode?lat=${userLat}&lon=${userLong}`)
+    debugger
     getLocationData(response.data)
   }
 

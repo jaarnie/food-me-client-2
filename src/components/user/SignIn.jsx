@@ -158,9 +158,9 @@ export default function SignIn({ history }) {
 
     } catch (err) {
       console.log(err)
-      // enqueueSnackbar(`Error`, {
-      //   variant: "error"
-      // })
+      enqueueSnackbar(`Error`, {
+        variant: "error"
+      })
     }
   }
 

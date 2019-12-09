@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid"
 
 import { Store } from "../Store"
 import { Loading } from '../components/Loading'
-import { addFavoritesToList } from '../constants/onClicks'
 
 const RestaurantCard = React.lazy(() => import('../components/card/RestaurantCard'))
 
@@ -23,12 +22,9 @@ export default function ListContainer({ r, searchValue }) {
       <React.Suspense fallback={Loading()}>
         <Grid container spacing={2}>
           {state.favorites.map((restaurant, index) => (
-            <>
-{addFavoritesToList()}
             <Grid item xs={12} sm={6} key={index}>
               <RestaurantCard r={restaurant} />
             </Grid>
-            </>
           ))}
         </Grid>
       </React.Suspense>

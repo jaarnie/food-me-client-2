@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import clsx from "clsx"
 import {
@@ -14,7 +14,6 @@ import {
   Button
 } from "@material-ui/core"
 import {
-  Favorite as FavoriteIcon,
   Share as ShareIcon,
   Place as PlaceIcon,
   ExpandMore as ExpandMoreIcon,
@@ -25,9 +24,8 @@ import { Link } from "react-router-dom"
 
 import RatingStars from "../../components/RatingStars"
 import PhotoGallery from "../PhotoGallery"
-import { Store } from "../../Store"
-import { toggleFavoriteClick, toggleLikeColor } from "../../constants/onClicks"
 import { googleMapDeeplink, MAIN_COLOUR } from "../../constants/index"
+import LikeButton from '../LikeButton'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -58,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function RestaurantCard({ r }) {
   const classes = useStyles()
-  const { state, dispatch } = useContext(Store)
+  // const { state, dispatch } = useContext(Store)
   const [expanded, setExpanded] = React.useState(false)
 
   const restaurant = r.restaurant || r
@@ -71,9 +69,6 @@ export default function RestaurantCard({ r }) {
     return restaurant.timings
   }
 
-  const handleLikeClick = () => {
-    toggleFavoriteClick(restaurant, state, dispatch)
-  }
   return (
     <Card className={classes.card}>
       {console.log("CARD", restaurant)}
@@ -107,12 +102,8 @@ export default function RestaurantCard({ r }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
-          <FavoriteIcon
-            value={restaurant.id}
-            style={{ color: toggleLikeColor(state, restaurant) }}
-          />
-        </IconButton>
+        <LikeButton restaurant={restaurant} />
+
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
@@ -145,7 +136,8 @@ export default function RestaurantCard({ r }) {
           />
           <Typography paragraph>
             {/* {restaurant.menu_url} */}
-            Average cost for two: {restaurant.currency + restaurant.average_cost_for_two}
+            Average cost for two:{" "}
+            {restaurant.currency + restaurant.average_cost_for_two}
           </Typography>
           <Link
             to={{

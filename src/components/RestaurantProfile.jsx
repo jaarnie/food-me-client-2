@@ -1,17 +1,13 @@
-import React, { useContext } from "react"
+import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { Paper, Typography, Grid, IconButton } from "@material-ui/core"
-import {
-  Place as PlaceIcon,
-  Favorite as FavoriteIcon
-} from "@material-ui/icons"
+import { Place as PlaceIcon } from "@material-ui/icons"
 import GoogleMapReact from "google-map-react"
 
-import { Store } from "../Store"
 import { googleMapDeeplink } from "../constants/index"
-import { toggleLikeColor, toggleFavoriteClick } from "../constants/onClicks"
 import RestaurantReview from "./RestaurantReviews"
 import PhotoGallery from "./PhotoGallery"
+import LikeButton from "./LikeButton"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,11 +20,18 @@ const useStyles = makeStyles(theme => ({
     // list: {
     //   marginbottom: '200px'
     // }
+  },
+  icon: {
+    flexGrow: 1,
+
+    margin: theme.spacing(2),
+    display: "flex",
+    flexDirection: "row wrap",
+    justifyContent: "center"
   }
 }))
 
 export default function RestaurantProfile(props) {
-  const { state, dispatch } = useContext(Store)
   const classes = useStyles()
   const restaurant = props.location.state.restaurant
 
@@ -85,22 +88,17 @@ export default function RestaurantProfile(props) {
           <Paper className={classes.paper}>
             <Typography variant="h3">{restaurant.name}</Typography>
             <Typography variant="h6">{restaurant.location.address}</Typography>
-            <IconButton
-              aria-label="add to favorites"
-              onClick={() => toggleFavoriteClick(restaurant, state, dispatch)}
-            >
-              <FavoriteIcon
-                value={restaurant.id}
-                style={{ color: toggleLikeColor(state, restaurant) }}
-              />
-            </IconButton>
-            <IconButton
-              aria-label="place"
-              target="_blank"
-              href={googleMapDeeplink(restaurant)}
-            >
-              <PlaceIcon />
-            </IconButton>
+
+            <div className={classes.icon}>
+              <LikeButton restaurant={restaurant} />
+              <IconButton
+                aria-label="place"
+                target="_blank"
+                href={googleMapDeeplink(restaurant)}
+              >
+                <PlaceIcon />
+              </IconButton>
+            </div>
           </Paper>
           {/* </Paper> */}
         </Grid>

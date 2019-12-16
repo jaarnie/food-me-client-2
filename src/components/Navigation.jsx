@@ -25,8 +25,8 @@ import NavigationPopover from "./NavigationPopover"
 
 const useStyles = makeStyles(theme => ({
   main: {
-    backgroundColor: MAIN_COLOUR,
-    marginBottom: "4.5vh"
+    position: "fixed",
+    backgroundColor: MAIN_COLOUR
   },
   grow: {
     flexGrow: 1
@@ -88,7 +88,9 @@ export default function Navigation() {
     if (state.user) {
       MenuItems = (
         <Link to="/profile">
-          <MenuItem component="p" onClick={handleMenuClose}>Profile</MenuItem>
+          <MenuItem component="p" onClick={handleMenuClose}>
+            Profile
+          </MenuItem>
         </Link>
       )
     } else {
@@ -166,14 +168,13 @@ export default function Navigation() {
 
         {userSignInOrProfile()}
       </MenuItem>
-       <NavigationPopover />
-
+      <NavigationPopover />
     </Menu>
   )
 
   return (
-    <div className={classes.grow}>
-      <AppBar className={classes.main} position="static">
+    <div className={classes.grow} style={{ marginBottom: "10vh" }}>
+      <AppBar className={classes.main}>
         <Toolbar>
           <SearchUserLocation />
 
@@ -184,13 +185,13 @@ export default function Navigation() {
           <div className={classes.sectionDesktop}>
             <NavigationPopover />
 
-            <Link to='/profile'>
-            <IconButton aria-label="user favorite count" color="inherit">
-              <Badge badgeContent={state.favorites.length} color="secondary">
-                <FavoriteIcon />
-              </Badge>
-            </IconButton>
-              </Link>
+            <Link to="/profile">
+              <IconButton aria-label="user favorite count" color="inherit">
+                <Badge badgeContent={state.favorites.length} color="secondary">
+                  <FavoriteIcon />
+                </Badge>
+              </IconButton>
+            </Link>
             <Typography
               className={classes.title}
               variant="h6"

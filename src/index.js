@@ -8,7 +8,7 @@ import { Router } from "react-router-dom"
 import { SnackbarProvider } from "notistack"
 
 import App from "./App"
-import Navigation from "./components/Navigation"
+import Navigation from "./components/navigation/Navigation"
 import { StoreProvider } from "./Store"
 
 const browserHistory = createBrowserHistory()

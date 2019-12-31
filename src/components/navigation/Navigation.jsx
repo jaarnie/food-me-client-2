@@ -16,11 +16,11 @@ import {
   MoreVert as MoreIcon
 } from "@material-ui/icons"
 
-import { Store } from "../Store.js"
+import { Store } from "../../Store.js"
 import { Link } from "react-router-dom"
 
-import { MAIN_COLOUR } from "../constants/index"
-import SearchUserLocation from "./SearchUserLocation"
+import { MAIN_COLOUR } from "../../constants/index"
+import SearchUserLocation from "../SearchUserLocation"
 import NavigationPopover from "./NavigationPopover"
 
 const useStyles = makeStyles(theme => ({
@@ -83,33 +83,8 @@ export default function Navigation() {
     setMobileMoreAnchorEl(event.currentTarget)
   }
 
-  const userSignInOrProfile = () => {
-    let MenuItems = null
-    if (state.user) {
-      MenuItems = (
-        <Link to="/profile">
-          <MenuItem component="p" onClick={handleMenuClose}>
-            Profile
-          </MenuItem>
-        </Link>
-      )
-    } else {
-      MenuItems = (
-        <div>
-          <Link to="/sign-in">
-            <MenuItem component="p" onClick={handleMenuClose}>
-              Sign In
-            </MenuItem>
-          </Link>
-          <Link to="/sign-up">
-            <MenuItem component="p" onClick={handleMenuClose}>
-              Sign Up
-            </MenuItem>
-          </Link>
-        </div>
-      )
-    }
-    return MenuItems
+  const onAccountClick = event => {
+    state.user && console.log('user profile')
   }
 
   const menuId = "primary-search-account-menu"
@@ -123,9 +98,7 @@ export default function Navigation() {
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         open={isMenuOpen}
         onClose={handleMenuClose}
-      >
-        {userSignInOrProfile()}
-      </Menu>
+      ></Menu>
     </>
   )
 
@@ -165,8 +138,6 @@ export default function Navigation() {
         >
           <AccountCircle />
         </IconButton>
-
-        {userSignInOrProfile()}
       </MenuItem>
       <NavigationPopover />
     </Menu>
@@ -183,8 +154,6 @@ export default function Navigation() {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <NavigationPopover />
-
             <Link to="/profile">
               <IconButton aria-label="user favorite count" color="inherit">
                 <Badge badgeContent={state.favorites.length} color="secondary">
@@ -192,6 +161,8 @@ export default function Navigation() {
                 </Badge>
               </IconButton>
             </Link>
+            <NavigationPopover onClick={onAccountClick}/>
+
             <Typography
               className={classes.title}
               variant="h6"
@@ -199,16 +170,6 @@ export default function Navigation() {
             >
               {state.user && `Hi, ${state.user.first_name} `}
             </Typography>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

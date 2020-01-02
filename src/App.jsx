@@ -7,7 +7,7 @@ import SignIn from "./components/user/SignIn.jsx"
 import SignUp from "./components/user/SignUp.jsx"
 import Profile from "./components/user/Profile.jsx"
 import NotFound from "./components/NotFound"
-import RestaurantProfile from "./components/RestaurantProfile"
+import RestaurantProfile from './components/restaurantProfile/RestaurantProfile'
 
 function App() {
   return (

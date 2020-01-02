@@ -10,37 +10,42 @@ import {
   Typography
 } from "@material-ui/core/"
 
-import RatingStars from "./RatingStars"
+import RatingStars from "../RatingStars"
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    maxWidth: 360,
+    maxWidth: "100%",
     backgroundColor: theme.palette.background.paper
   },
   inline: {
     display: "inline"
+  },
+  ratingStars: {
+    // textAlign: 'left',
+    color: 'red'
   }
 }))
 
-export default function RestaurantReviews({ reviews }) {
+export default function RestaurantReviews({ review }) {
   const classes = useStyles()
+  // debugger
 
   return (
     <List className={classes.root}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="avatar" src={reviews.user.profile_image} />
+          <Avatar alt="avatar" src={review.user.profile_image} />
         </ListItemAvatar>
 
         <ListItemText
           primary={
             <>
-              <Typography variant="subtitle1">{reviews.user.name}</Typography>
+              <Typography variant="subtitle1">{review.user.name}</Typography>
               <Typography variant="subtitle2">
-                {reviews.review_time_friendly}
+                {review.review_time_friendly}
               </Typography>
-              <RatingStars value={reviews.rating} />
+              <RatingStars value={review.rating} align={'left'}/>
             </>
           }
           secondary={
@@ -51,7 +56,7 @@ export default function RestaurantReviews({ reviews }) {
                 className={classes.inline}
                 color="textPrimary"
               >
-                {reviews.review_text}
+                {review.review_text}
               </Typography>
             </>
           }

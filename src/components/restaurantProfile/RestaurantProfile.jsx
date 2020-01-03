@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { Paper, Typography, Grid, IconButton } from "@material-ui/core"
+import { Paper, Typography, Grid, IconButton, Divider } from "@material-ui/core"
 import { Place as PlaceIcon } from "@material-ui/icons"
 import GoogleMapReact from "google-map-react"
 import Axios from "axios"
@@ -78,19 +78,20 @@ export default function RestaurantProfile(props) {
   }
 
   const picturesAndMap = () => {
+    const mapWidth = restaurant.photos ? 6 : 12
     return (
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          {restaurant.photos && (
-            <Paper className={classes.paper} >
-              <PhotoGallery photos={restaurant.photos} />
-            </Paper>
-          )}
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={mapWidth}>
           <Paper className={classes.paper}>{getMap()}</Paper>
         </Grid>
+
+        {restaurant.photos && (
+          <Grid item xs={12} sm={6}>
+            <Paper className={classes.paper} style={{ height: "100%" }}>
+              <PhotoGallery photos={restaurant.photos} />
+            </Paper>
+          </Grid>
+        )}
       </Grid>
     )
   }
@@ -138,8 +139,7 @@ export default function RestaurantProfile(props) {
             {restaurant.user_rating.aggregate_rating}
           </Typography>
           {restaurant.user_rating.rating_text}
-        </Paper>
-        <Paper className={classes.paper}>
+          <Divider style={{ marginTop: "2vh" }} variant="middle" />
           {reviews.reviewsArray &&
             reviews.reviewsArray.map(r => (
               <RestaurantReview key={r.review.id} review={r.review} />

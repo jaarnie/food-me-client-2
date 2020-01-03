@@ -2,6 +2,8 @@ import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { GridList, GridListTile, GridListTileBar } from "@material-ui/core/"
 
+import ImageLightbox from "./ImageLightbox"
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -30,8 +32,10 @@ export default function PhotoGallery({ photos }) {
   const classes = useStyles()
 
   const handleClick = event => {
-    event.preventDefault()
-    console.log(event.target.src)
+    // debugger
+    // event.preventDefault()
+    console.log("selected pic", event.target.src)
+    return <ImageLightbox photos={event.target.src} openModal={true} />
   }
 
   return (
@@ -41,9 +45,13 @@ export default function PhotoGallery({ photos }) {
         spacing={1}
         className={classes.gridList}
         onClick={handleClick}
+
       >
+        <ImageLightbox photos={photos} />
+
         {photos.map(p => (
-          <GridListTile key={p.photo.id}>
+          <GridListTile key={p.photo.id} 
+          >
             <img src={p.photo.url} alt={p.photo.caption} />
             <GridListTileBar
               title={p.photo.caption}

@@ -1,34 +1,40 @@
-// import React, { useState } from 'react';
-// import Lightbox from 'react-image-lightbox';
+import React, { useState } from 'react';
+import Lightbox from 'react-image-lightbox';
 
 
-// export default function ImageLightbox(props) {
-// 	const [isOpen, setIsOpen] = useState(false)
+export default function ImageLightbox({ photos, openModal }) {
+	const [state, setState] = useState({
+        photoIndex: 0,
+        isOpen: false,
+    })
 
-//     return (
-//       <div>
-//         <button type="button" onClick={() => this.setState({ isOpen: true })}>
-//           Open Lightbox
-//         </button>
+    const images = photos.map(p => p.photo)
 
-//         {isOpen && (
-//           <Lightbox
-//             mainSrc={images[photoIndex]}
-//             nextSrc={images[(photoIndex + 1) % images.length]}
-//             prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-//             onCloseRequest={() => this.setState({ isOpen: false })}
-//             onMovePrevRequest={() =>
-//               this.setState({
-//                 photoIndex: (photoIndex + images.length - 1) % images.length,
-//               })
-//             }
-//             onMoveNextRequest={() =>
-//               this.setState({
-//                 photoIndex: (photoIndex + 1) % images.length,
-//               })
-//             }
-//           />
-//         )}
-//       </div>
-//     );
-// }
+    const { isOpen, photoIndex } = state
+    // debugger
+    return (
+      <div>
+        <button type="button" onClick={() => setState({ isOpen: true })}>
+          Open Lightbox
+        </button>
+
+        {isOpen && (
+          <Lightbox
+            mainSrc={images[3].url}
+            imageTitle={images[3].caption}
+            // nextSrc={images[(photoIndex + 1) % images.length]}
+            // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+            onCloseRequest={() => setState({ isOpen: false })}
+            // onMovePrevRequest={() =>
+            //   setState({
+            //     photoIndex: (photoIndex + images.length - 1) % images.length,
+            //   })
+            // }
+            // onMoveNextRequest={() =>
+            //   setState({ photoIndex: (photoIndex + 1) % images.length })
+            // }
+          />
+        )}
+      </div>
+    );
+}

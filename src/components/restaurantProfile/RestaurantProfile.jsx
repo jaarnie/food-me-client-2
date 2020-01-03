@@ -81,13 +81,13 @@ export default function RestaurantProfile(props) {
     const mapWidth = restaurant.photos ? 6 : 12
     return (
       <Grid container spacing={3}>
-        <Grid item xs={mapWidth}>
+        <Grid item xs={12} sm={mapWidth}>
           <Paper className={classes.paper}>{getMap()}</Paper>
         </Grid>
 
         {restaurant.photos && (
           <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} style={{ height: "100%" }}>
               <PhotoGallery photos={restaurant.photos} />
             </Paper>
           </Grid>

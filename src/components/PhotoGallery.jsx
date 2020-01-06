@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { GridList, GridListTile, GridListTileBar } from "@material-ui/core/"
+import Carousel, { Modal, ModalGateway } from "react-images"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,31 +29,58 @@ const useStyles = makeStyles(theme => ({
 
 export default function PhotoGallery({ photos }) {
   const classes = useStyles()
+  const [state, setState] = useState({
+    selectedIndex: 0,
+    lightboxIsOpen: false,
+    isLoading: false,
+    imageUrls: []
+  })
 
-  const handleClick = event => {
-    event.preventDefault()
-    console.log(event.target.src)
+  const toggleLightbox = selectedIndex => {
+    setState({
+      lightboxIsOpen: !state.lightboxIsOpen,
+      selectedIndex
+    })
   }
 
+  const galleryModal = () => {
+    const imageUrls = []
+    photos.map(p => imageUrls.push({ src: p.photo.url }))
+
+    return (
+      <Modal onClose={toggleLightbox}>
+        <Carousel
+          // components={{ FooterCaption }}
+          currentIndex={selectedIndex}
+          // formatters={{ getAltText }}
+          frameProps={{ autoSize: "height" }}
+          views={imageUrls}
+        />
+      </Modal>
+    )
+  }
+
+  const { selectedIndex, lightboxIsOpen, isLoading } = state
   return (
     <div className={classes.root}>
-      <GridList
-        cellHeight={200}
-        spacing={1}
-        className={classes.gridList}
-        onClick={handleClick}
-      >
-        {photos.map(p => (
-          <GridListTile key={p.photo.id}>
-            <img src={p.photo.url} alt={p.photo.caption} />
+      <GridList cellHeight={200} spacing={1} className={classes.gridList}>
+        {/* {imageCarousel()} */}
+
+        {photos.map(({ photo }, j) => (
+          <GridListTile key={photo.id} onClick={() => toggleLightbox(j)}>
+            <img src={photo.url} alt={photo.caption} />
             <GridListTileBar
-              title={p.photo.caption}
+              title={photo.caption}
               titlePosition="top"
               className={classes.titleBar}
             />
           </GridListTile>
         ))}
       </GridList>
+
+      <ModalGateway>
+        {lightboxIsOpen && !isLoading ? galleryModal() : null}
+      </ModalGateway>
     </div>
   )
 }

@@ -50,9 +50,8 @@ export default function PhotoGallery({ photos }) {
     return (
       <Modal onClose={toggleLightbox}>
         <Carousel
-          // components={{ FooterCaption }}
           currentIndex={selectedIndex}
-          // formatters={{ getAltText }}
+          closeOnBackdropClickBoolean
           frameProps={{ autoSize: "height" }}
           views={imageUrls}
         />
@@ -64,8 +63,6 @@ export default function PhotoGallery({ photos }) {
   return (
     <div className={classes.root}>
       <GridList cellHeight={200} spacing={1} className={classes.gridList}>
-        {/* {imageCarousel()} */}
-
         {photos.map(({ photo }, j) => (
           <GridListTile key={photo.id} onClick={() => toggleLightbox(j)}>
             <img src={photo.url} alt={photo.caption} />

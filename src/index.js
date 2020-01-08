@@ -1,7 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
-import "react-image-lightbox/style.css"
 import * as serviceWorker from "./serviceWorker"
 import { createBrowserHistory } from "history"
 import { Router } from "react-router-dom"

@@ -4,9 +4,12 @@ import { Paper, InputBase, Divider, IconButton } from "@material-ui/core/"
 import { Search as SearchIcon, NearMe as NearMeIcon } from "@material-ui/icons"
 import Axios from "axios"
 import { useSnackbar } from "notistack"
+// import { withRouter } from 'react-router-dom'
+import { useHistory } from "react-router-dom"
 
-import { Store } from "../Store"
-import { searchRoot, headersRoot, postcodeAPI } from "../config/apiConfig"
+import { Store } from "../../Store"
+import { searchRoot, headersRoot, postcodeAPI } from "../../config/apiConfig"
+import Home from '../Home'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function SearchUserLocation() {
+  const history = useHistory()
   const classes = useStyles()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { state, dispatch } = useContext(Store)
@@ -124,7 +128,6 @@ export default function SearchUserLocation() {
 
   useEffect(() => {
     if (state.userGeoLocation) {
-      debugger
       const userLat = state.userGeoLocation.coords.latitude
       const userLong = state.userGeoLocation.coords.longitude
       findLocationData(userLat, userLong)
@@ -136,9 +139,9 @@ export default function SearchUserLocation() {
 
   const findLocationData = async (userLat, userLong) => {
     const response = await axios.get(`geocode?lat=${userLat}&lon=${userLong}`)
-    debugger
     getLocationData(response.data)
   }
+
 
   const getLocationData = async data => {
     let entityId = ""
@@ -158,11 +161,14 @@ export default function SearchUserLocation() {
       type: "SET_LOCATION",
       payload: locationData.data
     })
+
     dispatch({
       type: "SET_RESTARUANTS",
       payload: locationData.data.best_rated_restaurant
     })
     closeSnackbar()
+
+    history.push("/")
   }
 
   return (

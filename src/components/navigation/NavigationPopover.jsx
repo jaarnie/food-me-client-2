@@ -1,21 +1,13 @@
 import React, { useEffect, useContext } from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import { Popover, Typography, IconButton } from "@material-ui/core"
+import { Popover, IconButton } from "@material-ui/core"
 import { AccountCircle } from "@material-ui/icons"
 import { useHistory } from "react-router-dom"
 
 import { Store } from "../../Store"
 import SignIn from "../user/SignIn"
 
-const useStyles = makeStyles(theme => ({
-  typography: {
-    padding: theme.spacing(2)
-  }
-}))
-
 export default function NavigationPopover() {
   const history = useHistory()
-  const classes = useStyles()
   const { state } = useContext(Store)
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -29,7 +21,7 @@ export default function NavigationPopover() {
   }
 
   const open = Boolean(anchorEl)
-  const id = open ? "sign-in-popover" : undefined
+  const id = open && "sign-in-popover"
 
   useEffect(() => {
     state.user && handleClose()
@@ -56,7 +48,6 @@ export default function NavigationPopover() {
         }}
       >
         <SignIn />
-        <Typography className={classes.typography}>TEST</Typography>
       </Popover>
     </div>
   )

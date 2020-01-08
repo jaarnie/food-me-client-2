@@ -20,7 +20,7 @@ import { Store } from "../../Store.js"
 import { Link } from "react-router-dom"
 
 import { MAIN_COLOUR } from "../../constants/index"
-import SearchUserLocation from "../SearchUserLocation"
+import SearchUserLocation from "../search/SearchUserLocation"
 import NavigationPopover from "./NavigationPopover"
 
 const useStyles = makeStyles(theme => ({
@@ -81,10 +81,6 @@ export default function Navigation() {
 
   function handleMobileMenuOpen(event) {
     setMobileMoreAnchorEl(event.currentTarget)
-  }
-
-  const onAccountClick = event => {
-    state.user && console.log('user profile')
   }
 
   const menuId = "primary-search-account-menu"
@@ -161,7 +157,8 @@ export default function Navigation() {
                 </Badge>
               </IconButton>
             </Link>
-            <NavigationPopover onClick={onAccountClick}/>
+
+            <NavigationPopover />
 
             <Typography
               className={classes.title}

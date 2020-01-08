@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { Popover, Typography, IconButton, MenuItem } from "@material-ui/core"
+import { Popover, Typography, IconButton } from "@material-ui/core"
 import { AccountCircle } from "@material-ui/icons"
-import { Link } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 import { Store } from "../../Store"
 import SignIn from "../user/SignIn"
@@ -13,14 +13,15 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function NavigationPopover({ history }) {
+export default function NavigationPopover() {
+  const history = useHistory()
   const classes = useStyles()
   const { state } = useContext(Store)
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
-    // return state.user && <Route path="/profile" />
+    return state.user && history.push("/profile")
   }
 
   const handleClose = () => {

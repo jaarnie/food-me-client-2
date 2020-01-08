@@ -16,6 +16,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import { Link } from "react-router-dom"
 import { useSnackbar } from "notistack"
 import Axios from "axios"
+import { useHistory } from "react-router-dom"
+
 // import { Query } from 'react-apollo'
 // import gql from 'graphql-tag'
 
@@ -78,9 +80,9 @@ const useStyles = makeStyles(theme => ({
 //   }
 // `
 
-export default function SignIn({ history }) {
+export default function SignIn() {
+  const history = useHistory()
   const { dispatch } = useContext(Store)
-
   const { enqueueSnackbar } = useSnackbar()
   const classes = useStyles()
 
@@ -101,7 +103,6 @@ export default function SignIn({ history }) {
 
   const handleChange = event => {
     setValues({ ...values, [event.target.name]: event.target.value })
-    console.log(values)
   }
 
   // debugger
@@ -152,12 +153,11 @@ export default function SignIn({ history }) {
           payload: response.data
         })
 
-        history.push("/")
+        return history.push("/")
 
       }
 
     } catch (err) {
-      console.log(err)
       enqueueSnackbar(`Error`, {
         variant: "error"
       })

@@ -29,7 +29,6 @@ const initialState = {
   restaurants: null,
   filteredRestaurants: null,
   favorites: [],
-  searchValue: "",
   userGeoLocation: null,
   userLocation: null,
   title: "hello"
@@ -45,9 +44,6 @@ function reducer(state, action) {
 
     case "REMOVE_FAVORITE":
       return { ...state, favorites: action.payload }
-
-    case "SEARCH_VALUE":
-      return { ...state, searchValue: action.payload }
 
     case "SET_USER":
       return { ...state, user: action.payload }

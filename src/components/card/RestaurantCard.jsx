@@ -85,7 +85,7 @@ export default function RestaurantCard({ r }) {
 
   return (
     <Card className={classes.card}>
-      {console.log("CARD", restaurant)}
+      {console.log("CARD >>>>>", restaurant)}
       <CardHeader
         avatar={
           <Avatar

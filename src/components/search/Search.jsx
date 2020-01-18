@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { Store } from "../../Store"
 import { makeStyles } from "@material-ui/core/styles"
 import { TextField, Button } from "@material-ui/core"
@@ -39,17 +39,16 @@ export default function Search() {
   const classes = useStyles()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
+  const [searchValue, setSearchVaue] = useState("")
+
   const axios = Axios.create({
     baseURL: searchRoot,
     headers: headersRoot
   })
 
-  function handleChange(event) {
-    let value = {
-      type: "SEARCH_VALUE",
-      payload: event.target.value
-    }
-    dispatch(value)
+  const handleChange = event => {
+    let value = event.target.value
+    setSearchVaue(value)
   }
 
   function clearData(event) {
@@ -67,31 +66,32 @@ export default function Search() {
       variant: "info",
       persist: true
     })
-    let searchValue = ""
-    const value = state.searchValue
+
+    let searchUrl = ""
     const locationID =
       state.userLocation && state.userLocation.location.entity_id
 
-    if (value) {
-      searchValue = `/search?entity_id=61&entity_type=city&q=${value}&count=50&radius=1000`
+    if (searchValue) {
+      searchUrl = `/search?entity_id=61&entity_type=city&q=${searchValue}&count=50&radius=1000`
     }
 
     if (locationID) {
-      searchValue = `/search?entity_id=${locationID &&
+      searchUrl = `/search?entity_id=${locationID &&
         locationID}&entity_type=subzone&count=50&radius=1000`
     }
 
-    if (value && locationID) {
-      searchValue = `/search?entity_id=${locationID &&
-        locationID}&entity_type=subzone&q=${value}&count=50&radius=1000`
+    if (searchValue && locationID) {
+      searchUrl = `/search?entity_id=${locationID &&
+        locationID}&entity_type=subzone&q=${searchValue}&count=50&radius=1000`
     }
 
-    if (!locationID && !value) {
-      searchValue = "/search?entity_id=61&entity_type=city"
+    if (!locationID && !searchValue) {
+      searchUrl = "/search?entity_id=61&entity_type=city"
     }
 
     try {
-      const response = await axios.get(searchValue)
+      const response = await axios.get(searchUrl)
+
       if (response.data.results_found !== 0 && response.status === 200) {
         console.log("RESPONSE>", response)
         dispatch({

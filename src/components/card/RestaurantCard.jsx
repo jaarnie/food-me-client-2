@@ -25,7 +25,7 @@ import { Link } from "react-router-dom"
 import RatingStars from "../../components/RatingStars"
 import PhotoGallery from "../PhotoGallery"
 import { googleMapDeeplink, MAIN_COLOUR } from "../../constants/index"
-import LikeButton from '../LikeButton'
+import LikeButton from "../LikeButton"
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -50,15 +50,13 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     backgroundColor: MAIN_COLOUR,
-    marginBottom: '2.5vh'
+    marginBottom: "2.5vh"
   }
 }))
 
 export default function RestaurantCard({ r }) {
   const classes = useStyles()
-  // const { state, dispatch } = useContext(Store)
   const [expanded, setExpanded] = React.useState(false)
-
   const restaurant = r.restaurant || r
 
   function handleExpandClick() {
@@ -67,6 +65,22 @@ export default function RestaurantCard({ r }) {
 
   const ShowTimes = () => {
     return restaurant.timings
+  }
+
+  const restaurantLocation = () => {
+    const address = restaurant.location.address.split(", ")
+    const postcode = address.pop()
+    // debugger
+
+    return (
+    <>
+      <Typography variant="body2" color="textSecondary" component="p">
+      {address.join(", ")}
+      {<br></br>}
+      {postcode}
+      </Typography>
+    </>
+    )
   }
 
   return (
@@ -88,8 +102,10 @@ export default function RestaurantCard({ r }) {
           </IconButton>
         }
         title={restaurant.name}
-        subheader={`${restaurant.establishment[0]}: ${restaurant.cuisines}`}
+        subheader={`${restaurant.establishment[0]}`}
+        // subheader={`${restaurant.cuisines}`}
       />
+
       <CardMedia
         className={classes.media}
         image={restaurant.featured_image}
@@ -97,16 +113,20 @@ export default function RestaurantCard({ r }) {
         title="featured image"
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {restaurant.location.address}
-        </Typography>
+          {restaurantLocation()}
+        <RatingStars
+          value={restaurant.user_rating.aggregate_rating}
+          votes={restaurant.user_rating.votes}
+        />
+          {restaurant.cuisines}
       </CardContent>
       <CardActions disableSpacing>
         <LikeButton restaurant={restaurant} />
 
-        <IconButton aria-label="share">
+        {/* ToDo - add share */}
+        {/* <IconButton aria-label="share">
           <ShareIcon />
-        </IconButton>
+        </IconButton> */}
 
         <IconButton
           aria-label="place"
@@ -130,10 +150,6 @@ export default function RestaurantCard({ r }) {
         <CardContent>
           <Typography paragraph>Opening Times:</Typography>
           <ShowTimes />
-          <RatingStars
-            value={restaurant.user_rating.aggregate_rating}
-            votes={restaurant.user_rating.votes}
-          />
           <Typography paragraph>
             {/* {restaurant.menu_url} */}
             Average cost for two:{" "}

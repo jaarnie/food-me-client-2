@@ -27,6 +27,7 @@ const initialState = {
   // },
   user: null,
   restaurants: null,
+  filteredRestaurants: null,
   favorites: [],
   searchValue: "",
   userGeoLocation: null,
@@ -59,6 +60,9 @@ function reducer(state, action) {
 
     case "SET_TITLE":
       return { ...state, title: action.payload }
+
+    case "FILTERED_RESTAURANTS":
+      return { ...state, filteredRestaurants: action.payload}
 
     default:
       return { ...state }

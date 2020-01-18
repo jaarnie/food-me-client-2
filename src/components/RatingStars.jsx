@@ -5,7 +5,7 @@ import { Box, Typography } from "@material-ui/core"
 
 import { MAIN_COLOUR } from '../constants/index'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   content: {
     justifyContent: "center",
     color: MAIN_COLOUR

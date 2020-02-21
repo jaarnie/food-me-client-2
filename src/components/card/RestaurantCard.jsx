@@ -73,13 +73,13 @@ export default function RestaurantCard({ r }) {
     // debugger
 
     return (
-    <>
-      <Typography variant="body2" color="textSecondary" component="p">
-      {address.join(", ")}
-      {<br></br>}
-      {postcode}
-      </Typography>
-    </>
+      <>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {address.join(", ")}
+          {<br></br>}
+          {postcode}
+        </Typography>
+      </>
     )
   }
 
@@ -113,12 +113,12 @@ export default function RestaurantCard({ r }) {
         title="featured image"
       />
       <CardContent>
-          {restaurantLocation()}
+        {restaurantLocation()}
         <RatingStars
           value={restaurant.user_rating.aggregate_rating}
           votes={restaurant.user_rating.votes}
         />
-          {restaurant.cuisines}
+        {restaurant.cuisines}
       </CardContent>
       <CardActions disableSpacing>
         <LikeButton restaurant={restaurant} />

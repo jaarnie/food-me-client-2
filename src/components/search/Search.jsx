@@ -116,24 +116,13 @@ export default function Search() {
     }
   }
 
-  return (
-    <div>
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="outlined-with-placeholder"
-          label="Nom nom"
-          placeholder="eg. Burgers"
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-          fullWidth
-          type="search"
-          onChange={handleChange}
-        />
+  const SearchButtons = () => {
+    return (
+      <div className={classes.container}>
         <Button
-          style={{ justifyContent: "center" }}
           variant="contained"
           color="primary"
+          size="medium"
           className={classes.button}
           type="submit"
           onClick={fetchData}
@@ -142,7 +131,6 @@ export default function Search() {
         </Button>
         {state.restaurants && (
           <Button
-            style={{ justifyContent: "center" }}
             variant="contained"
             color="primary"
             className={classes.button}
@@ -152,7 +140,24 @@ export default function Search() {
             Clear
           </Button>
         )}
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <form className={classes.container} noValidate autoComplete="off">
+        <TextField
+          id="standard-search"
+          label="Nom nom"
+          placeholder="eg. Burgers"
+          className={classes.textField}
+          size="medium"
+          type="search"
+          onChange={handleChange}
+        />
       </form>
+      <SearchButtons />
     </div>
   )
 }

@@ -13,7 +13,8 @@ import {
   AccountCircle,
   Favorite as FavoriteIcon,
   Notifications as NotificationsIcon,
-  MoreVert as MoreIcon
+  MoreVert as MoreIcon,
+  Restaurant as RestaurantIcon
 } from "@material-ui/icons"
 
 import { Store } from "../../Store.js"
@@ -143,10 +144,13 @@ export default function Navigation() {
     <div className={classes.grow} style={{ marginBottom: "10vh" }}>
       <AppBar className={classes.main}>
         <Toolbar>
-          <SearchUserLocation />
+          {/* <SearchUserLocation /> */}
 
           <Typography className={classes.userName} variant="h6" noWrap>
-            <Link to="/">Food Me</Link>
+            <Link to="/">
+              Food Me
+              <RestaurantIcon />
+            </Link>
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

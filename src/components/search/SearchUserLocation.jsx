@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext, useEffect, useCallback } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import { Paper, InputBase, Divider, IconButton } from "@material-ui/core/"
+import { IconButton, TextField } from "@material-ui/core/"
 import { Search as SearchIcon, NearMe as NearMeIcon } from "@material-ui/icons"
 import Axios from "axios"
 import { useSnackbar } from "notistack"
@@ -11,10 +11,11 @@ import { searchRoot, headersRoot, postcodeAPI } from "../../config/apiConfig"
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: "6px 18px",
-    display: "flex",
+    // margin: "6px 18px",
+    marginTop: "3vh",
+    // display: "flex",
     alignItems: "center",
-    width: 400
+    width: 200
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -22,10 +23,6 @@ const useStyles = makeStyles(theme => ({
   },
   iconButton: {
     padding: 10
-  },
-  divider: {
-    height: 28,
-    margin: 4
   }
 }))
 
@@ -124,24 +121,7 @@ export default function SearchUserLocation() {
     })
   }
 
-  useEffect(() => {
-    if (state.userGeoLocation) {
-      const userLat = state.userGeoLocation.coords.latitude
-      const userLong = state.userGeoLocation.coords.longitude
-      findLocationData(userLat, userLong)
-    }
-    if (state.searchedLocation) {
-      getLocationData(state.searchedLocation)
-    }
-  }, [state.userGeoLocation])
-
-  const findLocationData = async (userLat, userLong) => {
-    const response = await axios.get(`geocode?lat=${userLat}&lon=${userLong}`)
-    getLocationData(response.data)
-  }
-
-
-  const getLocationData = async data => {
+  const getLocationData = useCallback(async data => {
     let entityId = ""
     let entityType = ""
     if (data.location) {
@@ -167,14 +147,38 @@ export default function SearchUserLocation() {
     closeSnackbar()
 
     history.push("/")
-  }
+  }, [])
+
+  const findLocationData = useCallback(async (userLat, userLong) => {
+    const response = await axios.get(`geocode?lat=${userLat}&lon=${userLong}`)
+    getLocationData(response.data)
+  }, [])
+
+  useEffect(() => {
+    if (state.userGeoLocation) {
+      const userLat = state.userGeoLocation.coords.latitude
+      const userLong = state.userGeoLocation.coords.longitude
+      findLocationData(userLat, userLong)
+    }
+    if (state.searchedLocation) {
+      getLocationData(state.searchedLocation)
+    }
+  }, [
+    findLocationData,
+    getLocationData,
+    state.searchedLocation,
+    state.userGeoLocation
+  ])
 
   return (
-    <Paper className={classes.root}>
-      <InputBase
+    <div className={classes.root}>
+      <TextField
+        id="standard-search"
+        label="Where to?"
+        placeholder="Town/Area/Postcode"
         className={classes.input}
-        placeholder="Where you goin'?"
-        inputProps={{ "aria-label": "postcode" }}
+        size="medium"
+        type="search"
         onChange={handleChange}
       />
       <IconButton
@@ -184,7 +188,6 @@ export default function SearchUserLocation() {
       >
         <SearchIcon />
       </IconButton>
-      <Divider className={classes.divider} orientation="vertical" />
       <IconButton
         className={classes.iconButton}
         aria-label="search"
@@ -192,6 +195,6 @@ export default function SearchUserLocation() {
       >
         <NearMeIcon />
       </IconButton>
-    </Paper>
+    </div>
   )
 }

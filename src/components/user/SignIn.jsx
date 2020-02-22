@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext } from 'react'
 import {
   Avatar,
   Button,
@@ -9,14 +9,13 @@ import {
   Grid,
   Box,
   Typography,
-  Container
-} from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/styles"
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
-import { Link } from "react-router-dom"
-import { useSnackbar } from "notistack"
-import Axios from "axios"
-import { useHistory } from "react-router-dom"
+  Container,
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import { Link, useHistory } from 'react-router-dom'
+import { useSnackbar } from 'notistack'
+import Axios from 'axios'
 
 // import { Query } from 'react-apollo'
 // import gql from 'graphql-tag'
@@ -26,47 +25,49 @@ import {
   serverHeaders,
   // searchRoot,
   // headersRoot
-} from "../../config/apiConfig"
-import { Store } from "../../Store.js"
-import { MAIN_COLOUR } from "../../constants"
-import { fetchFavorites } from "../FetchFavorites"
+} from '../../config/apiConfig'
+import { Store } from '../../Store'
+import { MAIN_COLOUR } from '../../constants'
+import { fetchFavorites } from '../FetchFavorites'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      <Link color="inherit" to="https://github.com/jaarnie/">
+      <a href="https://github.com/jaarnie/" target="_blank" rel="noopener noreferrer">
         github |
-      </Link>{" "}
+      </a>{' '}
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   )
 }
 
-const useStyles = makeStyles(theme => ({
-  "@global": {
+const useStyles = makeStyles((theme) => ({
+  '@global': {
     body: {
-      backgroundColor: theme.palette.common.white
-    }
+      backgroundColor: theme.palette.common.white,
+    },
   },
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: MAIN_COLOUR
+    backgroundColor: MAIN_COLOUR,
   },
   form: {
-    width: "100%",
-    marginTop: theme.spacing(1)
+    width: '100%',
+    marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: MAIN_COLOUR
-  }
+    backgroundColor: MAIN_COLOUR,
+  },
+  footer: {
+    marginBottom: '20px',
+  },
 }))
 
 // const USER_QUERY = gql`
@@ -88,7 +89,7 @@ export default function SignIn() {
 
   const axiosServer = Axios.create({
     baseURL: serverRoot,
-    headers: serverHeaders
+    headers: serverHeaders,
   })
 
   // const axiosAPI = Axios.create({
@@ -97,11 +98,11 @@ export default function SignIn() {
   // })
 
   const [values, setValues] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   })
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
@@ -130,36 +131,30 @@ export default function SignIn() {
 
   // debugger
 
-
-
   // save state restaurants to user when signed in
 
-
-
-  const handleClick = async event => {
+  const handleClick = async (event) => {
     event.preventDefault()
     try {
-      const response = await axiosServer.post("/login", {
+      const response = await axiosServer.post('/login', {
         email: values.email,
-        password: values.password
+        password: values.password,
       })
       if (response.status === 200) {
         enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
-          variant: "success"
+          variant: 'success',
         })
         fetchFavorites(response.data, dispatch)
         dispatch({
-          type: "SET_USER",
-          payload: response.data
+          type: 'SET_USER',
+          payload: response.data,
         })
 
-        return history.push("/")
-
+        return history.push('/')
       }
-
     } catch (err) {
       enqueueSnackbar(`Error`, {
-        variant: "error"
+        variant: 'error',
       })
     }
   }
@@ -214,9 +209,6 @@ export default function SignIn() {
             Sign In
           </Button>
           <Grid container justify="center">
-            <Grid item xs>
-              <Link to="/sign-up">Forgot password?</Link>
-            </Grid>
             <Grid item>
               <Link to="/sign-up">Don't have an account? Sign Up</Link>
             </Grid>
@@ -224,7 +216,9 @@ export default function SignIn() {
         </form>
       </div>
       <Box mt={8}>
-        <Copyright />
+        <div className={classes.footer}>
+          <Copyright />
+        </div>
       </Box>
     </Container>
   )

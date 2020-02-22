@@ -1,4 +1,5 @@
-import React from "react"
+/* eslint-disable react/jsx-filename-extension */
+import React from 'react'
 
 export const Store = React.createContext()
 
@@ -31,34 +32,34 @@ const initialState = {
   favorites: [],
   userGeoLocation: null,
   userLocation: null,
-  title: "hello"
+  title: 'hello',
 }
 
 function reducer(state, action) {
   switch (action.type) {
-    case "SET_RESTARUANTS":
+    case 'SET_RESTARUANTS':
       return { ...state, restaurants: action.payload }
 
-    case "ADD_FAVORITE":
+    case 'ADD_FAVORITE':
       return { ...state, favorites: [...state.favorites, action.payload] }
 
-    case "REMOVE_FAVORITE":
+    case 'REMOVE_FAVORITE':
       return { ...state, favorites: action.payload }
 
-    case "SET_USER":
+    case 'SET_USER':
       return { ...state, user: action.payload }
 
-    case "GET_GEOLOCATION":
+    case 'GET_GEOLOCATION':
       return { ...state, userGeoLocation: action.payload }
 
-    case "SET_LOCATION":
+    case 'SET_LOCATION':
       return { ...state, userLocation: action.payload }
 
-    case "SET_TITLE":
+    case 'SET_TITLE':
       return { ...state, title: action.payload }
 
-    case "FILTERED_RESTAURANTS":
-      return { ...state, filteredRestaurants: action.payload}
+    case 'FILTERED_RESTAURANTS':
+      return { ...state, filteredRestaurants: action.payload }
 
     default:
       return { ...state }

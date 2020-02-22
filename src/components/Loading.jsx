@@ -1,16 +1,14 @@
-import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import {
-  CircularProgress
-} from "@material-ui/core/"
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { CircularProgress } from '@material-ui/core/'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   content: {
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   progress: {
     margin: theme.spacing(2),
-    alignItems: "center"
+    alignItems: 'center',
   },
 }))
 
@@ -19,9 +17,7 @@ export const Loading = () => {
 
   return (
     <div className={classes.content}>
-      <CircularProgress
-        className={classes.progress}
-      />
+      <CircularProgress className={classes.progress} />
     </div>
   )
 }
@@ -31,10 +27,7 @@ export const SnackbarLoading = () => {
 
   return (
     <div className={classes.content}>
-       <CircularProgress
-       size={30}
-       style={{color: 'white'}}
-      />
+      <CircularProgress size={30} style={{ color: 'white' }} />
     </div>
   )
 }

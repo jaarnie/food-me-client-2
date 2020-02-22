@@ -4,14 +4,14 @@ const serverApiVersion = 'v1'
 const roots = {
   search: `https://developers.zomato.com/api/${apiVersion}`,
   headers: {
-    "Content-Type": "application/json",
-    "user-key": "87be592b7c816cd2e00737b271776b7f"
+    'Content-Type': 'application/json',
+    'user-key': '87be592b7c816cd2e00737b271776b7f',
   },
   server: `http://localhost:7000/api/${serverApiVersion}`,
   serverHeaders: {
-    "Content-Type": "application/json"
+    'Content-Type': 'application/json',
   },
-  postcode: `https://api.postcodes.io/postcodes`
+  postcode: `https://api.postcodes.io/postcodes`,
 }
 
 export const postcodeAPI = roots.postcode

@@ -1,37 +1,40 @@
-import React from "react"
-import { withStyles } from "@material-ui/core/styles"
-import FormGroup from "@material-ui/core/FormGroup"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Checkbox from "@material-ui/core/Checkbox"
+import React from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 
-import { MAIN_COLOUR } from "../../constants/index"
+import { MAIN_COLOUR } from '../../constants/index'
 
 const GreenCheckbox = withStyles({
   root: {
-    justifyContent: "center",
+    justifyContent: 'center',
     color: MAIN_COLOUR,
-    "&$checked": {
-      color: MAIN_COLOUR
-    }
+    '&$checked': {
+      color: MAIN_COLOUR,
+    },
   },
-  checked: {}
-})(props => <Checkbox color="default" {...props} />)
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />)
 
+// eslint-disable-next-line react/prop-types
 export default function Filter({ checked, setChecked }) {
-  const handleChange = name => event => {
+  const handleChange = (name) => (event) => {
     setChecked({ ...checked, [name]: event.target.checked })
   }
 
   return (
-    <FormGroup row style={{
-    justifyContent: "center"
-
-    }}>
+    <FormGroup
+      row
+      style={{
+        justifyContent: 'center',
+      }}
+    >
       <FormControlLabel
         control={
           <GreenCheckbox
             checked={checked.vegetarian}
-            onChange={handleChange("vegetarian")}
+            onChange={handleChange('vegetarian')}
             value="vegetarian"
           />
         }
@@ -39,11 +42,7 @@ export default function Filter({ checked, setChecked }) {
       />
       <FormControlLabel
         control={
-          <GreenCheckbox
-            checked={checked.vegan}
-            onChange={handleChange("vegan")}
-            value="vegan"
-          />
+          <GreenCheckbox checked={checked.vegan} onChange={handleChange('vegan')} value="vegan" />
         }
         label="Vegan Friendly"
       />

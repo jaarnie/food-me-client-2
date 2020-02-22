@@ -1,62 +1,65 @@
-import React, { useState, useEffect } from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import Avatar from "@material-ui/core/Avatar"
-import Button from "@material-ui/core/Button"
-import CssBaseline from "@material-ui/core/CssBaseline"
-import TextField from "@material-ui/core/TextField"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Checkbox from "@material-ui/core/Checkbox"
-import Grid from "@material-ui/core/Grid"
-import Box from "@material-ui/core/Box"
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
-import Typography from "@material-ui/core/Typography"
-import Container from "@material-ui/core/Container"
-import { Link } from "react-router-dom"
-import { useSnackbar } from "notistack"
-import Axios from "axios"
+import React, { useState, useCallback } from 'react'
+import {
+  makeStyles,
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from '@material-ui/core'
+import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons'
+import { Link } from 'react-router-dom'
+import { useSnackbar } from 'notistack'
+import Axios from 'axios'
 
-import PasswordStrength from "./PasswordStrength"
-import { serverRoot, serverHeaders } from "../../config/apiConfig"
-import { Store } from "../../Store.js"
-import { MAIN_COLOUR } from "../../constants"
+import PasswordStrength from './PasswordStrength'
+import { serverRoot, serverHeaders } from '../../config/apiConfig'
+import { Store } from '../../Store'
+import { MAIN_COLOUR } from '../../constants'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" to="https://www.github.com/jaarnie">
-        Your Website
-      </Link>{" "}
+      <a href="https://github.com/jaarnie/" target="_blank" rel="noopener noreferrer">
+        github |
+      </a>{' '}
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   )
 }
 
-const useStyles = makeStyles(theme => ({
-  "@global": {
+const useStyles = makeStyles((theme) => ({
+  '@global': {
     body: {
-      backgroundColor: theme.palette.common.white
-    }
+      backgroundColor: theme.palette.common.white,
+    },
   },
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: MAIN_COLOUR
-  }
+    backgroundColor: MAIN_COLOUR,
+  },
+  footer: {
+    marginBottom: '20px',
+  },
 }))
 
 export default function SignUp({ history }) {
@@ -67,76 +70,74 @@ export default function SignUp({ history }) {
   const { enqueueSnackbar } = useSnackbar()
 
   const [values, setValues] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    passwordConfirmation: "",
-    marketingCheckbox: false
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+    marketingCheckbox: false,
   })
 
-  const [response, setResponse] = useState({ err: "" })
+  const [response, setResponse] = useState({ err: '' })
 
   const axios = Axios.create({
     baseURL: serverRoot,
-    headers: serverHeaders
+    headers: serverHeaders,
   })
 
-  const handleClick = async event => {
+  const handleClick = async (event) => {
     event.preventDefault()
     try {
-      const response = await axios.post("/users", {
+      // eslint-disable-next-line no-shadow
+      const response = await axios.post('/users', {
         user: {
           first_name: values.firstName,
           last_name: values.lastName,
           email: values.email,
           password: values.password,
           password_confirmation: values.passwordConfirmation,
-          marketing_checkbox: values.marketingCheckbox
-        }
+          marketing_checkbox: values.marketingCheckbox,
+        },
       })
       if (response.status === 201) {
         dispatch({
-          type: "SET_USER",
-          payload: response.data
+          type: 'SET_USER',
+          payload: response.data,
         })
         enqueueSnackbar(`Welcome, ${response.data.first_name}`, {
-          variant: "success"
+          variant: 'success',
         })
-        history.push("/")
+        history.push('/')
       }
     } catch (err) {
       console.log(err)
-      setResponse({ err: err })
+      setResponse({ err })
 
-      enqueueSnackbar("Error", {
-        variant: "error",
-        autoHideDuration: 3000
+      enqueueSnackbar('Error', {
+        variant: 'error',
+        autoHideDuration: 3000,
       })
     }
   }
 
-  const handleChange = event => {
-    const name = event.target.name
-    const value = event.target.value
-    setValues({ ...values, [name]: value })
-    console.log(values)
-  }
+  const handleChange = useCallback(
+    (event) => {
+      const { name } = event.target
+      const { value } = event.target
+      setValues({ ...values, [name]: value })
+      console.log(values)
+    },
+    [values]
+  )
 
-  const handleCheckbox = event => {
-    setValues({ ...values, marketingCheckbox: event })
-    // console.log(values)
-  }
+  const handleCheckbox = useCallback(
+    (event) => {
+      setValues({ ...values, marketingCheckbox: event })
+      // console.log(values)
+    },
+    [values]
+  )
 
-  // useEffect(() => {
-  // if (response.err) {
-  //   enqueueSnackbar("Error", {
-  //     variant: "error",
-  //     autoHideDuration: 3000
-  //   })
-  // }
-  // }, [enqueueSnackbar, response])
-  // debugger
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -224,7 +225,7 @@ export default function SignUp({ history }) {
                   <Checkbox
                     name="marketingCheckbox"
                     color="primary"
-                    onChange={e => {
+                    onChange={(e) => {
                       const { checked } = e.currentTarget
                       handleCheckbox(checked)
                     }}
@@ -240,7 +241,7 @@ export default function SignUp({ history }) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={e => handleClick(e)}
+            onClick={(e) => handleClick(e)}
           >
             Sign Up
           </Button>
@@ -252,7 +253,9 @@ export default function SignUp({ history }) {
         </form>
       </div>
       <Box mt={5}>
-        <Copyright />
+        <div className={classes.footer}>
+          <Copyright />
+        </div>
       </Box>
     </Container>
   )

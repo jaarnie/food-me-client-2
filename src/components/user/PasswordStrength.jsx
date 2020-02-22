@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from "react"
-import zxcvbn from "zxcvbn"
-import { makeStyles } from "@material-ui/core/styles"
-import { LinearProgress, Paper, Typography } from "@material-ui/core"
+import React from 'react'
+import zxcvbn from 'zxcvbn'
+import { makeStyles } from '@material-ui/core/styles'
+import { LinearProgress, Paper } from '@material-ui/core'
 // import { yellow, amber, green } from "@material-ui/core/colors"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(3, 2)
+    padding: theme.spacing(3, 2),
   },
   progressBar: {
     padding: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   textBox: {
-    align: "justify"
-  }
+    align: 'justify',
+  },
 }))
 
 export default function PasswordStrength({ password }) {
   const classes = useStyles()
   const testedResult = zxcvbn(password)
-  const [state, setState] = useState({
-    text: "cunt",
-    color: ""
-  })
+  // const [state, setState] = useState({
+  //   text: 'cunt',
+  //   color: '',
+  // })
 
   // const passwordStrengthText = () => {
   //   switch (testedResult.score) {
@@ -63,7 +63,7 @@ export default function PasswordStrength({ password }) {
   //   }
   // }, [null])
 
-  function handleColor() {}
+  // function handleColor() {}
 
   return (
     <div>
@@ -75,10 +75,7 @@ export default function PasswordStrength({ password }) {
           variant="determinate"
           value={testedResult.score * 25}
         />
-        <Typography
-          className={classes.textBox}
-          variant="subtitle2"
-        ></Typography>
+        {/* <Typography className={classes.textBox} variant="subtitle2"></Typography> */}
       </Paper>
     </div>
   )

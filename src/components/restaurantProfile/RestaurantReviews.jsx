@@ -1,5 +1,5 @@
-import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import {
   List,
   ListItem,
@@ -7,24 +7,24 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
-  Typography
-} from "@material-ui/core/"
+  Typography,
+} from '@material-ui/core/'
 
-import RatingStars from "../RatingStars"
+import RatingStars from '../RatingStars'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
-    maxWidth: "100%",
-    backgroundColor: theme.palette.background.paper
+    width: '100%',
+    maxWidth: '100%',
+    backgroundColor: theme.palette.background.paper,
   },
   inline: {
-    display: "inline"
+    display: 'inline',
   },
   ratingStars: {
     // textAlign: 'left',
-    color: 'red'
-  }
+    color: 'red',
+  },
 }))
 
 export default function RestaurantReviews({ review }) {
@@ -42,10 +42,8 @@ export default function RestaurantReviews({ review }) {
           primary={
             <>
               <Typography variant="subtitle1">{review.user.name}</Typography>
-              <Typography variant="subtitle2">
-                {review.review_time_friendly}
-              </Typography>
-              <RatingStars value={review.rating} align={'left'}/>
+              <Typography variant="subtitle2">{review.review_time_friendly}</Typography>
+              <RatingStars value={review.rating} align="left" />
             </>
           }
           secondary={

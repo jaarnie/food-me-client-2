@@ -1,6 +1,6 @@
-import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import clsx from "clsx"
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 import {
   Card,
   CardHeader,
@@ -11,47 +11,47 @@ import {
   Avatar,
   IconButton,
   Typography,
-  Button
-} from "@material-ui/core"
+  Button,
+} from '@material-ui/core'
 import {
-  Share as ShareIcon,
+  // Share as ShareIcon,
   Place as PlaceIcon,
   ExpandMore as ExpandMoreIcon,
-  MoreVert as MoreVertIcon
-} from "@material-ui/icons"
-import { red } from "@material-ui/core/colors"
-import { Link } from "react-router-dom"
+  MoreVert as MoreVertIcon,
+} from '@material-ui/icons'
+import { red } from '@material-ui/core/colors'
+import { Link } from 'react-router-dom'
 
-import RatingStars from "../../components/RatingStars"
-import PhotoGallery from "../PhotoGallery"
-import { googleMapDeeplink, MAIN_COLOUR } from "../../constants/index"
-import LikeButton from "../LikeButton"
+import RatingStars from '../RatingStars'
+import PhotoGallery from '../PhotoGallery'
+import { googleMapDeeplink, MAIN_COLOUR } from '../../constants/index'
+import LikeButton from '../LikeButton'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
-    margin: "1vh 4vw 1vh 4vw"
+    margin: '1vh 4vw 1vh 4vw',
   },
   media: {
     height: 0,
-    paddingTop: "56.25%" // 16:9
+    paddingTop: '56.25%', // 16:9
   },
   expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest
-    })
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
   },
   expandOpen: {
-    transform: "rotate(180deg)"
+    transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: red[500]
+    backgroundColor: red[500],
   },
   button: {
     backgroundColor: MAIN_COLOUR,
-    marginBottom: "2.5vh"
-  }
+    marginBottom: '2.5vh',
+  },
 }))
 
 export default function RestaurantCard({ r }) {
@@ -68,15 +68,15 @@ export default function RestaurantCard({ r }) {
   }
 
   const restaurantLocation = () => {
-    const address = restaurant.location.address.split(", ")
+    const address = restaurant.location.address.split(', ')
     const postcode = address.pop()
     // debugger
 
     return (
       <>
         <Typography variant="body2" color="textSecondary" component="p">
-          {address.join(", ")}
-          {<br></br>}
+          {address.join(', ')}
+          <br />
           {postcode}
         </Typography>
       </>
@@ -85,9 +85,9 @@ export default function RestaurantCard({ r }) {
 
   return (
     <Card className={classes.card}>
-      {console.log("CARD >>>>>", restaurant)}
+      {console.log('CARD >>>>>', restaurant)}
       <CardHeader
-        avatar={
+        avatar={(
           <Avatar
             aria-label="avatar"
             className={classes.avatar}
@@ -95,12 +95,12 @@ export default function RestaurantCard({ r }) {
           >
             {restaurant.name[0]}
           </Avatar>
-        }
-        action={
+        )}
+        action={(
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
-        }
+        )}
         title={restaurant.name}
         subheader={`${restaurant.establishment[0]}`}
         // subheader={`${restaurant.cuisines}`}
@@ -128,16 +128,12 @@ export default function RestaurantCard({ r }) {
           <ShareIcon />
         </IconButton> */}
 
-        <IconButton
-          aria-label="place"
-          target="_blank"
-          href={googleMapDeeplink(restaurant)}
-        >
+        <IconButton aria-label="place" target="_blank" href={googleMapDeeplink(restaurant)}>
           <PlaceIcon />
         </IconButton>
         <IconButton
           className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded
+            [classes.expandOpen]: expanded,
           })}
           onClick={handleExpandClick}
           aria-expanded={expanded}
@@ -152,20 +148,15 @@ export default function RestaurantCard({ r }) {
           <ShowTimes />
           <Typography paragraph>
             {/* {restaurant.menu_url} */}
-            Average cost for two:{" "}
-            {restaurant.currency + restaurant.average_cost_for_two}
+            Average cost for two: {restaurant.currency + restaurant.average_cost_for_two}
           </Typography>
           <Link
             to={{
               pathname: `/restaurant/${restaurant.id}`,
-              state: { restaurant }
+              state: { restaurant },
             }}
           >
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-            >
+            <Button variant="contained" color="primary" className={classes.button}>
               more info
             </Button>
           </Link>

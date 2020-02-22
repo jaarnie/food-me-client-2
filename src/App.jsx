@@ -1,12 +1,12 @@
-import React from "react"
-import { Route, Switch } from "react-router-dom"
-import { CssBaseline, Container } from "@material-ui/core"
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import { CssBaseline, Container } from '@material-ui/core'
 
-import Home from "./components/Home"
-import SignIn from "./components/user/SignIn.jsx"
-import SignUp from "./components/user/SignUp.jsx"
-import Profile from "./components/user/Profile.jsx"
-import NotFound from "./components/NotFound"
+import Home from './components/Home'
+import SignIn from './components/user/SignIn'
+import SignUp from './components/user/SignUp'
+import Profile from './components/user/Profile'
+import NotFound from './components/NotFound'
 import RestaurantProfile from './components/restaurantProfile/RestaurantProfile'
 
 function App() {

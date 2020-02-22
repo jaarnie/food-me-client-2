@@ -1,52 +1,52 @@
-import React, { useEffect, useState } from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import { Paper, Typography, Grid, IconButton, Divider } from "@material-ui/core"
-import { Place as PlaceIcon } from "@material-ui/icons"
-import GoogleMapReact from "google-map-react"
-import Axios from "axios"
+import React, { useEffect, useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { Paper, Typography, Grid, IconButton, Divider } from '@material-ui/core'
+import { Place as PlaceIcon } from '@material-ui/icons'
+import GoogleMapReact from 'google-map-react'
+import Axios from 'axios'
 
-import { searchRoot, headersRoot } from "../../config/apiConfig"
-import { googleMapDeeplink } from "../../constants/index"
-import RestaurantReview from "./RestaurantReviews"
-import PhotoGallery from "../PhotoGallery"
-import LikeButton from "../LikeButton"
+import { searchRoot, headersRoot } from '../../config/apiConfig'
+import { googleMapDeeplink } from '../../constants/index'
+import RestaurantReview from './RestaurantReviews'
+import PhotoGallery from '../PhotoGallery'
+import LikeButton from '../LikeButton'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
   icon: {
     flexGrow: 1,
 
     margin: theme.spacing(2),
-    display: "flex",
-    flexDirection: "row wrap",
-    justifyContent: "center"
-  }
+    display: 'flex',
+    flexDirection: 'row wrap',
+    justifyContent: 'center',
+  },
 }))
 
 export default function RestaurantProfile(props) {
   const classes = useStyles()
   const [reviews, setReviews] = useState({
-    reviewsArray: null
+    reviewsArray: null,
   })
   const restaurant = props.location.state.restaurant
 
   const axios = Axios.create({
     baseURL: searchRoot,
-    headers: headersRoot
+    headers: headersRoot,
   })
 
   useEffect(() => {
     const fetchReviews = async () => {
       const response = await axios.get(`/reviews?res_id=${restaurant.id}`)
       setReviews({
-        reviewsArray: response.data.user_reviews
+        reviewsArray: response.data.user_reviews,
       })
     }
     fetchReviews()
@@ -63,11 +63,7 @@ export default function RestaurantProfile(props) {
 
           <div className={classes.icon}>
             <LikeButton restaurant={restaurant} />
-            <IconButton
-              aria-label="place"
-              target="_blank"
-              href={googleMapDeeplink(restaurant)}
-            >
+            <IconButton aria-label="place" target="_blank" href={googleMapDeeplink(restaurant)}>
               <PlaceIcon />
             </IconButton>
           </div>
@@ -87,7 +83,7 @@ export default function RestaurantProfile(props) {
 
         {restaurant.photos && (
           <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper} style={{ height: "100%" }}>
+            <Paper className={classes.paper} style={{ height: '100%' }}>
               <PhotoGallery photos={restaurant.photos} />
             </Paper>
           </Grid>
@@ -98,12 +94,12 @@ export default function RestaurantProfile(props) {
 
   const getMap = () => {
     return (
-      <div style={{ height: "50vh", width: "100%" }}>
+      <div style={{ height: '50vh', width: '100%' }}>
         <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyBStIe0h0kWHmY-GvIsdMXA-JuJ34SnmXU" }}
+          bootstrapURLKeys={{ key: 'AIzaSyBStIe0h0kWHmY-GvIsdMXA-JuJ34SnmXU' }}
           defaultCenter={[
             parseFloat(restaurant.location.latitude),
-            parseFloat(restaurant.location.longitude)
+            parseFloat(restaurant.location.longitude),
           ]}
           defaultZoom={16}
           yesIWantToUseGoogleMapApiInternals
@@ -116,13 +112,13 @@ export default function RestaurantProfile(props) {
   }
 
   const renderMarkers = (map, maps) => {
-    let marker = new maps.Marker({
+    const marker = new maps.Marker({
       position: {
         lat: parseFloat(restaurant.location.latitude),
-        lng: parseFloat(restaurant.location.longitude)
+        lng: parseFloat(restaurant.location.longitude),
       },
       map,
-      title: "Hello World!"
+      title: 'Hello World!',
     })
     return marker
   }
@@ -132,16 +128,13 @@ export default function RestaurantProfile(props) {
       <Grid item xs={12}>
         <Paper className={classes.paper}>
           Overall Rating
-          <Typography
-            variant="h4"
-            style={{ color: `#${restaurant.user_rating.rating_color}` }}
-          >
+          <Typography variant="h4" style={{ color: `#${restaurant.user_rating.rating_color}` }}>
             {restaurant.user_rating.aggregate_rating}
           </Typography>
           {restaurant.user_rating.rating_text}
-          <Divider style={{ marginTop: "2vh" }} variant="middle" />
+          <Divider style={{ marginTop: '2vh' }} variant="middle" />
           {reviews.reviewsArray &&
-            reviews.reviewsArray.map(r => (
+            reviews.reviewsArray.map((r) => (
               <RestaurantReview key={r.review.id} review={r.review} />
             ))}
         </Paper>

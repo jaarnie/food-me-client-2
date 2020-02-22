@@ -1,18 +1,19 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import "./index.css"
-import * as serviceWorker from "./serviceWorker"
-import { createBrowserHistory } from "history"
-import { Router } from "react-router-dom"
-import { SnackbarProvider } from "notistack"
+/* eslint-disable react/jsx-filename-extension */
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import { createBrowserHistory } from 'history'
+import { Router } from 'react-router-dom'
+import { SnackbarProvider } from 'notistack'
+import * as serviceWorker from './serviceWorker'
 
-import App from "./App"
-import Navigation from "./components/navigation/Navigation"
-import { StoreProvider } from "./Store"
+import App from './App'
+import Navigation from './components/navigation/Navigation'
+import { StoreProvider } from './Store'
 
 const browserHistory = createBrowserHistory()
 
-browserHistory.listen((location, action) => {
+browserHistory.listen(() => {
   window.scrollTo(0, 0)
 })
 
@@ -21,8 +22,8 @@ ReactDOM.render(
     <SnackbarProvider
       maxSnack={1}
       anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left"
+        vertical: 'bottom',
+        horizontal: 'left',
       }}
       autoHideDuration={2000}
     >
@@ -32,7 +33,7 @@ ReactDOM.render(
       </StoreProvider>
     </SnackbarProvider>
   </Router>,
-  document.getElementById("root")
+  document.getElementById('root')
 )
 
 // If you want your app to work offline and load faster, you can change

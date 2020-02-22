@@ -1,32 +1,32 @@
-import React, { useEffect } from "react"
-import Snackbar from "@material-ui/core/Snackbar"
-import { makeStyles } from "@material-ui/core/styles"
-import { amber, green } from "@material-ui/core/colors"
+import React, { useEffect } from 'react'
+import Snackbar from '@material-ui/core/Snackbar'
+import { makeStyles } from '@material-ui/core/styles'
+import { amber, green } from '@material-ui/core/colors'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   success: {
-    backgroundColor: green[600]
+    backgroundColor: green[600],
   },
   error: {
-    backgroundColor: theme.palette.error.dark
+    backgroundColor: theme.palette.error.dark,
   },
   info: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   warning: {
-    backgroundColor: amber[700]
+    backgroundColor: amber[700],
   },
   icon: {
-    fontSize: 20
+    fontSize: 20,
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   message: {
-    display: "flex",
-    alignItems: "center"
-  }
+    display: 'flex',
+    alignItems: 'center',
+  },
 }))
 
 export default function SnackbarMessage({ variant, message }) {
@@ -38,12 +38,11 @@ export default function SnackbarMessage({ variant, message }) {
   }, [message])
 
   function handleClose(event, reason) {
-    if (reason === "clickaway") {
-      // debugger
+    if (reason === 'clickaway') {
       console.log(reason)
       return setOpen(false)
     }
-    setOpen(false)
+    return setOpen(false)
   }
 
   return (

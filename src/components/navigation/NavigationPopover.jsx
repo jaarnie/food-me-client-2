@@ -1,19 +1,19 @@
-import React, { useEffect, useContext } from "react"
-import { Popover, IconButton } from "@material-ui/core"
-import { AccountCircle } from "@material-ui/icons"
-import { useHistory } from "react-router-dom"
+import React, { useEffect, useContext } from 'react'
+import { Popover, IconButton } from '@material-ui/core'
+import { AccountCircle } from '@material-ui/icons'
+import { useHistory } from 'react-router-dom'
 
-import { Store } from "../../Store"
-import SignIn from "../user/SignIn"
+import { Store } from '../../Store'
+import SignIn from '../user/SignIn'
 
 export default function NavigationPopover() {
   const history = useHistory()
   const { state } = useContext(Store)
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
-    return state.user && history.push("/profile")
+    return state.user && history.push('/profile')
   }
 
   const handleClose = () => {
@@ -21,7 +21,7 @@ export default function NavigationPopover() {
   }
 
   const open = Boolean(anchorEl)
-  const id = open && "sign-in-popover"
+  const id = open && 'sign-in-popover'
 
   useEffect(() => {
     state.user && handleClose()
@@ -29,7 +29,7 @@ export default function NavigationPopover() {
 
   return (
     <div>
-      <IconButton style={{ color: "white" }} onClick={handleClick}>
+      <IconButton style={{ color: 'white' }} onClick={handleClick}>
         <AccountCircle />
       </IconButton>
 
@@ -39,12 +39,12 @@ export default function NavigationPopover() {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center"
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center"
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <SignIn />

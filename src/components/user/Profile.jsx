@@ -1,5 +1,5 @@
-import React, { useContext } from "react"
-import { makeStyles } from "@material-ui/core/styles"
+import React, { useContext } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import {
   Paper,
   Grid,
@@ -8,33 +8,33 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemIcon
-} from "@material-ui/core"
-import { Email, PermIdentity } from "@material-ui/icons"
+  ListItemIcon,
+} from '@material-ui/core'
+import { Email, PermIdentity } from '@material-ui/icons'
 
-import FavoritesList from "../../containers/FavoritesList"
-import SignIn from "./SignIn"
-import { Store } from "../../Store"
-import { MAIN_COLOUR } from "../../constants/index"
+import FavoritesList from '../../containers/FavoritesList'
+import SignIn from './SignIn'
+import { Store } from '../../Store'
+import { MAIN_COLOUR } from '../../constants/index'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
   title: {
     padding: theme.spacing(2),
-    color: MAIN_COLOUR
+    color: MAIN_COLOUR,
   },
   icon: {
     padding: theme.spacing(2),
-    textAlign: "left",
-    color: MAIN_COLOUR
-  }
+    textAlign: 'left',
+    color: MAIN_COLOUR,
+  },
 }))
 
 export default function Profile() {
@@ -62,17 +62,15 @@ export default function Profile() {
             {state.user.first_name[0]}
           </Avatar> */}
               <List component="nav" aria-label="main mailbox folders">
-              <ListItem >
-              {/* <ListItem button> */}
+                <ListItem>
+                  {/* <ListItem button> */}
                   <ListItemIcon>
                     <PermIdentity />
                   </ListItemIcon>
-                  <ListItemText
-                    primary={`${state.user.first_name} ${state.user.last_name}`}
-                  />
+                  <ListItemText primary={`${state.user.first_name} ${state.user.last_name}`} />
                 </ListItem>
-                <ListItem >
-                {/* <ListItem button> */}
+                <ListItem>
+                  {/* <ListItem button> */}
                   <ListItemIcon>
                     <Email />
                   </ListItemIcon>

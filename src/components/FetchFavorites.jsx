@@ -1,25 +1,25 @@
-import Axios from "axios"
+import Axios from 'axios'
 
-import { searchRoot, headersRoot } from "../config/apiConfig"
+import { searchRoot, headersRoot } from '../config/apiConfig'
 
 const axiosAPI = Axios.create({
   baseURL: searchRoot,
-  headers: headersRoot
+  headers: headersRoot,
 })
 
 export const fetchFavorites = async (userData, dispatch) => {
   // debugger
   const resIDs = []
-  userData.favorites.map(r => resIDs.push(r.res_id))
+  userData.favorites.map((r) => resIDs.push(r.res_id))
   try {
     await Promise.all(
-      resIDs.map(async resID => {
+      resIDs.map(async (resID) => {
         const response = await axiosAPI.get(`/restaurant?res_id=${resID}`)
         if (response.status === 200) {
           console.log(response.data)
           dispatch({
-            type: "ADD_FAVORITE",
-            payload: response.data
+            type: 'ADD_FAVORITE',
+            payload: response.data,
           })
         }
       })
@@ -28,3 +28,4 @@ export const fetchFavorites = async (userData, dispatch) => {
     console.log(err)
   }
 }
+

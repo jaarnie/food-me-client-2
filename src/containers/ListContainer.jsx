@@ -1,20 +1,18 @@
-import React, { useContext, useState, useEffect } from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import Grid from "@material-ui/core/Grid"
+import React, { useContext, useState, useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 
-import { Store } from "../Store"
+import { Store } from '../Store'
 
-import { Loading } from "../components/Loading"
-import Filter from "../components/filter/Filter"
+import { Loading } from '../components/Loading'
+import Filter from '../components/filter/Filter'
 
-const RestaurantCard = React.lazy(() =>
-  import("../components/card/RestaurantCard")
-)
+const RestaurantCard = React.lazy(() => import('../components/card/RestaurantCard'))
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }))
 
 export default function ListContainer() {
@@ -22,19 +20,19 @@ export default function ListContainer() {
   const { state } = useContext(Store)
   const [checked, setChecked] = useState({
     vegan: false,
-    vegetarian: false
+    vegetarian: false,
   })
   const [filter, setFilter] = useState({
     vegetarianRestaurants: null,
-    veganRestaurants: null
+    veganRestaurants: null,
   })
 
   useEffect(() => {
     const vegetariantArray = []
     const veganArray = []
-    state.restaurants.map(r => {
-      const vegetarian = r.restaurant.highlights.includes("Vegetarian Friendly")
-      const vegan = r.restaurant.highlights.includes("Vegan Options")
+    state.restaurants.map((r) => {
+      const vegetarian = r.restaurant.highlights.includes('Vegetarian Friendly')
+      const vegan = r.restaurant.highlights.includes('Vegan Options')
 
       if (vegetarian) {
         vegetariantArray.push(r)
@@ -46,7 +44,7 @@ export default function ListContainer() {
 
       return setFilter({
         vegetarianRestaurants: vegetariantArray,
-        veganRestaurants: veganArray
+        veganRestaurants: veganArray,
       })
     })
   }, [])

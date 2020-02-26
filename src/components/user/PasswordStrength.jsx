@@ -20,54 +20,9 @@ const useStyles = makeStyles((theme) => ({
 export default function PasswordStrength({ password }) {
   const classes = useStyles()
   const testedResult = zxcvbn(password)
-  // const [state, setState] = useState({
-  //   text: 'cunt',
-  //   color: '',
-  // })
-
-  // const passwordStrengthText = () => {
-  //   switch (testedResult.score) {
-  //     case 1:
-  //       return setState({ ...state, text: 'Weak', color: yellow})
-
-  //     case 2:
-  //         return setState({ ...state, text: 'Meduim', color: amber})
-
-  //     case 3:
-  //         return setState({ ...state, text: 'Strong', color: '#8BC34A'})
-
-  //     case 4:
-  //         return setState({ ...state, text: 'Strong', color: green})
-
-  //     default:
-  //       return null
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   switch (testedResult.score) {
-  //     case 1:
-  //       return setState({ ...state, text: 'Weak', color: yellow})
-
-  //     case 2:
-  //         return setState({ ...state, text: 'Meduim', color: amber})
-
-  //     case 3:
-  //         return setState({ ...state, text: 'Strong', color: '#8BC34A'})
-
-  //     case 4:
-  //         return setState({ ...state, text: 'Strong', color: green})
-
-  //     default:
-  //       return null
-  //   }
-  // }, [null])
-
-  // function handleColor() {}
 
   return (
     <div>
-      {/* {console.log(state)} */}
       <Paper className={classes.root}>
         <LinearProgress
           className={classes.progressBar}
@@ -75,7 +30,6 @@ export default function PasswordStrength({ password }) {
           variant="determinate"
           value={testedResult.score * 25}
         />
-        {/* <Typography className={classes.textBox} variant="subtitle2"></Typography> */}
       </Paper>
     </div>
   )

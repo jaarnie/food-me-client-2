@@ -1,4 +1,5 @@
-import React, { useEffect, useContext } from 'react'
+/* eslint-disable no-unused-expressions */
+import React, { useEffect, useContext, useState } from 'react'
 import { Popover, IconButton } from '@material-ui/core'
 import { AccountCircle } from '@material-ui/icons'
 import { useHistory } from 'react-router-dom'
@@ -9,7 +10,9 @@ import SignIn from '../user/SignIn'
 export default function NavigationPopover() {
   const history = useHistory()
   const { state } = useContext(Store)
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
+  const id = open && 'sign-in-popover'
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -19,9 +22,6 @@ export default function NavigationPopover() {
   const handleClose = () => {
     setAnchorEl(null)
   }
-
-  const open = Boolean(anchorEl)
-  const id = open && 'sign-in-popover'
 
   useEffect(() => {
     state.user && handleClose()

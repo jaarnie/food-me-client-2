@@ -7,18 +7,16 @@ import { Loading } from '../components/Loading'
 
 const RestaurantCard = React.lazy(() => import('../components/card/RestaurantCard'))
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
   },
 }))
 
-export default function ListContainer({ r, searchValue }) {
+export default function ListContainer() {
   const { state } = useContext(Store)
   const classes = useStyles()
-  // debugger
   return (
-    // remove suspense?
     <div className={classes.root}>
       <React.Suspense fallback={Loading()}>
         <Grid container spacing={2}>

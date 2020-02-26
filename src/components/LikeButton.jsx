@@ -1,71 +1,68 @@
-import React, { useContext } from "react"
-import Axios from "axios"
-import { IconButton } from "@material-ui/core"
-import { Favorite as FavoriteIcon } from "@material-ui/icons"
+import React, { useContext } from 'react'
+import Axios from 'axios'
+import { IconButton } from '@material-ui/core'
+import { Favorite as FavoriteIcon } from '@material-ui/icons'
 
-import { Store } from "../Store"
-import { serverRoot, serverHeaders } from "../config/apiConfig"
+import NavigationPopover from './navigation/NavigationPopover'
+import { Store } from '../Store'
+import { serverRoot, serverHeaders } from '../config/apiConfig'
 
 export default function LikeButton({ restaurant }) {
   const { state, dispatch } = useContext(Store)
 
   const axios = Axios.create({
     baseURL: serverRoot,
-    headers: serverHeaders
+    headers: serverHeaders,
   })
+  // debugger
 
   const handleLikeClick = async () => {
-    const restaurantInFavorites = state.favorites.includes(restaurant)
+    if (state.user) {
+      const restaurantInFavorites = state.favorites.includes(restaurant)
 
-    let dispatchObject = {
-      type: "ADD_FAVORITE",
-      payload: restaurant
-    }
-    try {
-      const response = await axios.post("/favorites", {
-        user_id: state.user.id,
-        res_id: restaurant.R.res_id
-      })
-      if (response.status === 200 || 204) {
-      }
-    } catch (err) {
-      console.log(err)
-    }
-
-    if (restaurantInFavorites) {
-      const favoritesWithoutRestaurant = state.favorites.filter(
-        favorite => favorite !== restaurant
-      )
-      dispatchObject = {
-        type: "REMOVE_FAVORITE",
-        payload: favoritesWithoutRestaurant
+      let dispatchObject = {
+        type: 'ADD_FAVORITE',
+        payload: restaurant,
       }
       try {
-        const response = await axios.delete(
-          `/favorites/remove/${state.user.id}/${restaurant.R.res_id}`,
-          {
-            res_id: restaurant.R.res_id
-          }
-        )
+        const response = await axios.post('/favorites', {
+          user_id: state.user.id,
+          res_id: restaurant.R.res_id,
+        })
         if (response.status === 200 || 204) {
         }
-      } catch (err) {
-        console.log(err)
+      } catch (err) {}
+
+      if (restaurantInFavorites) {
+        const favoritesWithoutRestaurant = state.favorites.filter(
+          (favorite) => favorite !== restaurant
+        )
+        dispatchObject = {
+          type: 'REMOVE_FAVORITE',
+          payload: favoritesWithoutRestaurant,
+        }
+        try {
+          const response = await axios.delete(
+            `/favorites/remove/${state.user.id}/${restaurant.R.res_id}`,
+            {
+              res_id: restaurant.R.res_id,
+            }
+          )
+          if (response.status === 200 || 204) {
+          }
+        } catch (err) {}
       }
+      return dispatch(dispatchObject)
     }
-    return dispatch(dispatchObject)
+    return <NavigationPopover />
   }
 
-  const toggleLikeColor = () =>
-    state.favorites.includes(restaurant) ? "red" : null
+  const toggleLikeColor = () => (state.favorites.includes(restaurant) ? 'red' : null)
 
   return (
     <div>
       <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
-        <FavoriteIcon
-          style={{ color: toggleLikeColor() }}
-          value={restaurant.id}
-        />
+        <FavoriteIcon style={{ color: toggleLikeColor() }} value={restaurant.id} />
       </IconButton>
     </div>
   )

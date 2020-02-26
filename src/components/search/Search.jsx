@@ -52,7 +52,6 @@ export default function Search() {
   }
 
   function clearData(event) {
-    // clear search bar
     event.preventDefault()
     return dispatch({
       type: 'SET_RESTARUANTS',
@@ -92,7 +91,6 @@ export default function Search() {
       const response = await axios.get(searchUrl)
 
       if (response.data.results_found !== 0 && response.status === 200) {
-        console.log('RESPONSE>', response)
         dispatch({
           type: 'SET_RESTARUANTS',
           payload: response.data.restaurants,
@@ -108,7 +106,6 @@ export default function Search() {
         })
       }
     } catch (err) {
-      console.log('SEARCH ERROR >', err)
       enqueueSnackbar(err, {
         variant: 'error',
       })

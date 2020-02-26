@@ -4,7 +4,6 @@ import { AppBar, Toolbar, IconButton, Typography, Badge, MenuItem, Menu } from '
 import {
   AccountCircle,
   Favorite as FavoriteIcon,
-  Notifications as NotificationsIcon,
   MoreVert as MoreIcon,
   Restaurant as RestaurantIcon,
 } from '@material-ui/icons'
@@ -102,32 +101,26 @@ export default function Navigation() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <FavoriteIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+        <Link to="/profile">
+          <IconButton aria-label="user favorite count" color="inherit">
+            <Badge badgeContent={state.favorites.length} color="secondary">
+              <FavoriteIcon />
+            </Badge>
+          </IconButton>
+        </Link>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
+        <Link to="/sign-in">
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        </Link>
       </MenuItem>
-      <NavigationPopover />
     </Menu>
   )
 
@@ -135,8 +128,6 @@ export default function Navigation() {
     <div className={classes.grow} style={{ marginBottom: '10vh' }}>
       <AppBar className={classes.main}>
         <Toolbar>
-          {/* <SearchUserLocation /> */}
-
           <Typography className={classes.userName} variant="h6" noWrap>
             <Link to="/">
               Food Me

@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   button: {
-    backgroundColor: MAIN_COLOUR,
+    color: MAIN_COLOUR,
     marginBottom: '2.5vh',
   },
 }))
@@ -83,11 +83,16 @@ export default function RestaurantCard({ r }) {
     )
   }
 
+  const subtitleHeader = () => {
+    // debugger
+    return restaurant.establishment[0]
+  }
+
   return (
     <Card className={classes.card}>
-      {console.log('CARD >>>>>', restaurant)}
+      {/* {console.log('CARD >>>>>', restaurant)} */}
       <CardHeader
-        avatar={(
+        avatar={
           <Avatar
             aria-label="avatar"
             className={classes.avatar}
@@ -95,21 +100,22 @@ export default function RestaurantCard({ r }) {
           >
             {restaurant.name[0]}
           </Avatar>
-        )}
-        action={(
+        }
+        action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
-        )}
+        }
         title={restaurant.name}
-        subheader={`${restaurant.establishment[0]}`}
+        subheader={subtitleHeader()}
         // subheader={`${restaurant.cuisines}`}
       />
 
       <CardMedia
         className={classes.media}
-        image={restaurant.featured_image}
-        // image={restaurant.featured_image || 'https://dummyimage.com/300x200/ffffff/000.png&text=No+image'}
+        image={
+          restaurant.featured_image || 'https://dummyimage.com/300x200/ffffff/000.png&text=no+image'
+        }
         title="featured image"
       />
       <CardContent>
@@ -118,7 +124,17 @@ export default function RestaurantCard({ r }) {
           value={restaurant.user_rating.aggregate_rating}
           votes={restaurant.user_rating.votes}
         />
-        {restaurant.cuisines}
+        <Link
+          to={{
+            pathname: `/restaurant/${restaurant.id}`,
+            state: { restaurant },
+          }}
+        >
+          <Button variant="outlined" className={classes.button}>
+            more info
+          </Button>
+        </Link>
+        {/* {restaurant.cuisines} */}
       </CardContent>
       <CardActions disableSpacing>
         <LikeButton restaurant={restaurant} />
@@ -150,16 +166,6 @@ export default function RestaurantCard({ r }) {
             {/* {restaurant.menu_url} */}
             Average cost for two: {restaurant.currency + restaurant.average_cost_for_two}
           </Typography>
-          <Link
-            to={{
-              pathname: `/restaurant/${restaurant.id}`,
-              state: { restaurant },
-            }}
-          >
-            <Button variant="contained" color="primary" className={classes.button}>
-              more info
-            </Button>
-          </Link>
 
           {restaurant.photos && <PhotoGallery photos={restaurant.photos} />}
         </CardContent>

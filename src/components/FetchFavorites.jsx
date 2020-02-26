@@ -16,7 +16,6 @@ export const fetchFavorites = async (userData, dispatch) => {
       resIDs.map(async (resID) => {
         const response = await axiosAPI.get(`/restaurant?res_id=${resID}`)
         if (response.status === 200) {
-          console.log(response.data)
           dispatch({
             type: 'ADD_FAVORITE',
             payload: response.data,
@@ -25,7 +24,5 @@ export const fetchFavorites = async (userData, dispatch) => {
       })
     )
   } catch (err) {
-    console.log(err)
   }
 }
-

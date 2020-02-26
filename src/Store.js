@@ -5,26 +5,26 @@ export const Store = React.createContext()
 
 const initialState = {
   // user: {
-  //   email: "2@2",
-  //   first_name: "Adam",
+  //   email: '2@2',
+  //   first_name: 'Adam',
   //   id: 1,
-  //   last_name: "Arnold",
+  //   last_name: 'Arnold',
   //   favourites: [
   //     {
   //       id: 29,
   //       res_id: 6103211,
   //       user_id: 1,
-  //       created_at: "2019-11-22T14:34:31.426Z",
-  //       updated_at: "2019-11-22T14:34:31.426Z"
+  //       created_at: '2019-11-22T14:34:31.426Z',
+  //       updated_at: '2019-11-22T14:34:31.426Z',
   //     },
   //     {
   //       id: 31,
   //       res_id: 6114829,
   //       user_id: 1,
-  //       created_at: "2019-11-22T14:34:33.765Z",
-  //       updated_at: "2019-11-22T14:34:33.765Z"
-  //     }
-  //   ]
+  //       created_at: '2019-11-22T14:34:33.765Z',
+  //       updated_at: '2019-11-22T14:34:33.765Z',
+  //     },
+  //   ],
   // },
   user: null,
   restaurants: null,

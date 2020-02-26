@@ -95,7 +95,6 @@ export default function ListContainer() {
     }
   }
 
-  console.log(checked)
   return (
     <div className={classes.root}>
       <Filter checked={checked} setChecked={setChecked} />

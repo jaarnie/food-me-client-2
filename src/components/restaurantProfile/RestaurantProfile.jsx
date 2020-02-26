@@ -35,7 +35,7 @@ export default function RestaurantProfile(props) {
   const [reviews, setReviews] = useState({
     reviewsArray: null,
   })
-  const restaurant = props.location.state.restaurant
+  const { restaurant } = props.location.state
 
   const axios = Axios.create({
     baseURL: searchRoot,
@@ -55,41 +55,37 @@ export default function RestaurantProfile(props) {
   const header = () => {
     return (
       <Grid item xs={12}>
-        {/* <Paper className={classes.paper} style={{backgroundImage: `url(${restaurant.featured_image})`}} > */}
-        {/* <Paper className={classes.paper} style={{background: MAIN_COLOUR}} > */}
-        <Paper className={classes.paper}>
-          <Typography variant="h3">{restaurant.name}</Typography>
-          <Typography variant="h6">{restaurant.location.address}</Typography>
+        <Paper
+          className={classes.paper}
+          style={{ backgroundImage: `url(${restaurant.featured_image})` }}
+        >
+          {/* <Paper className={classes.paper} style={{background: MAIN_COLOUR}} > */}
+          <Paper className={classes.paper}>
+            <Typography variant="h3">{restaurant.name}</Typography>
+            <Typography variant="h6">{restaurant.location.address}</Typography>
 
-          <div className={classes.icon}>
-            <LikeButton restaurant={restaurant} />
-            <IconButton aria-label="place" target="_blank" href={googleMapDeeplink(restaurant)}>
-              <PlaceIcon />
-            </IconButton>
-          </div>
+            <div className={classes.icon}>
+              <LikeButton restaurant={restaurant} />
+              <IconButton aria-label="place" target="_blank" href={googleMapDeeplink(restaurant)}>
+                <PlaceIcon />
+              </IconButton>
+            </div>
+          </Paper>
         </Paper>
-        {/* </Paper> */}
       </Grid>
     )
   }
 
-  const picturesAndMap = () => {
-    const mapWidth = restaurant.photos ? 6 : 12
-    return (
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={mapWidth}>
-          <Paper className={classes.paper}>{getMap()}</Paper>
-        </Grid>
-
-        {restaurant.photos && (
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper} style={{ height: '100%' }}>
-              <PhotoGallery photos={restaurant.photos} />
-            </Paper>
-          </Grid>
-        )}
-      </Grid>
-    )
+  const renderMarkers = (map, maps) => {
+    const marker = new maps.Marker({
+      position: {
+        lat: parseFloat(restaurant.location.latitude),
+        lng: parseFloat(restaurant.location.longitude),
+      },
+      map,
+      title: 'Hello World!',
+    })
+    return marker
   }
 
   const getMap = () => {
@@ -111,16 +107,23 @@ export default function RestaurantProfile(props) {
     )
   }
 
-  const renderMarkers = (map, maps) => {
-    const marker = new maps.Marker({
-      position: {
-        lat: parseFloat(restaurant.location.latitude),
-        lng: parseFloat(restaurant.location.longitude),
-      },
-      map,
-      title: 'Hello World!',
-    })
-    return marker
+  const picturesAndMap = () => {
+    const mapWidth = restaurant.photos ? 6 : 12
+    return (
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={mapWidth}>
+          <Paper className={classes.paper}>{getMap()}</Paper>
+        </Grid>
+
+        {restaurant.photos && (
+          <Grid item xs={12} sm={6}>
+            <Paper className={classes.paper} style={{ height: '100%' }}>
+              <PhotoGallery photos={restaurant.photos} />
+            </Paper>
+          </Grid>
+        )}
+      </Grid>
+    )
   }
 
   const ratingsAndReviews = () => {

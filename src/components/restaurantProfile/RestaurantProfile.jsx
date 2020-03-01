@@ -1,4 +1,7 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, Typography, Grid, IconButton, Divider } from '@material-ui/core'
 import { Place as PlaceIcon } from '@material-ui/icons'
@@ -30,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function RestaurantProfile(props) {
+const RestaurantProfile = (props) => {
   const classes = useStyles()
   const [reviews, setReviews] = useState({
     reviewsArray: null,
@@ -157,3 +160,5 @@ export default function RestaurantProfile(props) {
     </div>
   )
 }
+
+export default React.memo(RestaurantProfile)

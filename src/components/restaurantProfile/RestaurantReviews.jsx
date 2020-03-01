@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   List,
@@ -22,14 +23,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline',
   },
   ratingStars: {
-    // textAlign: 'left',
     color: 'red',
   },
 }))
 
-export default function RestaurantReviews({ review }) {
+const RestaurantReviews = ({ review }) => {
   const classes = useStyles()
-  // debugger
+  console.log(review)
 
   return (
     <List className={classes.root}>
@@ -64,3 +64,13 @@ export default function RestaurantReviews({ review }) {
     </List>
   )
 }
+
+RestaurantReviews.defaultProps = {
+  review: {},
+}
+
+RestaurantReviews.propTypes = {
+  review: PropTypes.objectOf(PropTypes.any),
+}
+
+export default React.memo(RestaurantReviews)

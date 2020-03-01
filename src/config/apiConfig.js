@@ -18,4 +18,4 @@ export const postcodeAPI = roots.postcode
 export const searchRoot = roots.search
 export const headersRoot = roots.headers
 export const serverRoot = roots.server
-export const serverHeaders = roots.serverHeaders
+export const { serverHeaders } = roots

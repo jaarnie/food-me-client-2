@@ -39,7 +39,6 @@ export default function SnackbarMessage({ variant, message }) {
 
   function handleClose(event, reason) {
     if (reason === 'clickaway') {
-      console.log(reason)
       return setOpen(false)
     }
     return setOpen(false)

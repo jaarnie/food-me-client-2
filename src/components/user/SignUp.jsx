@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import PropTypes from 'prop-types'
 import {
   makeStyles,
   Avatar,
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function SignUp({ history }) {
+const SignUp = ({ history }) => {
   const { dispatch } = React.useContext(Store)
 
   const classes = useStyles()
@@ -260,3 +261,13 @@ export default function SignUp({ history }) {
     </Container>
   )
 }
+
+SignUp.defaultProps = {
+  history: {},
+}
+
+SignUp.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any),
+}
+
+export default React.memo(SignUp)

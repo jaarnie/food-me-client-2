@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { IconButton } from '@material-ui/core'
 import { Favorite as FavoriteIcon } from '@material-ui/icons'
@@ -7,7 +8,7 @@ import NavigationPopover from './navigation/NavigationPopover'
 import { Store } from '../Store'
 import { serverRoot, serverHeaders } from '../config/apiConfig'
 
-export default function LikeButton({ restaurant }) {
+const LikeButton = ({ restaurant }) => {
   const { state, dispatch } = useContext(Store)
 
   const axios = Axios.create({
@@ -67,3 +68,13 @@ export default function LikeButton({ restaurant }) {
     </div>
   )
 }
+
+LikeButton.defaultProps = {
+  restaurant: {},
+}
+
+LikeButton.propTypes = {
+  restaurant: PropTypes.objectOf(PropTypes.any),
+}
+
+export default React.memo(LikeButton)

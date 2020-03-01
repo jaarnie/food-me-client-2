@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { GridList, GridListTile, GridListTileBar } from '@material-ui/core/'
 import Carousel, { Modal, ModalGateway } from 'react-images'
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function PhotoGallery({ photos }) {
+const PhotoGallery = ({ photos }) => {
   const classes = useStyles()
   const [state, setState] = useState({
     selectedIndex: 0,
@@ -36,7 +37,6 @@ export default function PhotoGallery({ photos }) {
     imageUrls: [],
   })
   const { selectedIndex, lightboxIsOpen, isLoading } = state
-
 
   const toggleLightbox = (selectedIndex) => {
     setState({
@@ -80,3 +80,13 @@ export default function PhotoGallery({ photos }) {
     </div>
   )
 }
+
+PhotoGallery.defaultProps = {
+  photos: [],
+}
+
+PhotoGallery.propTypes = {
+  photos: PropTypes.arrayOf(PropTypes.object),
+}
+
+export default React.memo(PhotoGallery)

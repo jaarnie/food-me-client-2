@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Rating from '@material-ui/lab/Rating'
 import { Box, Typography } from '@material-ui/core'
@@ -12,7 +13,7 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-export default function RatingStars({ value, title, votes }) {
+const RatingStars = ({ value, title, votes }) => {
   const classes = useStyles()
 
   return (
@@ -25,3 +26,17 @@ export default function RatingStars({ value, title, votes }) {
     </div>
   )
 }
+
+RatingStars.defaultProps = {
+  value: 0,
+  title: '',
+  votes: '',
+}
+
+RatingStars.propTypes = {
+  value: PropTypes.number,
+  title: PropTypes.string,
+  votes: PropTypes.string,
+}
+
+export default React.memo(RatingStars)

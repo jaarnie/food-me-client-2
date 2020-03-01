@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function SearchUserLocation() {
+const SearchUserLocation = () => {
   const history = useHistory()
   const classes = useStyles()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
@@ -181,3 +181,5 @@ export default function SearchUserLocation() {
     </div>
   )
 }
+
+export default React.memo(SearchUserLocation)

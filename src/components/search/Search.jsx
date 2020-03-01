@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function Search() {
+const Search = () => {
   const { state, dispatch } = useContext(Store)
   const classes = useStyles()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
@@ -157,3 +157,5 @@ export default function Search() {
     </div>
   )
 }
+
+export default React.memo(Search)

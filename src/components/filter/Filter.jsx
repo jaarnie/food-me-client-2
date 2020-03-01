@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -18,7 +19,7 @@ const GreenCheckbox = withStyles({
 })((props) => <Checkbox color="default" {...props} />)
 
 // eslint-disable-next-line react/prop-types
-export default function Filter({ checked, setChecked }) {
+const Filter = ({ checked, setChecked }) => {
   const handleChange = (name) => (event) => {
     setChecked({ ...checked, [name]: event.target.checked })
   }
@@ -49,3 +50,15 @@ export default function Filter({ checked, setChecked }) {
     </FormGroup>
   )
 }
+
+Filter.defaultProps = {
+  checked: {},
+  setChecked: () => {},
+}
+
+Filter.propTypes = {
+  checked: PropTypes.objectOf(PropTypes.bool),
+  setChecked: PropTypes.func,
+}
+
+export default React.memo(Filter)

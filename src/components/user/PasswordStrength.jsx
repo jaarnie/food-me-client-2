@@ -1,4 +1,5 @@
 import React from 'react'
+import Proptypes from 'prop-types'
 import zxcvbn from 'zxcvbn'
 import { makeStyles } from '@material-ui/core/styles'
 import { LinearProgress, Paper } from '@material-ui/core'
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function PasswordStrength({ password }) {
+const PasswordStrength = ({ password }) => {
   const classes = useStyles()
   const testedResult = zxcvbn(password)
 
@@ -34,3 +35,13 @@ export default function PasswordStrength({ password }) {
     </div>
   )
 }
+
+PasswordStrength.defaultProps = {
+  password: '',
+}
+
+PasswordStrength.propTypes = {
+  password: Proptypes.string,
+}
+
+export default React.memo(PasswordStrength)

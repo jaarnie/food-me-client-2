@@ -85,7 +85,6 @@ const RestaurantCard = ({ r }) => {
   }
 
   const subtitleHeader = () => {
-    // debugger
     return restaurant.establishment[0]
   }
 
@@ -122,7 +121,7 @@ const RestaurantCard = ({ r }) => {
       <CardContent>
         {restaurantLocation()}
         <RatingStars
-          value={restaurant.user_rating.aggregate_rating}
+          value={parseInt(restaurant.user_rating.aggregate_rating)}
           votes={restaurant.user_rating.votes}
         />
         <Link

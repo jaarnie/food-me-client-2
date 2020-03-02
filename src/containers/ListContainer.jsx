@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function ListContainer() {
+const ListContainer = () => {
   const classes = useStyles()
   const { state } = useContext(Store)
   const [checked, setChecked] = useState({
@@ -47,7 +47,7 @@ export default function ListContainer() {
         veganRestaurants: veganArray,
       })
     })
-  }, [])
+  }, [state.restaurants])
 
   const setDefaultSearch = () => {
     return (
@@ -104,3 +104,5 @@ export default function ListContainer() {
     </div>
   )
 }
+
+export default React.memo(ListContainer)

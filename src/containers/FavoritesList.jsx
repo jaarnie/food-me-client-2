@@ -20,8 +20,8 @@ export default function ListContainer() {
     <div className={classes.root}>
       <React.Suspense fallback={Loading()}>
         <Grid container spacing={2}>
-          {state.favorites.map((restaurant, index) => (
-            <Grid item xs={12} sm={6} key={index}>
+          {state.favorites.map((restaurant) => (
+            <Grid item xs={12} sm={6} key={restaurant.id}>
               <RestaurantCard r={restaurant} />
             </Grid>
           ))}

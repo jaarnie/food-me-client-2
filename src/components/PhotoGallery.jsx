@@ -53,7 +53,8 @@ const PhotoGallery = ({ photos }) => {
       <Modal onClose={toggleLightbox}>
         <Carousel
           currentIndex={selectedIndex}
-          closeOnBackdropClickBoolean
+          closeOnBackdropClick
+          allowFullscreen={false}
           frameProps={{ autoSize: 'height' }}
           views={imageUrls}
         />
@@ -90,3 +91,5 @@ PhotoGallery.propTypes = {
 }
 
 export default React.memo(PhotoGallery)
+
+// Not able to close on mobile view

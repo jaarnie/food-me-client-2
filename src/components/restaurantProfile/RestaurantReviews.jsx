@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 
 const RestaurantReviews = ({ review }) => {
   const classes = useStyles()
-  console.log(review)
 
   return (
     <List className={classes.root}>

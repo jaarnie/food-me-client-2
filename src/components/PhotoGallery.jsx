@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
@@ -26,7 +27,42 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: 'white',
   },
+  modal: {},
 }))
+
+const modalStyles = {
+  footer: (base) => ({
+    ...base,
+    background: 'none !important',
+    color: '#666',
+    padding: 0,
+    paddingTop: 20,
+    position: 'static',
+
+    '& a': {
+      color: 'black',
+    },
+  }),
+  header: (base) => ({
+    ...base,
+    background: 'none !important',
+    padding: 0,
+    paddingRight: 50,
+    paddingTop: 50,
+    position: 'static',
+  }),
+  headerClose: (base) => ({
+    ...base,
+    color: '#666',
+
+    ':hover': { color: '#DE350B' },
+  }),
+  view: (base) => ({
+    ...base,
+    maxHeight: 480,
+    overflow: 'hidden',
+  }),
+}
 
 const PhotoGallery = ({ photos }) => {
   const classes = useStyles()
@@ -38,6 +74,7 @@ const PhotoGallery = ({ photos }) => {
   })
   const { selectedIndex, lightboxIsOpen, isLoading } = state
 
+  // eslint-disable-next-line no-shadow
   const toggleLightbox = (selectedIndex) => {
     setState({
       lightboxIsOpen: !lightboxIsOpen,
@@ -52,8 +89,9 @@ const PhotoGallery = ({ photos }) => {
     return (
       <Modal onClose={toggleLightbox}>
         <Carousel
+          styles={modalStyles}
           currentIndex={selectedIndex}
-          closeOnBackdropClickBoolean
+          closeOnBackdropClick
           frameProps={{ autoSize: 'height' }}
           views={imageUrls}
         />
@@ -76,7 +114,7 @@ const PhotoGallery = ({ photos }) => {
         ))}
       </GridList>
 
-      <ModalGateway>{lightboxIsOpen && !isLoading ? galleryModal() : null}</ModalGateway>
+      <ModalGateway>{lightboxIsOpen && !isLoading && galleryModal()}</ModalGateway>
     </div>
   )
 }

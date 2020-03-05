@@ -20,13 +20,12 @@ const RatingStars = ({ value, title, votes }) => {
     <div>
       <Box component="fieldset" mb={3} borderColor="transparent" textAlign="center">
         <Typography component="legend">{title}</Typography>
-        <Rating className={classes.content} value={parseInt(value)} readOnly precision={0.1} />
+        <Rating className={classes.content} value={value} readOnly precision={0.1} />
         {votes && <Typography>Votes: {votes} </Typography>}
       </Box>
     </div>
   )
 }
-
 RatingStars.defaultProps = {
   value: 0,
   title: '',

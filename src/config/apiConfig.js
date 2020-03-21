@@ -5,7 +5,7 @@ const roots = {
   search: `https://developers.zomato.com/api/${apiVersion}`,
   headers: {
     'Content-Type': 'application/json',
-    'user-key': '87be592b7c816cd2e00737b271776b7f',
+    'user-key': process.env.REACT_APP_ZOMATO_API_KEY,
   },
   server: `http://localhost:7000/api/${serverApiVersion}`,
   serverHeaders: {

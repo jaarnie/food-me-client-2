@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Store } from '../Store'
 import { MAIN_COLOUR } from '../constants/index'
 import Search from './search/Search'
-import SearchUserLocation from '../components/search/SearchUserLocation'
+import SearchUserLocation from './search/SearchUserLocation'
 import { Loading } from './Loading'
 
 const ListContainer = React.lazy(() => import('../containers/ListContainer'))

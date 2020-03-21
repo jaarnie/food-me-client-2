@@ -95,7 +95,7 @@ const RestaurantProfile = (props) => {
     return (
       <div style={{ height: '50vh', width: '100%' }}>
         <GoogleMapReact
-          bootstrapURLKeys={{ key: 'AIzaSyBStIe0h0kWHmY-GvIsdMXA-JuJ34SnmXU' }}
+          bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API_KEY }}
           defaultCenter={[
             parseFloat(restaurant.location.latitude),
             parseFloat(restaurant.location.longitude),

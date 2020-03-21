@@ -36,7 +36,7 @@ const LikeButton = ({ restaurant }) => {
 
       if (restaurantInFavorites) {
         const favoritesWithoutRestaurant = state.favorites.filter(
-          (favorite) => favorite !== restaurant
+          (favorite) => favorite !== restaurant // && new arr of current user favs
         )
         dispatchObject = {
           type: 'REMOVE_FAVORITE',

@@ -7,7 +7,8 @@ const roots = {
     'Content-Type': 'application/json',
     'user-key': process.env.REACT_APP_ZOMATO_API_KEY,
   },
-  server: `http://localhost:7000/api/${serverApiVersion}`,
+  // server: `http://localhost:7000/api/${serverApiVersion}`,
+  server: `https://food-me-server.herokuapp.com/api/${serverApiVersion}`,
   serverHeaders: {
     'Content-Type': 'application/json',
   },

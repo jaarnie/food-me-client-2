@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 import { Store } from '../../Store'
 
 import { MAIN_COLOUR } from '../../constants/index'
-import NavigationPopover from './NavigationPopover'
+import NavigationPopover from '../NavigationPopover/NavigationPopover'
 
 const useStyles = makeStyles((theme) => ({
   main: {

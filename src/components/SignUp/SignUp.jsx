@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 import Axios from 'axios'
 
-import PasswordStrength from './PasswordStrength'
+import PasswordStrength from '../PasswordStrength/PasswordStrength'
 import { serverRoot, serverHeaders } from '../../config/apiConfig'
 import { Store } from '../../Store'
 import { MAIN_COLOUR } from '../../constants'

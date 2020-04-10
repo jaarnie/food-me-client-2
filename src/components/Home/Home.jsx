@@ -2,13 +2,13 @@ import React, { useContext } from 'react'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { Store } from '../Store'
-import { MAIN_COLOUR } from '../constants/index'
-import Search from './search/Search'
-import SearchUserLocation from './search/SearchUserLocation'
-import { Loading } from './Loading'
+import { Store } from '../../Store'
+import { MAIN_COLOUR } from '../../constants/index'
+import Search from '../Search/Search'
+import SearchUserLocation from '../SearchUserLocation/SearchUserLocation'
+import { Loading } from '../Loading/Loading'
 
-const ListContainer = React.lazy(() => import('../containers/ListContainer'))
+const ListContainer = React.lazy(() => import('../../containers/ListContainer/ListContainer'))
 
 const useStyles = makeStyles({
   title: {

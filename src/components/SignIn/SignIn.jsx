@@ -28,7 +28,7 @@ import {
 } from '../../config/apiConfig'
 import { Store } from '../../Store'
 import { MAIN_COLOUR } from '../../constants'
-import { fetchFavorites } from '../FetchFavorites'
+import { fetchFavorites } from '../FetchFavorites/FetchFavorites'
 
 function Copyright() {
   return (

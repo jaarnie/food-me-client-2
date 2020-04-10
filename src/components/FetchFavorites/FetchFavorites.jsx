@@ -1,6 +1,7 @@
+/* eslint-disable import/prefer-default-export */
 import Axios from 'axios'
 
-import { searchRoot, headersRoot } from '../config/apiConfig'
+import { searchRoot, headersRoot } from '../../config/apiConfig'
 
 const axiosAPI = Axios.create({
   baseURL: searchRoot,
@@ -23,6 +24,5 @@ export const fetchFavorites = async (userData, dispatch) => {
         }
       })
     )
-  } catch (err) {
-  }
+  } catch (err) {}
 }

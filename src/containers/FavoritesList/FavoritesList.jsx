@@ -2,10 +2,10 @@ import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
-import { Store } from '../Store'
-import { Loading } from '../components/Loading'
+import { Store } from '../../Store'
+import { Loading } from '../../components/Loading/Loading'
 
-const RestaurantCard = React.lazy(() => import('../components/card/RestaurantCard'))
+const RestaurantCard = React.lazy(() => import('../../components/RestaurantCard/RestaurantCard'))
 
 const useStyles = makeStyles(() => ({
   root: {

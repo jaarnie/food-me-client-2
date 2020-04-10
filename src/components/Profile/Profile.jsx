@@ -11,8 +11,8 @@ import {
 } from '@material-ui/core'
 import { Email, PermIdentity } from '@material-ui/icons'
 
-import FavoritesList from '../../containers/FavoritesList'
-import SignIn from './SignIn'
+import FavoritesList from '../../containers/FavoritesList/FavoritesList'
+import SignIn from '../SignIn/SignIn'
 import { Store } from '../../Store'
 import { MAIN_COLOUR } from '../../constants/index'
 

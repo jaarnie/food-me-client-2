@@ -10,9 +10,9 @@ import Axios from 'axios'
 
 import { searchRoot, headersRoot } from '../../config/apiConfig'
 import { googleMapDeeplink } from '../../constants/index'
-import RestaurantReview from './RestaurantReviews'
-import PhotoGallery from '../PhotoGallery'
-import LikeButton from '../LikeButton'
+import RestaurantReview from '../RestaurantReviews/RestaurantReviews'
+import PhotoGallery from '../PhotoGallery/PhotoGallery'
+import LikeButton from '../LikeButton/LikeButton'
 
 const useStyles = makeStyles((theme) => ({
   root: {

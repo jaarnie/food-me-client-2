@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { IconButton } from '@material-ui/core'
 import { Favorite as FavoriteIcon } from '@material-ui/icons'
 
-import NavigationPopover from './navigation/NavigationPopover'
-import { Store } from '../Store'
-import { serverRoot, serverHeaders } from '../config/apiConfig'
+import NavigationPopover from '../NavigationPopover/NavigationPopover'
+import { Store } from '../../Store'
+import { serverRoot, serverHeaders } from '../../config/apiConfig'
 
 const LikeButton = ({ restaurant }) => {
   const { state, dispatch } = useContext(Store)
@@ -15,7 +15,6 @@ const LikeButton = ({ restaurant }) => {
     baseURL: serverRoot,
     headers: serverHeaders,
   })
-  // debugger
 
   const handleLikeClick = async () => {
     if (state.user) {
@@ -58,7 +57,9 @@ const LikeButton = ({ restaurant }) => {
     return <NavigationPopover />
   }
 
-  const toggleLikeColor = () => (state.favorites.includes(restaurant) ? 'red' : null)
+  const toggleLikeColor = useCallback(() => {
+    return state.favorites.includes(restaurant) ? 'red' : null
+  }, [restaurant, state.favorites])
 
   return (
     <div>

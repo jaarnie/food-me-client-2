@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
-import { Store } from '../Store'
+import { Store } from '../../Store'
 
-import { Loading } from '../components/Loading'
-import Filter from '../components/filter/Filter'
+import { Loading } from '../../components/Loading/Loading'
+import Filter from '../../components/Filter/Filter'
 
-const RestaurantCard = React.lazy(() => import('../components/card/RestaurantCard'))
+const RestaurantCard = React.lazy(() => import('../../components/RestaurantCard/RestaurantCard'))
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
   },
@@ -49,7 +49,7 @@ const ListContainer = () => {
     })
   }, [state.restaurants])
 
-  const setDefaultSearch = () => {
+  const setDefaultSearch = useCallback(() => {
     return (
       <Grid container spacing={2}>
         {state.restaurants.map((restaurant, index) => (
@@ -59,9 +59,9 @@ const ListContainer = () => {
         ))}
       </Grid>
     )
-  }
+  }, [state.restaurants])
 
-  const setVegetarianSearch = () => {
+  const setVegetarianSearch = useCallback(() => {
     return (
       <Grid container spacing={2}>
         {filter.vegetarianRestaurants.map((restaurant, index) => (
@@ -71,9 +71,9 @@ const ListContainer = () => {
         ))}
       </Grid>
     )
-  }
+  }, [filter.vegetarianRestaurants])
 
-  const setVeganSearch = () => {
+  const setVeganSearch = useCallback(() => {
     return (
       <Grid container spacing={2}>
         {filter.veganRestaurants.map((restaurant, index) => (
@@ -83,24 +83,22 @@ const ListContainer = () => {
         ))}
       </Grid>
     )
-  }
+  }, [filter.veganRestaurants])
 
-  const ShowRestaurants = () => {
+  const showRestaurants = useCallback(() => {
+    let restaurants = setDefaultSearch()
     if (checked.vegetarian) {
-      return setVegetarianSearch()
+      restaurants = setVegetarianSearch()
     } else if (checked.vegan) {
-      return setVeganSearch()
-    } else {
-      return setDefaultSearch()
+      restaurants = setVeganSearch()
     }
-  }
+    return restaurants
+  }, [checked.vegan, checked.vegetarian, setDefaultSearch, setVeganSearch, setVegetarianSearch])
 
   return (
     <div className={classes.root}>
       <Filter checked={checked} setChecked={setChecked} />
-      <React.Suspense fallback={Loading()}>
-        <ShowRestaurants />
-      </React.Suspense>
+      <React.Suspense fallback={Loading()}>{showRestaurants()}</React.Suspense>
     </div>
   )
 }

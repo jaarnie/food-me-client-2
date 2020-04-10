@@ -5,7 +5,7 @@ import { AccountCircle } from '@material-ui/icons'
 import { useHistory } from 'react-router-dom'
 
 import { Store } from '../../Store'
-import SignIn from '../user/SignIn'
+import SignIn from '../SignIn/SignIn'
 
 export default function NavigationPopover() {
   const history = useHistory()

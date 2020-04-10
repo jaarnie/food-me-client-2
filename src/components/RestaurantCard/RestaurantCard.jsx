@@ -23,10 +23,10 @@ import {
 import { red } from '@material-ui/core/colors'
 import { Link } from 'react-router-dom'
 
-import RatingStars from '../RatingStars'
-import PhotoGallery from '../PhotoGallery'
+import RatingStars from '../RatingStars/RatingStars'
+import PhotoGallery from '../PhotoGallery/PhotoGallery'
 import { googleMapDeeplink, MAIN_COLOUR } from '../../constants/index'
-import LikeButton from '../LikeButton'
+import LikeButton from '../LikeButton/LikeButton'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -71,7 +71,6 @@ const RestaurantCard = ({ r }) => {
   const restaurantLocation = () => {
     const address = restaurant.location.address.split(', ')
     const postcode = address.pop()
-    // debugger
 
     return (
       <>

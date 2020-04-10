@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@material-ui/core/'
 
-import RatingStars from '../RatingStars'
+import RatingStars from '../RatingStars/RatingStars'
 
 const useStyles = makeStyles((theme) => ({
   root: {

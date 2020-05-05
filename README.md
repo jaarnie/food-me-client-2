@@ -2,7 +2,7 @@
 
 Little restaurant searching app using the Zomato API.
 
-
+https://food-me-client.herokuapp.com/
 
 ### Installation
 

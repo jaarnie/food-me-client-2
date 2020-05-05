@@ -3,6 +3,7 @@
 Little restaurant searching app using the Zomato API.
 
 
+
 ### Installation
 
 
@@ -21,3 +22,7 @@ $ cd food-me-serve
 $ bundle install
 $ rails s
 ```
+
+Sign in with test account (or create a new one):
+email: 2@2
+password: 2

@@ -126,7 +126,6 @@ const SignUp = ({ history }) => {
       const { name } = event.target
       const { value } = event.target
       setValues({ ...values, [name]: value })
-      console.log(values)
     },
     [values]
   )
@@ -134,10 +133,13 @@ const SignUp = ({ history }) => {
   const handleCheckbox = useCallback(
     (event) => {
       setValues({ ...values, marketingCheckbox: event })
-      // console.log(values)
     },
     [values]
   )
+
+  const matchError = () => {
+    return values.password === values.passwordConfirmation ? false : true
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -210,7 +212,7 @@ const SignUp = ({ history }) => {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                error={response.err.password_confirmation ? true : false}
+                error={matchError()}
                 required
                 fullWidth
                 name="passwordConfirmation"
@@ -218,6 +220,7 @@ const SignUp = ({ history }) => {
                 type="password"
                 id="password-confirmation"
                 onChange={handleChange}
+                helperText={matchError() === true ? "Entry doesn't match" : null}
               />
             </Grid>
             <Grid item xs={12}>
@@ -243,6 +246,7 @@ const SignUp = ({ history }) => {
             color="primary"
             className={classes.submit}
             onClick={(e) => handleClick(e)}
+            disabled={matchError()}
           >
             Sign Up
           </Button>

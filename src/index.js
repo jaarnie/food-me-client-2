@@ -8,7 +8,7 @@ import { SnackbarProvider } from 'notistack'
 import * as serviceWorker from './serviceWorker'
 
 import App from './App'
-import Navigation from './components/navigation/Navigation'
+import Navigation from './components/Navigation/Navigation'
 import { StoreProvider } from './Store'
 
 const browserHistory = createBrowserHistory()

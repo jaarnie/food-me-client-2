@@ -1,6 +1,9 @@
 {
   "name": "food-me-2",
   "version": "0.1.0",
+  "engines": {
+    "node": "12.x"
+  },
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.2.1",

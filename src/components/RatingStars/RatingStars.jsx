@@ -29,13 +29,13 @@ const RatingStars = ({ value, title, votes }) => {
 RatingStars.defaultProps = {
   value: 0,
   title: '',
-  votes: '',
+  votes: 0,
 }
 
 RatingStars.propTypes = {
   value: PropTypes.number,
   title: PropTypes.string,
-  votes: PropTypes.string,
+  votes: PropTypes.number,
 }
 
 export default React.memo(RatingStars)

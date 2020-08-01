@@ -52,8 +52,8 @@ const ListContainer = () => {
   const setDefaultSearch = useCallback(() => {
     return (
       <Grid container spacing={2}>
-        {state.restaurants.map((restaurant, index) => (
-          <Grid item xs={12} sm={6} key={index}>
+        {state.restaurants.map((restaurant) => (
+          <Grid item xs={12} sm={6} key={restaurant.restaurant.R.res_id}>
             <RestaurantCard r={restaurant} />
           </Grid>
         ))}
@@ -64,8 +64,8 @@ const ListContainer = () => {
   const setVegetarianSearch = useCallback(() => {
     return (
       <Grid container spacing={2}>
-        {filter.vegetarianRestaurants.map((restaurant, index) => (
-          <Grid item xs={12} sm={6} key={index}>
+        {filter.vegetarianRestaurants.map((restaurant) => (
+          <Grid item xs={12} sm={6} key={restaurant.restaurant.R.res_id}>
             <RestaurantCard r={restaurant} />
           </Grid>
         ))}
@@ -76,8 +76,8 @@ const ListContainer = () => {
   const setVeganSearch = useCallback(() => {
     return (
       <Grid container spacing={2}>
-        {filter.veganRestaurants.map((restaurant, index) => (
-          <Grid item xs={12} sm={6} key={index}>
+        {filter.veganRestaurants.map((restaurant) => (
+          <Grid item xs={12} sm={6} key={restaurant.restaurant.R.res_id}>
             <RestaurantCard r={restaurant} />
           </Grid>
         ))}

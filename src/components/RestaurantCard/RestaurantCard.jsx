@@ -87,6 +87,9 @@ const RestaurantCard = ({ r }) => {
     return restaurant.establishment[0]
   }
 
+  const gallery = () => {
+    return restaurant.photos ? <PhotoGallery photos={restaurant.photos} /> : 'Zomato removed photos'
+  }
   return (
     <Card className={classes.card}>
       {/* {console.log('CARD >>>>>', restaurant)} */}
@@ -120,6 +123,7 @@ const RestaurantCard = ({ r }) => {
       <CardContent>
         {restaurantLocation()}
         <RatingStars
+          // eslint-disable-next-line radix
           value={parseInt(restaurant.user_rating.aggregate_rating)}
           votes={restaurant.user_rating.votes}
         />
@@ -165,8 +169,7 @@ const RestaurantCard = ({ r }) => {
             {/* {restaurant.menu_url} */}
             Average cost for two: {restaurant.currency + restaurant.average_cost_for_two}
           </Typography>
-
-          {restaurant.photos && <PhotoGallery photos={restaurant.photos} />}
+          {gallery()}
         </CardContent>
       </Collapse>
     </Card>
